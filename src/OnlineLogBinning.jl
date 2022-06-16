@@ -1,5 +1,6 @@
 module OnlineLogBinning
 
-# Write your package code here.
+include("LevelAccumulators.jl")
+export LevelAccumulator, mean, var
 
 end
