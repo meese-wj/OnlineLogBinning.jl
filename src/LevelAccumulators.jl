@@ -16,6 +16,7 @@ Accumulator structure for a given binning level.
 * `Baccum::T`
     * Stands for _Bare Accumulator_. 
     * New data pushed to this accumulator first passes into here.
+    * Once `count == true`, then this accumulator is then passed onto `Baccum` in the next binning level. Additionally, it is also sent on to `Taccum` and `Baccum`.
 * `Taccum::T`
     * Stands for _Total Accumulator_.
     * This represents the _T_ accumulator for the mean: [`mean`](@ref) `≡ T / nelements`.
