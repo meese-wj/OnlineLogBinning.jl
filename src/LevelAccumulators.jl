@@ -1,5 +1,63 @@
 
+using Base
 using Statistics
+using StaticArrays
+
+"""
+    PairAccumulator{T <: Number}
+"""
+mutable struct PairAccumulator{T <: Number}
+    fullpair::Bool
+    values::MVector{2, T}
+    Taccum::T
+    Saccum::T
+end
+
+Base.setindex!(mvec::MVector{2}, b::Bool) = mvec[Int(b) + 1]
+
+@doc raw"""
+    _pair_T(pacc::PairAccumulator)
+
+The ``T`` function for a single pair following the accumulation of ``m`` data points follows as 
+```math
+T_{m+1, m+2} \equiv \sum_{k = m+1}^{m+2} x_k = x_{m+1} + x_{m+2},
+```
+as expected.
+"""
+_pair_T(pacc::PairAccumulator) = sum(pacc.values)
+
+@doc raw"""
+    _pair_S(pacc::PairAccumulator)
+
+The ``S`` function for a single pair following the accumulation of ``m`` data points follows as 
+```math
+S_{m+1, m+2} \equiv \sum_{k = m+1}^{m+2} \left( x_k - \frac{1}{2} T_{m+1,m+2} \right)^2.
+```
+Clearly, ``S_{m+1,m+2}`` must be called _following_ ``T_{m+1,m+2}``.
+"""
+_pair_S(pacc::PairAccumulator) = sum( x -> (x - 0.5 * pacc.Taccum)^2, pacc.values )
+_export_pair_TS(pacc::PairAccumulator) = @SVector [ pacc.Taccum, pacc.Saccum ]
+
+function Base.empty!(pacc::PairAccumulator{T}) where {T}
+    pacc.fullpair = false
+    pacc.values .= zero(T)
+    pacc.Taccum = zero(T)
+    pacc.Saccum = zero(T)
+    return nothing
+end
+
+"""
+    push!(pacc::PairAccumulator, value::Number) 
+
+Overload `Base.push!` for a [`PairAccumulator`](@ref). One can only 
+`push!` a single `value <: Number` at a time into this type of accumulator.
+"""
+function Base.push!(pacc::PairAccumulator, value::Number)
+    pacc.values[pacc.fullpair] = value
+    return nothing
+end
+
+
 
 """
     LevelAccumulator{T <: Number}
