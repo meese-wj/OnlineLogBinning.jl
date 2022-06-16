@@ -1,0 +1,13 @@
+name = "OnlineLogBinning"
+uuid = "6694b27a-7f2b-41da-9dea-d3f4793b6534"
+authors = ["W. Joe Meese <meese022@umn.edu> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1.3"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
