@@ -16,7 +16,7 @@ end
 Base.setindex!(mvec::MVector{2}, b::Bool) = mvec[Int(b) + 1]
 
 @doc raw"""
-    _pair_T(pacc::PairAccumulator)
+    Tvalue(pacc::PairAccumulator)
 
 The ``T`` function for a single pair following the accumulation of ``m`` data points follows as 
 ```math
@@ -24,10 +24,10 @@ T_{m+1, m+2} \equiv \sum_{k = m+1}^{m+2} x_k = x_{m+1} + x_{m+2},
 ```
 as expected.
 """
-_pair_T(pacc::PairAccumulator) = sum(pacc.values)
+Tvalue(pacc::PairAccumulator) = sum(pacc.values)
 
 @doc raw"""
-    _pair_S(pacc::PairAccumulator)
+    Svalue(pacc::PairAccumulator)
 
 The ``S`` function for a single pair following the accumulation of ``m`` data points follows as 
 ```math
@@ -35,7 +35,7 @@ S_{m+1, m+2} \equiv \sum_{k = m+1}^{m+2} \left( x_k - \frac{1}{2} T_{m+1,m+2} \r
 ```
 Clearly, ``S_{m+1,m+2}`` must be called _following_ ``T_{m+1,m+2}``.
 """
-_pair_S(pacc::PairAccumulator) = sum( x -> (x - 0.5 * pacc.Taccum)^2, pacc.values )
+Svalue(pacc::PairAccumulator) = sum( x -> (x - 0.5 * pacc.Taccum)^2, pacc.values )
 _export_pair_TS(pacc::PairAccumulator) = @SVector [ pacc.Taccum, pacc.Saccum ]
 
 function Base.empty!(pacc::PairAccumulator{T}) where {T}
