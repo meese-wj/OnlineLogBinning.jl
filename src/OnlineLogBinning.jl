@@ -1,6 +1,6 @@
 module OnlineLogBinning
 
-include("Accumulators/Accumulators.jl")
+include("Accumulators/BinAccumulators.jl")
 export
 # Base overloads
         empty!, push!,
@@ -10,5 +10,5 @@ export
         PairAccumulator, export_TS,
 # LevelAccumulator-specific functionality
         LevelAccumulator, mean, var
-        
+
 end

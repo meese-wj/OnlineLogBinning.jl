@@ -17,6 +17,8 @@ into the exported values of [`Tvalue`](@ref) and [`Svalue`](@ref).
 mutable struct PairAccumulator{T <: Number}
     fullpair::Bool
     values::MVector{2, T}
+
+    PairAccumulator{T}() where {T <: Number} = new(false, @MVector [zero(T), zero(T)])
 end
 
 _full(pacc.PairAccumulator) = pacc.fullpair

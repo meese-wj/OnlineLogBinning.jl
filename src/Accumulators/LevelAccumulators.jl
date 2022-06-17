@@ -27,6 +27,8 @@ mutable struct LevelAccumulator{T <: Number}
     Taccum::T
     Saccum::T
     Paccum::PairAccumulator{T}
+
+    LevelAccumulator{T}() where {T <: Number} = new(zero(Int), zero(Int), zero(T), zero(T), PairAccumulator{T}())
 end
 
 _full(lacc::LevelAccumulator) = _full(lacc.Paccum)
