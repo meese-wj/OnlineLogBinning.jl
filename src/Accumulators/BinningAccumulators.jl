@@ -3,6 +3,15 @@ using Base
 include("PairAccumulators.jl")
 include("LevelAccumulators.jl")
 
+"""
+    BinningAccumulator{T}() where {T <: Number}
+
+Main data structure for the binning analysis. 
+
+# Contents
+* `LvlAccums::Vector{LevelAccumulator{T}}`
+    * A wrapper around the [`LevelAccumulator`](@ref)s from each binning level
+"""
 mutable struct BinningAccumulator{T <: Number}
     LvlAccums::Vector{LevelAccumulator{T}}
 
@@ -11,11 +20,58 @@ mutable struct BinningAccumulator{T <: Number}
 end
 
 """
-    push!(bacc::BinAccumulators, value::Number)
+    push!(bacc::BinningAccumulator, value::Number)
 
 Add a single `value` from the data stream into the online binning analysis.
-The single value enters at the bin with the lowest 
+The single value enters at the bin at the lowest level. 
 """
-function Base.push!(bacc::BinningAccumulators, value::Number)
+function Base.push!(bacc::BinningAccumulator, value::Number)
+    level = 1
+    full = push!(bacc.LvlAccums[level], value)
+    while full
+        # Update Tvalue and Svalue from the original level
+        # Then increment the number of bins by 2 (for the pair)
+        pairT = update_Tvalue!( bacc.LvlAccums[level] )
+        pairS = update_Svalue!( bacc.LvlAccums[level] )
+        update_num_bins!( bacc.LvlAccums[level] )
+
+        # Reset the PairAccumulator
+        reset!( bacc.LvlAccums[level].Paccum )
+        
+        # Create a new binning level if level == bin_depth(bacc)
+        if level == length(bacc)
+            append!(bacc.LvlAccums, LevelAccumulator(level + 1))
+            # set_level!(bacc.LvlAccums[level + 1], level + 1)
+        end
+        
+        # Send Tvalue increment from the fullpair to the next binning level
+        level += 1
+        full = push!(bacc.LvlAccums[level], pairT)
+    end
 
 end
+
+"""
+    push!(bacc::BinningAccumulator, itr)
+
+`push!` each value of the data stream `itr` through the `BinningAccumulator`.
+"""
+function Base.push!(bacc::BinningAccumulator, itr)
+    @inbounds for value ∈ itr
+        Base.push!(bacc, value)
+    end
+    return nothing
+end
+
+"""
+    length(bacc::BinningAccumulator)
+
+Return the number of [`LevelAccumulator`](@ref)s there are.
+"""
+Base.length(bacc::BinningAccumulator) = length(bacc.LvlAccums)
+"""
+    bin_depth(bacc::BinningAccumulator)
+
+Number of binned levels present. [`length`](@ref) of the [`BinningAccumulator`] minus 1.
+"""
+bin_depth(bacc::BinningAccumulator) = length(bacc) - 1

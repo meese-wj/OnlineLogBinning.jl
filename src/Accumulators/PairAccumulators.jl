@@ -21,7 +21,7 @@ mutable struct PairAccumulator{T <: Number}
     PairAccumulator{T}() where {T <: Number} = new(false, @MVector [zero(T), zero(T)])
 end
 
-_full(pacc.PairAccumulator) = pacc.fullpair
+_full(pacc::PairAccumulator) = pacc.fullpair
 
 Base.setindex!(mvec::MVector{2}, b::Bool) = mvec[Int(b) + 1]
 
@@ -51,11 +51,17 @@ Thus, ``S_{m+1,m+2}`` does not need to take ``T_{m+1,m+2}`` as an argument.
 """
 Svalue(pacc::PairAccumulator) = 0.5 * ( pacc.values[2] - pacc.values[1] )^2
 # Svalue(pacc::PairAccumulator) = sum( x -> (x - 0.5 * pacc.Taccum)^2, pacc.values ) old and decrepit...
-_export_pair_TS(pacc::PairAccumulator) = @SVector [ pacc.Taccum, pacc.Saccum ]
+export_TS(pacc::PairAccumulator) = @SVector [ pacc.Taccum, pacc.Saccum ]
 
-function Base.empty!(pacc::PairAccumulator{T}) where {T}
+"""
+    reset!(pacc::PairAccumulator)
+
+Return the [`PairAccumulator`](@ref) to its initial state. Presumably one just exported the 
+[`Tvalue`](@ref) and [`Svalue`](@ref) from it before the `reset!`.
+"""
+function reset!(pacc::PairAccumulator{T}) where {T}
     pacc.fullpair = false
-    pacc.values .= zero(T)
+    # pacc.values .= zero(T)  <--- This piece is probably a waste of time since there is already a copy made from the data stream...
     return nothing
 end
 
