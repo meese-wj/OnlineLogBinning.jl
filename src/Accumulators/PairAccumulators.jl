@@ -1,6 +1,5 @@
 
 using Base
-using Statistics
 using StaticArrays
 
 """
@@ -19,6 +18,8 @@ mutable struct PairAccumulator{T <: Number}
     fullpair::Bool
     values::MVector{2, T}
 end
+
+_full(pacc.PairAccumulator) = pacc.fullpair
 
 Base.setindex!(mvec::MVector{2}, b::Bool) = mvec[Int(b) + 1]
 
