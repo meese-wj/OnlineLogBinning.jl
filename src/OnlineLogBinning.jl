@@ -1,6 +1,6 @@
 module OnlineLogBinning
 
-include("Accumulators/BinAccumulators.jl")
+include("Accumulators/BinningAccumulators.jl")
 export
 # Base overloads
         empty!, push!,
