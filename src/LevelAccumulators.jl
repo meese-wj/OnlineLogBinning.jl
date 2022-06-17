@@ -59,6 +59,7 @@ Overload `Base.push!` for a [`PairAccumulator`](@ref). One can only
 """
 function Base.push!(pacc::PairAccumulator, value::Number)
     pacc.values[pacc.fullpair] = value
+    pacc.fullpair = !pacc.fullpair
     return nothing
 end
 
