@@ -5,12 +5,19 @@ using StaticArrays
 
 """
     PairAccumulator{T <: Number}
+
+Accumulator that directly faces an incoming data stream. Two values from that stream enter and are processed
+into the exported values of [`Tvalue`](@ref) and [`Svalue`](@ref).
+
+# Contents
+* `fullpair::Bool`
+    * A Boolean to keep track of which element of the pair is being accessed. Additionally, when `fullpair == true` then the contents are exported.
+* `values::MVector{2, T}`
+    * The individual values taken from the data stream to be processed. Both [`Tvalue`](@ref) and [`Svalue`](@ref) rely on them being accessible.
 """
 mutable struct PairAccumulator{T <: Number}
     fullpair::Bool
     values::MVector{2, T}
-    Taccum::T
-    Saccum::T
 end
 
 Base.setindex!(mvec::MVector{2}, b::Bool) = mvec[Int(b) + 1]
@@ -46,8 +53,6 @@ _export_pair_TS(pacc::PairAccumulator) = @SVector [ pacc.Taccum, pacc.Saccum ]
 function Base.empty!(pacc::PairAccumulator{T}) where {T}
     pacc.fullpair = false
     pacc.values .= zero(T)
-    pacc.Taccum = zero(T)
-    pacc.Saccum = zero(T)
     return nothing
 end
 
@@ -59,10 +64,9 @@ Overload `Base.push!` for a [`PairAccumulator`](@ref). One can only
 """
 function Base.push!(pacc::PairAccumulator, value::Number)
     pacc.values[pacc.fullpair] = value
-    pacc.fullpair = !pacc.fullpair
+    pacc.fullpair = !pacc.fullpair  # TODO: If emptied externally then this is problematic...
     return nothing
 end
-
 
 
 """
