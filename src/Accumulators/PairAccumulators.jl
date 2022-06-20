@@ -61,8 +61,8 @@ Return the [`PairAccumulator`](@ref) to its initial state. Presumably one just e
 [`Tvalue`](@ref) and [`Svalue`](@ref) from it before the `reset!`.
 """
 function reset!(pacc::PairAccumulator{T}) where {T}
-    pacc.fullpair = false
-    # pacc.values .= zero(T)  <--- This piece is probably a waste of time since there is already a copy made from the data stream...
+    pacc.fullpair = true
+    pacc.values .= zero(T)  # <--- This piece is probably a waste of time since there is already a copy made from the data stream...
     return nothing
 end
 

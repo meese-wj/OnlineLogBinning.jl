@@ -42,7 +42,7 @@ function Base.push!(bacc::BinningAccumulator, value::Number)
         
         # Create a new binning level if level == bin_depth(bacc)
         if level == length(bacc)
-            push!(bacc.LvlAccums, LevelAccumulator{eltype(bacc)}(level + 1))
+            push!(bacc.LvlAccums, LevelAccumulator{eltype(bacc)}(binning_level(level + 1)))
             # set_level!(bacc.LvlAccums[level + 1], level + 1)
         end
         
@@ -62,7 +62,7 @@ function Base.push!(bacc::BinningAccumulator, itr)
     @inbounds for value ∈ itr
         push!(bacc, value)
     end
-    return nothing
+    return bacc
 end
 
 """

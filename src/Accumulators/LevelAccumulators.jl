@@ -62,7 +62,9 @@ where ``T_{m+1,m+2}`` is the pairwise [`Tvalue`](@ref) for the [`PairAccumulator
 """
 function Svalue(lacc::LevelAccumulator, pairS, pairT)
     output = lacc.Saccum + pairS
-    output += 0.5 * lacc.num_bins / (lacc.num_bins + 2) * ( 2 / lacc.num_bins * lacc.Taccum - pairT )^2 
+    if lacc.num_bins > 0
+        output += 0.5 * lacc.num_bins / (lacc.num_bins + 2) * ( 2 / lacc.num_bins * lacc.Taccum - pairT )^2 
+    end
     return output
 end
 
@@ -152,19 +154,19 @@ std_error( lacc::LevelAccumulator ) = sqrt(var_of_mean(lacc))
 Overload `Base.show` for _human_-readable displays.
 """
 function Base.show(io::IO, lacc::LevelAccumulator)
-    println(io, "$(typeof(lacc)) with fields:")
+    println(io, "$(typeof(lacc)) with online fields:")
     println(io, "\tlevel    = $(lacc.level)")
     println(io, "\tnum_bins = $(lacc.num_bins)")
     println(io, "\tTaccum   = $(lacc.Taccum)")
     println(io, "\tSaccum   = $(lacc.Saccum)")
     println(io, "\tPaccum   = $(lacc.Paccum)")
     println(io, "")
-    println(io, "\tLevel Statistics:")
-    println(io, "\tCurrent Mean            = $(mean(lacc))")
-    println(io, "\tCurrent Variance        = $(var(lacc))")
-    println(io, "\tCurrent Std. Deviation  = $(std(lacc))")
-    println(io, "\tCurrent Var.of the Mean = $(var_of_mean(lacc))")
-    println(io, "\tCurrent Std. Error      = $(std_error(lacc))")
+    println(io, "\tOffline Level Statistics:")
+    println(io, "\tCurrent Mean             = $(mean(lacc))")
+    println(io, "\tCurrent Variance         = $(var(lacc))")
+    println(io, "\tCurrent Std. Deviation   = $(std(lacc))")
+    println(io, "\tCurrent Var. of the Mean = $(var_of_mean(lacc))")
+    println(io, "\tCurrent Std. Error       = $(std_error(lacc))")
 end
 
 Base.show(lacc::LevelAccumulator) = Base.show(stdout, lacc)
