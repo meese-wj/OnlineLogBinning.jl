@@ -58,7 +58,7 @@ end
 """
 function Base.push!(bacc::BinningAccumulator, itr)
     @inbounds for value ∈ itr
-        Base.push!(bacc, value)
+        push!(bacc, value)
     end
     return nothing
 end
