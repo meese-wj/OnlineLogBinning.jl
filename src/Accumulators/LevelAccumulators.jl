@@ -36,6 +36,7 @@ _full(lacc::LevelAccumulator) = _full(lacc.Paccum)
 
 function Base.push!(lacc::LevelAccumulator, value::Number)
     push!(lacc.Paccum, value)
+    increment(lacc.Paccum)
     return _full(lacc)
 end
 

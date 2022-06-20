@@ -7,7 +7,7 @@ export
 # Generic-accumulator functionality
         Tvalue, Svalue,
 # PairAccumulator-specific functionality
-        PairAccumulator, export_TS,
+        PairAccumulator, export_TS, increment,
 # LevelAccumulator-specific functionality
         LevelAccumulator, mean, var, var_of_mean, std, std_error, 
         update_Tvalue!, update_Svalue!, update_num_bins!,

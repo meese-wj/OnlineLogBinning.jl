@@ -77,3 +77,5 @@ function Base.push!(pacc::PairAccumulator, value::Number)
     # pacc.fullpair = !pacc.fullpair  # TODO: If emptied externally then this is problematic...
     return nothing
 end
+
+increment(pacc::PairAccumulator) = pacc.fullpair = !pacc.fullpair
