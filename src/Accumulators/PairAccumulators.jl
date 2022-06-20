@@ -75,7 +75,7 @@ Overload `Base.push!` for a [`PairAccumulator`](@ref). One can only
 function Base.push!(pacc::PairAccumulator, value::Number)
     pacc.values[_fullpair_index(pacc.fullpair)] = value
     # pacc.fullpair = !pacc.fullpair  # TODO: If emptied externally then this is problematic...
-    return nothing
+    return pacc
 end
 
 increment(pacc::PairAccumulator) = pacc.fullpair = !pacc.fullpair
