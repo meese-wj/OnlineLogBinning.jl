@@ -70,8 +70,31 @@ Return the number of [`LevelAccumulator`](@ref)s there are.
 """
 Base.length(bacc::BinningAccumulator) = length(bacc.LvlAccums)
 """
+    binning_level(index::Int)
+
+Conversion from `LvlAccums` index to `binning_level`.
+"""
+binning_level(index::Int) = index - one(index)
+"""
     bin_depth(bacc::BinningAccumulator)
 
 Number of binned levels present. [`length`](@ref) of the [`BinningAccumulator`] minus 1.
 """
-bin_depth(bacc::BinningAccumulator) = length(bacc) - 1
+bin_depth(bacc::BinningAccumulator) = binning_level(length(bacc))
+
+"""
+    show([io::IO = stdout], bacc::BinningAccumulator)
+
+Overload the `Base.show` function for _human_-readable displays.
+"""
+function Base.show(io::IO, bacc::BinningAccumulator)
+    println(io, "$(typeof(bacc)) with $(bin_depth(bacc)) binning levels.")
+    println(io, "$(binning_level(1))th Binning Level (unbinned data):")
+    println(io, "\t$(bacc.LvlAccums[1])")
+    for lvl ∈ 2:1:length(bacc.LvlAccums)
+        println(io, "$(binning_level(lvl))th Binning Level:")
+        println(io, "\t$(bacc.LvlAccums[lvl])")
+    end
+end
+
+Base.show(bacc::BinningAccumulator) = show(stdout, bacc)

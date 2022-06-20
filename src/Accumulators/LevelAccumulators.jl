@@ -103,14 +103,67 @@ update_num_bins!(lacc::LevelAccumulator, incr = 2) = lacc.num_bins += incr
 # set_level!(lacc::LevelAccumulator, lvl) = lacc.level = lvl
 
 """
-    mean( acc::LevelAccumulator )
+    mean( lacc::LevelAccumulator )
 
 Online measurement of the data stream mean.
 """
-Statistics.mean( acc::LevelAccumulator ) = acc.Taccum / acc.num_bins
+Statistics.mean( lacc::LevelAccumulator ) = lacc.Taccum / lacc.num_bins
 """
-    var( acc::LevelAccumulator )
+    var( lacc::LevelAccumulator )
 
 Online measurement of the data stream variance.
 """
-Statistics.var( acc::LevelAccumulator ) = acc.Saccum / ( acc.num_bins - 1 )
+Statistics.var( lacc::LevelAccumulator ) = lacc.Saccum / ( lacc.num_bins - one(lacc.num_bins) )
+
+"""
+    var_of_mean( lacc::LevelAccumulator ) = var(lacc) / lacc.num_bins
+
+__Offline__ measurement of the data stream variance of the mean.
+
+# Additional information
+* Since this quantity is __offline__ it is __not__ regularly updated when data is `push!`ed from the stream.
+"""
+var_of_mean( lacc::LevelAccumulator ) = var(lacc) / lacc.num_bins
+
+"""
+std( lacc::LevelAccumulator ) = sqrt(var(lacc))
+
+__Offline__ measurement of the data stream standard deviation.
+
+# Additional information
+* Since this quantity is __offline__ it is __not__ regularly updated when data is `push!`ed from the stream.
+"""
+Statistics.std( lacc::LevelAccumulator ) = sqrt(var(lacc))
+
+"""
+    std_error( lacc::LevelAccumulator ) = sqrt(var_of_mean(lacc))
+
+__Offline__ measurement of the data stream standard error.
+
+# Additional information
+* Since this quantity is __offline__ it is __not__ regularly updated when data is `push!`ed from the stream.
+"""
+std_error( lacc::LevelAccumulator ) = sqrt(var_of_mean(lacc))
+
+"""
+    show([io = stdout], lacc::LevelAccumulator)
+
+Overload `Base.show` for _human_-readable displays.
+"""
+function Base.show(io::IO, lacc::LevelAccumulator)
+    println(io, "$(typeof(lacc)) with fields:")
+    println(io, "\tlevel    = $(lacc.level)")
+    println(io, "\tnum_bins = $(lacc.num_bins)")
+    println(io, "\tTaccum   = $(lacc.Taccum)")
+    println(io, "\tSaccum   = $(lacc.Saccum)")
+    println(io, "\tPaccum   = $(lacc.Paccum)")
+    println(io, "")
+    println(io, "\tLevel Statistics:")
+    println(io, "\tCurrent Mean            = $(mean(lacc))")
+    println(io, "\tCurrent Variance        = $(var(lacc))")
+    println(io, "\tCurrent Std. Deviation  = $(std(lacc))")
+    println(io, "\tCurrent Var.of the Mean = $(var_of_mean(lacc))")
+    println(io, "\tCurrent Std. Error      = $(std_error(lacc))")
+end
+
+Base.show(lacc::LevelAccumulator) = Base.show(stdout, lacc)
