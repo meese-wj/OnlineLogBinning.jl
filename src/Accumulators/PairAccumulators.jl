@@ -23,7 +23,8 @@ end
 
 _full(pacc::PairAccumulator) = pacc.fullpair
 
-Base.setindex!(mvec::MVector{2}, b::Bool) = mvec[Int(b) + 1]
+# Base.setindex!(mvec::MVector{2}, b::Bool) = mvec[Int(b) + 1]
+bool_index(b) = ifelse(b, 2, 1)
 
 @doc raw"""
     Tvalue(pacc::PairAccumulator)
@@ -72,7 +73,7 @@ Overload `Base.push!` for a [`PairAccumulator`](@ref). One can only
 `push!` a single `value <: Number` at a time into this type of accumulator.
 """
 function Base.push!(pacc::PairAccumulator, value::Number)
-    pacc.values[pacc.fullpair] = value
+    pacc.values[bool_index(pacc.fullpair)] = value
     pacc.fullpair = !pacc.fullpair  # TODO: If emptied externally then this is problematic...
     return nothing
 end

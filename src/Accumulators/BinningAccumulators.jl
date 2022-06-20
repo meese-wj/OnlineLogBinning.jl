@@ -26,6 +26,7 @@ Add a single `value` from the data stream into the online binning analysis.
 The single value enters at the bin at the lowest level. 
 """
 function Base.push!(bacc::BinningAccumulator, value::Number)
+    @show value = convert(eltype(bacc), value)
     level = 1
     full = push!(bacc.LvlAccums[level], value)
     while full
@@ -40,7 +41,7 @@ function Base.push!(bacc::BinningAccumulator, value::Number)
         
         # Create a new binning level if level == bin_depth(bacc)
         if level == length(bacc)
-            append!(bacc.LvlAccums, LevelAccumulator(level + 1))
+            append!(bacc.LvlAccums, LevelAccumulator{eltype(bacc)}(level + 1))
             # set_level!(bacc.LvlAccums[level + 1], level + 1)
         end
         
@@ -98,3 +99,10 @@ function Base.show(io::IO, bacc::BinningAccumulator)
 end
 
 Base.show(bacc::BinningAccumulator) = show(stdout, bacc)
+
+"""
+    eltype(bacc::BinningAccumulator{T}) → T
+
+Returns the type parameter for the [`BinningAccumulator`](@ref).
+"""
+Base.eltype(bacc::BinningAccumulator{T}) where {T} = T
