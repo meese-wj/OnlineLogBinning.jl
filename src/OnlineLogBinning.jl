@@ -3,7 +3,7 @@ module OnlineLogBinning
 include("Accumulators/BinningAccumulators.jl")
 export
 # Base overloads
-        push!, length
+        push!, length,
 # Generic-accumulator functionality
         Tvalue, Svalue,
 # PairAccumulator-specific functionality
