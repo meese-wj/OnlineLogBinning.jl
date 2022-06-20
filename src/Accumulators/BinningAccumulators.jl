@@ -27,7 +27,7 @@ The single value enters at the bin at the lowest level.
 """
 function Base.push!(bacc::BinningAccumulator, value::Number)
     @show value = convert(eltype(bacc), value)
-    level = 1
+    level = one(Int)
     full = push!(bacc.LvlAccums[level], value)
     while full
         # Update Tvalue and Svalue from the original level
@@ -41,15 +41,15 @@ function Base.push!(bacc::BinningAccumulator, value::Number)
         
         # Create a new binning level if level == bin_depth(bacc)
         if level == length(bacc)
-            append!(bacc.LvlAccums, LevelAccumulator{eltype(bacc)}(level + 1))
+            push!(bacc.LvlAccums, LevelAccumulator{eltype(bacc)}(level + 1))
             # set_level!(bacc.LvlAccums[level + 1], level + 1)
         end
         
         # Send Tvalue increment from the fullpair to the next binning level
-        level += 1
+        level += one(level)
         full = push!(bacc.LvlAccums[level], pairT)
     end
-
+    return bacc
 end
 
 """
