@@ -26,10 +26,11 @@ Add a single `value` from the data stream into the online binning analysis.
 The single value enters at the bin at the lowest level. 
 """
 function Base.push!(bacc::BinningAccumulator, value::Number)
-    @show value = convert(eltype(bacc), value)
+    value_2_push = convert(eltype(bacc), value)
     level = one(Int)
-    full = push!(bacc.LvlAccums[level], value)
-    while full
+    push!(bacc.LvlAccums[level], value_2_push)
+    
+    while _full(bacc.LvlAccums[level])
         # Update Tvalue and Svalue from the original level
         # Then increment the number of bins by 2 (for the pair)
         pairT = update_Tvalue!( bacc.LvlAccums[level] )
