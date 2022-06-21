@@ -126,33 +126,8 @@ function _check_level(bacc::BinningAccumulator, level)
     if !(level isa Int)
         throw(ArgumentError("level argument: $level must be an integer."))
     end
-    if level < zero(Int) || level > length(bacc.LvlAccums) - one(Int)
-        throw(ArgumentError("level argument $level is out-of-bounds for a BinningAccumulator of length $(length(bacc.LvlAccums)).")) 
+    if level < zero(Int) || _binning_index_to_findex(level) > length(bacc)
+        throw(ArgumentError("level argument $level is out-of-bounds for a BinningAccumulator of length $(length(bacc)).")) 
     end
     return nothing
-end
-
-function mean(bacc::BinningAccumulator; level = 0)
-    _check_level(bacc, level)
-    return mean(bacc.LvlAccums[_binning_index_to_findex(level)])
-end
-
-function Statistics.var(bacc::BinningAccumulator; level = 0)
-    _check_level(bacc, level)
-    return var(bacc.LvlAccums[_binning_index_to_findex(level)])
-end
-
-function Statistics.std(bacc::BinningAccumulator; level = 0)
-    _check_level(bacc, level)
-    return std(bacc.LvlAccums[_binning_index_to_findex(level)])
-end
-
-function var_of_mean(bacc::BinningAccumulator; level = 0)
-    _check_level(bacc, level)
-    return var_of_mean(bacc.LvlAccums[_binning_index_to_findex(level)])
-end
-
-function std_error(bacc::BinningAccumulator; level = 0)
-    _check_level(bacc, level)
-    return std_error(bacc.LvlAccums[_binning_index_to_findex(level)])
 end
