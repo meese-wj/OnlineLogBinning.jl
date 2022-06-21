@@ -18,7 +18,7 @@ mutable struct PairAccumulator{T <: Number}
     fullpair::Bool
     values::MVector{2, T}
 
-    PairAccumulator{T}() where {T <: Number} = new(true, @MVector [zero(T), zero(T)])
+    PairAccumulator{T}() where {T <: Number} = new(true, @MVector zeros(T, 2))
 end
 
 _full(pacc::PairAccumulator) = pacc.fullpair
