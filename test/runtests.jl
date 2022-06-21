@@ -7,15 +7,19 @@ include("test_helpers.jl")
 # test_types = [Float64]
 
 # Tested number types for OnlineLogBinning.jl
-OLB_tested_numbers = @SVector [ Int8, Int16, Int32, Int64, Int128,
-                                UInt8, UInt16, UInt32, UInt64, UInt128,
-                                Float16, Float32, Float64,
-                                BigInt, BigFloat,
-                                Rational,
-                                Bool,
+# OLB_tested_numbers = @SVector [ Int8, Int16, Int32, Int64, Int128,
+#                                 UInt8, UInt16, UInt32, UInt64, UInt128,
+#                                 Float16, Float32, Float64,
+#                                 BigInt, BigFloat,
+#                                 Rational, Irrational,
+#                                 Bool,
+                                # ComplexF16, ComplexF32, ComplexF64 ]
+OLB_tested_numbers = @SVector [ Float16, Float32, Float64,
                                 ComplexF16, ComplexF32, ComplexF64 ]
 
 @testset "OnlineLogBinning.jl" begin
+    
+    # These tests eliminated Bools and Irrationals
     @testset "Constructors" begin
 
         @testset "PairAccumulator" begin
@@ -44,6 +48,65 @@ OLB_tested_numbers = @SVector [ Int8, Int16, Int32, Int64, Int128,
             for type ∈ OLB_tested_numbers
                 eval( :( @test _BinningAccumulator_equality( BinningAccumulator{$type}(), 
                                                              BinningAccumulator{$type}( [LevelAccumulator{$type}()] ) ) ) )
+            end
+        end
+
+    end
+
+    # These tests eliminated BigInts, BigFloats, Rationals, Ints, and UInts
+    @testset "Tvalue and Svalue" begin
+        
+        @testset "PairAccumulator Tvalue" begin
+            for type ∈ OLB_tested_numbers
+                eval(quote
+                    @test let
+                        values = convert.($type, [2, 3])
+                        Tval = Tvalue(PairAccumulator{$type}(true, values...))
+                        Tval == convert($type, 5)
+                    end
+                end)
+            end
+        end
+        
+        @testset "PairAccumulator Svalue" begin
+            for type ∈ OLB_tested_numbers
+                eval(quote
+                    @test let
+                        values = convert.($type, [2, 4])
+                        Sval = Svalue(PairAccumulator{$type}(true, values...))
+                        Sval == convert($type, 2)
+                    end
+                end)
+            end
+        end
+
+        @testset "LevelAccumulator Tvalue" begin
+            for type ∈ OLB_tested_numbers
+                eval(quote
+                    @test let
+                        values = convert.($type, [2, 3])
+                        lacc = LevelAccumulator{$type}()
+                        push!(lacc, values[1])
+                        push!(lacc, values[2])
+                        Tval = update_Tvalue!(lacc)
+                        Tval == convert($type, 5)
+                    end
+                end)
+            end
+        end
+        
+        @testset "LevelAccumulator Svalue" begin
+            for type ∈ OLB_tested_numbers
+                eval(quote
+                    @test let
+                        values = convert.($type, [2, 4])
+                        lacc = LevelAccumulator{$type}()
+                        push!(lacc, values[1])
+                        push!(lacc, values[2])
+                        Tval = update_Svalue!(lacc)
+                        Tval == convert($type, 2)
+                    end
+                end)
             end
         end
 
