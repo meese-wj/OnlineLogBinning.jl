@@ -27,14 +27,17 @@ push!(bacc, 1)
 push!(bacc, [1, 2, 3, 4, 3, 2, 1])
 ```
 
-Finally, one can then calculate the following statistics from the `BinningAccumulator` at any binning `level`:
-1. `mean(bacc::BinningAccumulator, level)`: arithmetic mean
-1. `var(bacc::BinningAccumulator, level)`: sample variance 
-1. `std(bacc::BinningAccumulator, level)`: sample standard deviation 
-1. `var_of_mean(bacc::BinningAccumulator, level)`: variance of the mean 
-1. `std_error(bacc::BinningAccumulator, level)`: standard error of the mean 
+Finally, one can then calculate the following statistics from the `BinningAccumulator` at any binning `level = lvl`:
 
-By default, the binning `level` is set to `level = 0`. This level, accessed by `bacc.LvlAccums[begin]`, represents the unbinnned statistics from of the original data stream.
+```julia
+mean(bacc::BinningAccumulator; level = lvl)           # arithmetic mean
+var(bacc::BinningAccumulator; level = lvl)            # sample variance 
+std(bacc::BinningAccumulator; level = lvl)            # sample standard deviation 
+var_of_mean(bacc::BinningAccumulator; level = lvl)    # variance of the mean 
+std_error(bacc::BinningAccumulator; level = lvl)      # standard error of the mean 
+```
+
+The binning `level` is optional. By default, the binning `level` is set to `level = 0`. This level, accessed by `bacc.LvlAccums[begin]`, represents the unbinnned statistics from of the original data stream.
 
 ## How `OnlineLogBinning` works
 
