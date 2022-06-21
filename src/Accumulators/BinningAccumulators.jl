@@ -18,6 +18,7 @@ mutable struct BinningAccumulator{T <: Number}
 
     # Add an empty LevelAccumulator to the default BinningAccumulator
     BinningAccumulator{T}() where {T <: Number} = new([LevelAccumulator{T}()])
+    BinningAccumulator{T}( LvlAccums::Vector{LevelAccumulator{T}} ) where {T <: Number} = new( LvlAccums )
 end
 
 """

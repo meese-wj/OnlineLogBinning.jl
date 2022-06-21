@@ -2,6 +2,10 @@ using OnlineLogBinning
 using Test
 using StaticArrays
 
+include("test_helpers.jl")
+
+# test_types = [Float64]
+
 # Tested number types for OnlineLogBinning.jl
 OLB_tested_numbers = @SVector [ Int8, Int16, Int32, Int64, Int128,
                                 UInt8, UInt16, UInt32, UInt64, UInt128,
@@ -16,29 +20,30 @@ OLB_tested_numbers = @SVector [ Int8, Int16, Int32, Int64, Int128,
 
         @testset "PairAccumulator" begin
             for type ∈ OLB_tested_numbers
+                eval( :( @test _PairAccumulator_equality(PairAccumulator{$type}(), 
+                                                         PairAccumulator{$type}(true, zeros($type, 2)...)) ) )
+            end
+        end
+        
+        @testset "LevelAccumulator" begin
+            for type ∈ OLB_tested_numbers, lvl ∈ (0, 1)
                 eval(quote
                     @test let
-                        pacc = PairAccumulator{$type}()
-                        ( pacc.fullpair == true &&
-                          pacc.values == @MVector zeros($type, 2) )
+                        lacc1 = LevelAccumulator{$type}()
+                        if $lvl != zero(Int)
+                            lacc1 = LevelAccumulator{$type}($lvl)
+                        end
+                        lacc2 = LevelAccumulator{$type}($lvl, zero(Int), zero($type), zero($type), PairAccumulator{$type}())
+                        _LevelAccumulator_equality(lacc1, lacc2)
                     end
                 end)
             end
         end
         
-        @testset "LevelAccumulator" begin
+        @testset "BinningAccumulator" begin
             for type ∈ OLB_tested_numbers
-                eval(quote
-                    @test let
-                        lacc = LevelAccumulator{$type}()
-                        ( lacc.level == zero(Int) &&
-                          lacc.num_bins == zero(Int) &&
-                          lacc.Taccum == zero($type) &&
-                          lacc.Saccum == zero($type) &&
-                          lacc.Paccum.fullpair == true &&
-                          lacc.Paccum.values == @MVector zeros($type, 2) )
-                    end
-                end)
+                eval( :( @test _BinningAccumulator_equality( BinningAccumulator{$type}(), 
+                                                             BinningAccumulator{$type}( [LevelAccumulator{$type}()] ) ) ) )
             end
         end
 

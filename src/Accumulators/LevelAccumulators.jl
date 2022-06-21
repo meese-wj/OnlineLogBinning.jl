@@ -30,6 +30,9 @@ mutable struct LevelAccumulator{T <: Number}
 
     LevelAccumulator{T}() where {T <: Number} = new(zero(Int), zero(Int), zero(T), zero(T), PairAccumulator{T}())
     LevelAccumulator{T}(lvl::Int) where {T <: Number} = new(lvl, zero(Int), zero(T), zero(T), PairAccumulator{T}())
+    function LevelAccumulator{T}(lvl::Int, num_bins::Int, Taccum::Number, Saccum::Number, Paccum::PairAccumulator{T} ) where {T <: Number}
+        return new( lvl, num_bins, convert(T, Taccum), convert(T, Saccum), Paccum )
+    end
 end
 
 _full(lacc::LevelAccumulator) = _full(lacc.Paccum)
