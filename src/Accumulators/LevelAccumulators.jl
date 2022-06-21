@@ -97,57 +97,6 @@ Increment the number of bins accumulated by `incr`.
 """
 update_num_bins!(lacc::LevelAccumulator, incr = 2) = lacc.num_bins += incr
 
-# """
-#     set_level!(lacc::LevelAccumulator, lvl)
-
-# Set the bin `level` of the [`LevelAccumulator`](@ref) to be `lvl`.
-# Should be used only once after the [`LevelAccumulator`](@ref) has been constructed.
-# """
-# set_level!(lacc::LevelAccumulator, lvl) = lacc.level = lvl
-
-"""
-    mean( lacc::LevelAccumulator )
-
-Online measurement of the data stream mean.
-"""
-Statistics.mean( lacc::LevelAccumulator ) = lacc.Taccum / lacc.num_bins
-"""
-    var( lacc::LevelAccumulator )
-
-Online measurement of the data stream variance.
-"""
-Statistics.var( lacc::LevelAccumulator ) = lacc.Saccum / ( lacc.num_bins - one(lacc.num_bins) )
-
-"""
-    var_of_mean( lacc::LevelAccumulator ) = var(lacc) / lacc.num_bins
-
-__Offline__ measurement of the data stream variance of the mean.
-
-# Additional information
-* Since this quantity is __offline__ it is __not__ regularly updated when data is `push!`ed from the stream.
-"""
-var_of_mean( lacc::LevelAccumulator ) = var(lacc) / lacc.num_bins
-
-"""
-std( lacc::LevelAccumulator ) = sqrt(var(lacc))
-
-__Offline__ measurement of the data stream standard deviation.
-
-# Additional information
-* Since this quantity is __offline__ it is __not__ regularly updated when data is `push!`ed from the stream.
-"""
-Statistics.std( lacc::LevelAccumulator ) = sqrt(var(lacc))
-
-"""
-    std_error( lacc::LevelAccumulator ) = sqrt(var_of_mean(lacc))
-
-__Offline__ measurement of the data stream standard error.
-
-# Additional information
-* Since this quantity is __offline__ it is __not__ regularly updated when data is `push!`ed from the stream.
-"""
-std_error( lacc::LevelAccumulator ) = sqrt(var_of_mean(lacc))
-
 """
     show([io = stdout], lacc::LevelAccumulator)
 

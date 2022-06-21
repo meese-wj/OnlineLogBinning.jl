@@ -1,4 +1,5 @@
 using Base
+import Statistics
 
 include("PairAccumulators.jl")
 include("LevelAccumulators.jl")
@@ -48,7 +49,7 @@ function Base.push!(bacc::BinningAccumulator, value::Number)
         
         # Send Tvalue increment from the fullpair to the next binning level
         level += one(level)
-        full = push!(bacc.LvlAccums[level], pairT)
+        push!(bacc.LvlAccums[level], pairT)
     end
     return bacc
 end
@@ -102,8 +103,56 @@ end
 Base.show(bacc::BinningAccumulator) = show(stdout, bacc)
 
 """
-    eltype(bacc::BinningAccumulator{T}) → T
+    eltype(::BinningAccumulator{T}) → T
 
 Returns the type parameter for the [`BinningAccumulator`](@ref).
 """
-Base.eltype(bacc::BinningAccumulator{T}) where {T} = T
+Base.eltype(::BinningAccumulator{T}) where {T} = T
+
+"""
+    reset!(bacc::BinningAccumulator{T})
+
+Reset the [`BinningAccumulator`](@ref) by reconstruction.
+
+# Additional information
+While this is not a literal _reset_ per se, with a large enough [`BinningAccumulator`](@ref)
+it will be certainly faster just to blow up the old one (in memory) and start over.
+"""
+reset!(bacc::BinningAccumulator{T}) where {T} = bacc = BinningAccumulator{T}()
+
+_binning_index_to_findex(level) = level + one(Int)
+
+function _check_level(bacc::BinningAccumulator, level)
+    if !(level isa Int)
+        throw(ArgumentError("level argument: $level must be an integer."))
+    end
+    if level < zero(Int) || level > length(bacc.LvlAccums) - one(Int)
+        throw(ArgumentError("level argument $level is out-of-bounds for a BinningAccumulator of length $(length(bacc.LvlAccums)).")) 
+    end
+    return nothing
+end
+
+function mean(bacc::BinningAccumulator; level = 0)
+    _check_level(bacc, level)
+    return mean(bacc.LvlAccums[_binning_index_to_findex(level)])
+end
+
+function Statistics.var(bacc::BinningAccumulator; level = 0)
+    _check_level(bacc, level)
+    return var(bacc.LvlAccums[_binning_index_to_findex(level)])
+end
+
+function Statistics.std(bacc::BinningAccumulator; level = 0)
+    _check_level(bacc, level)
+    return std(bacc.LvlAccums[_binning_index_to_findex(level)])
+end
+
+function var_of_mean(bacc::BinningAccumulator; level = 0)
+    _check_level(bacc, level)
+    return var_of_mean(bacc.LvlAccums[_binning_index_to_findex(level)])
+end
+
+function std_error(bacc::BinningAccumulator; level = 0)
+    _check_level(bacc, level)
+    return std_error(bacc.LvlAccums[_binning_index_to_findex(level)])
+end
