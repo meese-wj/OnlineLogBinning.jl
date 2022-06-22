@@ -1,4 +1,5 @@
 using OnlineLogBinning
+import OnlineLogBinning: OLB_tested_numbers
 using Test
 using StaticArrays
 
@@ -7,15 +8,14 @@ include("test_helpers.jl")
 # test_types = [Float64]
 
 # Tested number types for OnlineLogBinning.jl
-# OLB_tested_numbers = @SVector [ Int8, Int16, Int32, Int64, Int128,
+# all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
 #                                 UInt8, UInt16, UInt32, UInt64, UInt128,
 #                                 Float16, Float32, Float64,
 #                                 BigInt, BigFloat,
 #                                 Rational, Irrational,
 #                                 Bool,
-                                # ComplexF16, ComplexF32, ComplexF64 ]
-OLB_tested_numbers = @SVector [ Float16, Float32, Float64,
-                                ComplexF16, ComplexF32, ComplexF64 ]
+#                                 ComplexF16, ComplexF32, ComplexF64 ]
+
 
 @testset "OnlineLogBinning.jl" begin
     
