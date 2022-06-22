@@ -22,7 +22,11 @@ mutable struct BinningAccumulator{T <: Number}
         _check_type(T, OLB_tested_numbers; function_name = :BinningAccumulator, print_str = "in the empty constructor", )
         new([LevelAccumulator{T}()])
     end
-    BinningAccumulator{T}( LvlAccums::Vector{LevelAccumulator{T}} ) where {T} = new( LvlAccums )
+    
+    function BinningAccumulator{T}( LvlAccums::Vector{LevelAccumulator{T}} ) where {T}
+        _check_type(T, OLB_tested_numbers; function_name = :BinningAccumulator, print_str = "in the (::Vector{LevelAccumulator}) constructor", )
+        new( LvlAccums )
+    end
 end
 
 """

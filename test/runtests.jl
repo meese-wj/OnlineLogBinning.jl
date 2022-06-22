@@ -116,11 +116,44 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
     # See OLB_tested_numbers
     @testset "Type protection in constructors" begin
         
-        @testset "BinningAccumulator empty constructor" begin
+        # Test the empty constructors
+        for accum ∈ [:PairAccumulator, :LevelAccumulator, :BinningAccumulator]
+            eval(quote
+                @testset "$($accum) empty constructor" begin
+                    for type ∈ setdiff(all_possible_types, OLB_tested_numbers)
+                        eval( :(@test_throws TypeError $($accum){$type}()) )
+                    end
+                end
+            end)
+        end
+
+        @testset "PairAccumulator (::Bool, value1, value2) constructor" begin
             for type ∈ setdiff(all_possible_types, OLB_tested_numbers)
-                eval( :(@test_throws TypeError BinningAccumulator{$type}()) )
+                eval( :(@test_throws TypeError PairAccumulator{$type}(true, zero($type), zero($type))) )
             end
         end
+        
+        @testset "LevelAccumulator (::Int) constructor" begin
+            for type ∈ setdiff(all_possible_types, OLB_tested_numbers)
+                eval( :(@test_throws TypeError LevelAccumulator{$type}(one(Int))) )
+            end
+        end
+        
+        @testset "LevelAccumulator (lvl::Int, num_bins::Int, ...) constructor" begin
+            for type ∈ setdiff(all_possible_types, OLB_tested_numbers)
+                # this tests PairAccumulator more I think, otherwise it throws a MethodError
+                eval( :(@test_throws TypeError LevelAccumulator{$type}(one(Int), one(Int), 0.0, 0.0, PairAccumulator{$type}())) )
+            end
+        end
+        
+        @testset "BinningAccumulator (::Vector{LevelAccumulator}) constructor" begin
+            for type ∈ setdiff(all_possible_types, OLB_tested_numbers)
+                # this tests LevelAccumulator more I think, otherwise it throws a MethodError
+                eval( :(@test_throws TypeError BinningAccumulator{$type}([ LevelAccumulator{$type}() ])) )
+            end
+        end
+        
+        
         
     end
 end

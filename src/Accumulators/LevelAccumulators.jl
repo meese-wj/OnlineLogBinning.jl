@@ -28,9 +28,18 @@ mutable struct LevelAccumulator{T <: Number}
     Saccum::T
     Paccum::PairAccumulator{T}
 
-    LevelAccumulator{T}() where {T <: Number} = new(zero(Int), zero(Int), zero(T), zero(T), PairAccumulator{T}())
-    LevelAccumulator{T}(lvl::Int) where {T <: Number} = new(lvl, zero(Int), zero(T), zero(T), PairAccumulator{T}())
-    function LevelAccumulator{T}(lvl::Int, num_bins::Int, Taccum::Number, Saccum::Number, Paccum::PairAccumulator{T} ) where {T <: Number}
+    function LevelAccumulator{T}() where {T}
+        _check_type(T, OLB_tested_numbers; function_name = :LevelAccumulator, print_str = "in the empty constructor" )
+        new(zero(Int), zero(Int), zero(T), zero(T), PairAccumulator{T}())
+    end
+    
+    function LevelAccumulator{T}(lvl::Int) where {T}
+        _check_type(T, OLB_tested_numbers; function_name = :LevelAccumulator, print_str = "in the (::Int) constructor" )
+        new(lvl, zero(Int), zero(T), zero(T), PairAccumulator{T}())
+    end
+    
+    function LevelAccumulator{T}(lvl::Int, num_bins::Int, Taccum::Number, Saccum::Number, Paccum::PairAccumulator{T} ) where {T}
+        _check_type(T, OLB_tested_numbers; function_name = :LevelAccumulator, print_str = "in the (lvl::Int, num_bins::Int, Taccum::Number, Saccum::Number, Paccum::PairAccumulator) constructor")
         return new( lvl, num_bins, convert(T, Taccum), convert(T, Saccum), Paccum )
     end
 end
