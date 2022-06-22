@@ -9,12 +9,15 @@ Julia package to determine effective number of uncorrelated data points in a cor
 This package uses the online logarithmic binning algorithm discussed in Refs. [[1]](@ref) and [[2]](@ref), but uses the numerically stable _first-pass pairwise_ algorithm from Ref. [[3]](@ref) to update the mean and variance accumulators. Importantly, the binning analysis is _online_ in the sense that the whole data stream of size `O(N)` need not be stored. Instead, a much smaller data stream of size `O(log N)` needs to be. This makes properly assessing the correlated errors generated from Markov Chain Monte Carlo simulations practical to update _on-the-fly_ [[4]](@ref).
 
 ## How to use `OnlineLogBinning`
+
 First, construct an empty `BinningAccumulator` with of `T <: Number` parametric type. Let's take `T = Float64` as an example.
 
 ```julia
 # Initialize a BinningAccumulator{T <: Number}
 bacc = BinningAccumulator{Float64}()
 ```
+
+We currently only support `Float` types, i.e. `T <: AbstractFloat` or `T` is a `Complex{Float#}`. The tested types are listed in [`OLB_tested_numbers`](src/Accumulators/AccumulatorHelpers.jl).
 
 Then, `push!` either a single value or a data stream (sequence of values of `itr` type) to the `BinningAccumulator`. The _online_ analysis will be taken care of automatically.
 
