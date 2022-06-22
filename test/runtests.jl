@@ -128,7 +128,7 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
         end
 
         @testset "PairAccumulator (::Bool, value1, value2) constructor" begin
-            for type ∈ setdiff(all_possible_types, OLB_tested_numbers)
+            for type ∈ setdiff(all_possible_types, OLB_tested_numbers, [Irrational])
                 eval( :(@test_throws TypeError PairAccumulator{$type}(true, zero($type), zero($type))) )
             end
         end
