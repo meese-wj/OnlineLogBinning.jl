@@ -128,7 +128,11 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
         end
 
         @testset "PairAccumulator (::Bool, value1, value2) constructor" begin
-            for type ∈ setdiff(all_possible_types, OLB_tested_numbers, [Irrational])
+            type_diff_set = setdiff(all_possible_types, OLB_tested_numbers)
+            if VERSION < v"1.7"  # Add this for version 1.3 tests where zero(Irrational) throws a MethodError
+                type_diff_set = setdiff(type_diff_set, [Irrational])
+            end
+            for type ∈ type_diff_set
                 eval( :(@test_throws TypeError PairAccumulator{$type}(true, zero($type), zero($type))) )
             end
         end
