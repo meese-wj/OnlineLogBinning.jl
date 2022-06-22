@@ -1,6 +1,10 @@
 
 import StaticArrays: @SVector
-# Define the list of tested types
+"""
+    OLB_tested_numbers
+
+Defines the list of tested numerical types for `OnlineLogBinning.jl`.
+"""
 const OLB_tested_numbers = @SVector [ Float16, Float32, Float64,
                                       ComplexF16, ComplexF32, ComplexF64 ]
 

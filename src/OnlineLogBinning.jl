@@ -7,6 +7,7 @@ export
 # Generic-accumulator functionality
         Tvalue, Svalue, _full, reset!,
         mean, var, var_of_mean, std, std_error,
+        OLB_tested_numbers,
 # PairAccumulator-specific functionality
         PairAccumulator, export_TS, increment, 
 # LevelAccumulator-specific functionality
