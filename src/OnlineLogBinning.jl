@@ -15,11 +15,6 @@ export
 # BinningAccumulator-specific functionality
         BinningAccumulator, bin_depth, binning_level
 
-
-import StaticArrays: @SVector
-# Define the list of tested types
-const OLB_tested_numbers = @SVector [ Float16, Float32, Float64,
-                                      ComplexF16, ComplexF32, ComplexF64 ]
 """
     mean( lacc::LevelAccumulator )
 

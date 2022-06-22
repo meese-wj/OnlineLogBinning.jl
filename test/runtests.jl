@@ -8,13 +8,13 @@ include("test_helpers.jl")
 # test_types = [Float64]
 
 # Tested number types for OnlineLogBinning.jl
-# all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
-#                                 UInt8, UInt16, UInt32, UInt64, UInt128,
-#                                 Float16, Float32, Float64,
-#                                 BigInt, BigFloat,
-#                                 Rational, Irrational,
-#                                 Bool,
-#                                 ComplexF16, ComplexF32, ComplexF64 ]
+const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
+                                      UInt8, UInt16, UInt32, UInt64, UInt128,
+                                      Float16, Float32, Float64,
+                                      BigInt, BigFloat,
+                                      Rational, Irrational,
+                                      Bool,
+                                      ComplexF16, ComplexF32, ComplexF64 ]
 
 
 @testset "OnlineLogBinning.jl" begin
@@ -110,5 +110,17 @@ include("test_helpers.jl")
             end
         end
 
+    end
+
+    # Test that only Float types are allowed.
+    # See OLB_tested_numbers
+    @testset "Type protection in constructors" begin
+        
+        @testset "BinningAccumulator empty constructor" begin
+            for type ∈ setdiff(all_possible_types, OLB_tested_numbers)
+                eval( :(@test_throws TypeError BinningAccumulator{$type}()) )
+            end
+        end
+        
     end
 end

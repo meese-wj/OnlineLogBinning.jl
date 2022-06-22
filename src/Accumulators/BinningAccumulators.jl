@@ -1,6 +1,7 @@
 using Base
 import Statistics
 
+include("AccumulatorHelpers.jl")
 include("PairAccumulators.jl")
 include("LevelAccumulators.jl")
 
@@ -17,8 +18,11 @@ mutable struct BinningAccumulator{T <: Number}
     LvlAccums::Vector{LevelAccumulator{T}}
 
     # Add an empty LevelAccumulator to the default BinningAccumulator
-    BinningAccumulator{T}() where {T <: Number} = new([LevelAccumulator{T}()])
-    BinningAccumulator{T}( LvlAccums::Vector{LevelAccumulator{T}} ) where {T <: Number} = new( LvlAccums )
+    function BinningAccumulator{T}() where {T} 
+        _check_type(T, OLB_tested_numbers; function_name = :BinningAccumulator, print_str = "in the empty constructor", )
+        new([LevelAccumulator{T}()])
+    end
+    BinningAccumulator{T}( LvlAccums::Vector{LevelAccumulator{T}} ) where {T} = new( LvlAccums )
 end
 
 """
