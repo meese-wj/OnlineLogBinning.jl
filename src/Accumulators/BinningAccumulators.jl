@@ -56,9 +56,9 @@ function Base.push!(bacc::BinningAccumulator, value::Number)
             # set_level!(bacc.LvlAccums[level + 1], level + 1)
         end
         
-        # Send Tvalue increment from the fullpair to the next binning level
+        # Send 0.5 * Tvalue increment from the fullpair (so its mean) to the next binning level
         level += one(level)
-        push!(bacc.LvlAccums[level], pairT)
+        push!(bacc.LvlAccums[level], 0.5 * pairT)
     end
     return bacc
 end
