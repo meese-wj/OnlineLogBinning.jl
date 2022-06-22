@@ -10,11 +10,11 @@ This package uses the online logarithmic binning algorithm discussed in Refs. [[
 
 ## How to use `OnlineLogBinning`
 
-First, construct an empty `BinningAccumulator` with of `T <: Number` parametric type. Let's take `T = Float64` as an example.
+First, construct an empty `BinningAccumulator` with of `T <: Number` parametric type. Let's take the default `T = Float64` as an example.
 
 ```julia
-# Initialize a BinningAccumulator{T <: Number}
-bacc = BinningAccumulator{Float64}()
+# Initialize a BinningAccumulator{T}
+bacc = BinningAccumulator()
 ```
 
 We currently only support `Float` types, i.e. `T <: AbstractFloat` or `T` is a `Complex{Float#}`. The tested types are listed in [`OLB_tested_numbers`](src/Accumulators/AccumulatorHelpers.jl).

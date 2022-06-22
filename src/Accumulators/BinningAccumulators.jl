@@ -8,7 +8,7 @@ include("LevelAccumulators.jl")
 """
     BinningAccumulator{T}() where {T <: Number}
 
-Main data structure for the binning analysis. 
+Main data structure for the binning analysis. `T == Float64` by default in the empty constructor.
 
 # Contents
 * `LvlAccums::Vector{LevelAccumulator{T}}`
@@ -22,6 +22,8 @@ mutable struct BinningAccumulator{T <: Number}
         _check_type(T, OLB_tested_numbers; function_name = :BinningAccumulator, print_str = "in the empty constructor", )
         new([LevelAccumulator{T}()])
     end
+    # Set a default value for the parametric type `T == Float64`
+    BinningAccumulator() = BinningAccumulator{Float64}()
     
     function BinningAccumulator{T}( LvlAccums::Vector{LevelAccumulator{T}} ) where {T}
         _check_type(T, OLB_tested_numbers; function_name = :BinningAccumulator, print_str = "in the (::Vector{LevelAccumulator}) constructor", )
