@@ -12,7 +12,7 @@ export
         PairAccumulator, export_TS, increment, 
 # LevelAccumulator-specific functionality
         LevelAccumulator, update_Tvalue!, 
-        update_Svalue!, update_num_bins!,
+        update_SandT!,
 # BinningAccumulator-specific functionality
         BinningAccumulator, bin_depth, binning_level
 

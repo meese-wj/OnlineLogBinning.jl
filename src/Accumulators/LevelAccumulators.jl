@@ -81,26 +81,21 @@ function Svalue(lacc::LevelAccumulator, pairS, pairT)
 end
 
 """
-    update_Tvalue!(lacc::LevelAccumulator)
+    update_SandT!(lacc::LevelAccumulator)
 
-Apply the [`Tvalue`](@ref) formula to update `lacc.Taccum` and return the [`PairAccumulator`](@ref) increment.
+Apply the [`Svalue`](@ref) and [`Tvalue`](@ref) formula to update `lacc.Taccum` and return the [`PairAccumulator`](@ref) `Tvalue` increment.
+
+# Additional information
+* ``S`` must be updated _before_ ``T`` since the former depends on the latter's history.
 """
-function update_Tvalue!(lacc::LevelAccumulator)
-    Tval = Tvalue(lacc.Paccum)
-    lacc.Taccum = Tvalue(lacc, Tval)
-    return Tval
+function update_SandT!(lacc::LevelAccumulator)
+    pairT, pairS = export_TS(lacc.Paccum)
+    # S needs to be updated first then T
+    lacc.Saccum = Svalue(lacc, pairS, pairT)
+    lacc.Taccum = Tvalue(lacc, pairT)
+    return pairT
 end
 
-"""
-    update_Svalue!(lacc::LevelAccumulator)
-
-Apply the [`Svalue`](@ref) formula to update `lacc.Saccum` and return the [`PairAccumulator`](@ref) increment.
-"""
-function update_Svalue!(lacc::LevelAccumulator)
-    Sval = Svalue(lacc.Paccum)
-    lacc.Saccum = Svalue(lacc, Sval, Tvalue(lacc.Paccum))
-    return Sval
-end
 
 """
     update_num_bins!(lacc::LevelAccumulator, [incr = 2])

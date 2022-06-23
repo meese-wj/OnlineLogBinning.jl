@@ -45,8 +45,9 @@ function Base.push!(bacc::BinningAccumulator, value::Number)
     while _full(bacc.LvlAccums[level])
         # Update Tvalue and Svalue from the original level
         # Then increment the number of bins by 2 (for the pair)
-        pairT = update_Tvalue!( bacc.LvlAccums[level] )
-        pairS = update_Svalue!( bacc.LvlAccums[level] )
+        # pairT = update_Tvalue!( bacc.LvlAccums[level] )
+        # pairS = update_Svalue!( bacc.LvlAccums[level] )
+        pairT = update_SandT!( bacc.LvlAccums[level] )
         update_num_bins!( bacc.LvlAccums[level] )
 
         # Reset the PairAccumulator

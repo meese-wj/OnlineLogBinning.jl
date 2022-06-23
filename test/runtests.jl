@@ -88,7 +88,7 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
                         lacc = LevelAccumulator{$type}()
                         push!(lacc, values[1])
                         push!(lacc, values[2])
-                        Tval = update_Tvalue!(lacc)
+                        Tval = update_SandT!(lacc)
                         Tval == convert($type, 5)
                     end
                 end)
@@ -103,8 +103,8 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
                         lacc = LevelAccumulator{$type}()
                         push!(lacc, values[1])
                         push!(lacc, values[2])
-                        Tval = update_Svalue!(lacc)
-                        Tval == convert($type, 2)
+                        Tval = update_SandT!(lacc)
+                        lacc.Saccum == convert($type, 2)
                     end
                 end)
             end
@@ -160,4 +160,24 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
         
         
     end
+
+    # Test specific applications of binning
+    @testset "Binning specific data streams" begin
+        
+        @testset "Sample up down data stream" begin 
+            test_data = [1, -1, -1, -1, 1, -1, -1, 1, 1, 1, -1, 1, -1, 1, 1, -1]
+            bacc = BinningAccumulator()
+            push!(bacc, test_data)
+
+            @testset "level = 0" begin
+                @test mean(bacc; level = 0) == zero(eltype(bacc))
+                @test var(bacc; level = 0) == 16/15
+                @test var_of_mean(bacc; level = 0) == 1/15
+                @test std(bacc; level = 0) == 1.0327955589886444
+                @test std_error(bacc; level = 0) == 0.2581988897471611
+            end
+        end
+        
+    end
+
 end

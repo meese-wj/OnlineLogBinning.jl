@@ -60,7 +60,7 @@ Thus, ``S_{m+1,m+2}`` does not need to take ``T_{m+1,m+2}`` as an argument.
 """
 Svalue(pacc::PairAccumulator) = 0.5 * ( pacc.values[2] - pacc.values[1] )^2
 # Svalue(pacc::PairAccumulator) = sum( x -> (x - 0.5 * pacc.Taccum)^2, pacc.values ) old and decrepit...
-export_TS(pacc::PairAccumulator) = @SVector [ pacc.Taccum, pacc.Saccum ]
+export_TS(pacc::PairAccumulator) = @SVector [ Tvalue(pacc), Svalue(pacc) ]
 
 """
     reset!(pacc::PairAccumulator)
