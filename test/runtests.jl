@@ -171,10 +171,10 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
 
             @testset "level = 0" begin
                 @test mean(bacc; level = 0) == zero(eltype(bacc))
-                @test var(bacc; level = 0) == 16/15
-                @test var_of_mean(bacc; level = 0) == 1/15
-                @test std(bacc; level = 0) == 1.0327955589886444
-                @test std_error(bacc; level = 0) == 0.2581988897471611
+                @test var(bacc; level = 0) ≈ 16/15
+                @test var_of_mean(bacc; level = 0) ≈ 1/15
+                @test std(bacc; level = 0) ≈ 1.0327955589886444
+                @test std_error(bacc; level = 0) ≈ 0.2581988897471611
             end
         end
         
