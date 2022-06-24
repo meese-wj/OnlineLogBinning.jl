@@ -4,6 +4,11 @@ import StaticArrays: @SVector
     OLB_tested_numbers
 
 Defines the list of tested numerical types for `OnlineLogBinning.jl`.
+
+!!! note
+    These types are specifically given as: 
+    * `Float16, Float32, Float64` for `Real` numbers.
+    * `ComplexF16, ComplexF32, ComplexF64` for `Complex` numbers.
 """
 const OLB_tested_numbers = @SVector [ Float16, Float32, Float64,
                                       ComplexF16, ComplexF32, ComplexF64 ]

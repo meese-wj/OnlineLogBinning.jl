@@ -40,7 +40,7 @@ var_of_mean(bacc::BinningAccumulator; level = lvl)    # variance of the mean
 std_error(bacc::BinningAccumulator; level = lvl)      # standard error of the mean 
 ```
 
-The binning `level` is optional. By default, the binning `level` is set to `level = 0`. This level, accessed by `bacc.LvlAccums[begin]`, represents the unbinnned statistics from of the original data stream. The `LevelAccumulator`s from any binning `level` can also be extracted using the overloaded `[]` notation as
+The binning `level` is optional. By default, the binning `level` is set to `level = 0`. This level, accessed by `bacc[level = 0]`, represents the unbinnned statistics from of the original data stream. The `LevelAccumulator`s from any binning `level` can also be extracted using the overloaded `[]` notation as
 
 ```julia
 julia> bacc[level = 0]
@@ -133,7 +133,7 @@ The fact that the data stream is processed in pairs before being passed along to
 1. [`BinningAnalysis.jl`](https://github.com/carstenbauer/BinningAnalysis.jl) for a very similar Julia package which served as an inspiration for this one. Our package does not have as broad of a scope as theirs.
     * One of the authors of [`BinningAnalysis.jl`](https://github.com/carstenbauer/BinningAnalysis.jl) also wrote Ref. [[4]](@ref) which gives a great introduction to the statistical analysis of Monte Carlo data.
 
-1. [`OnlineStats.jl`](https://github.com/joshday/OnlineStats.jlhttps://github.com/joshday/OnlineStats.jl) for many more online statistics and routines, most of which are beyond the scope of this package.
+1. [`OnlineStats.jl`](https://github.com/joshday/OnlineStats.j) for many more online statistics and routines, most of which are beyond the scope of this package.
 
 ## References
 
