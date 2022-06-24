@@ -110,19 +110,20 @@ update_num_bins!(lacc::LevelAccumulator, incr = 2) = lacc.num_bins += incr
 Overload `Base.show` for _human_-readable displays.
 """
 function Base.show(io::IO, lacc::LevelAccumulator)
+    tabspace = "    "
     println(io, "$(typeof(lacc)) with online fields:")
-    println(io, "\tlevel    = $(lacc.level)")
-    println(io, "\tnum_bins = $(lacc.num_bins)")
-    println(io, "\tTaccum   = $(lacc.Taccum)")
-    println(io, "\tSaccum   = $(lacc.Saccum)")
-    println(io, "\tPaccum   = $(lacc.Paccum)")
+    println(io, tabspace, "level    = $(lacc.level)")
+    println(io, tabspace, "num_bins = $(lacc.num_bins)")
+    println(io, tabspace, "Taccum   = $(lacc.Taccum)")
+    println(io, tabspace, "Saccum   = $(lacc.Saccum)")
+    println(io, tabspace, "Paccum   = $(lacc.Paccum)")
     println(io, "")
-    println(io, "\tOffline Level Statistics:")
-    println(io, "\tCurrent Mean             = $(mean(lacc))")
-    println(io, "\tCurrent Variance         = $(var(lacc))")
-    println(io, "\tCurrent Std. Deviation   = $(std(lacc))")
-    println(io, "\tCurrent Var. of the Mean = $(var_of_mean(lacc))")
-    println(io, "\tCurrent Std. Error       = $(std_error(lacc))")
+    println(io, tabspace, "Calculated Level Statistics:")
+    println(io, tabspace, "Current Mean             = $(mean(lacc))")
+    println(io, tabspace, "Current Variance         = $(var(lacc))")
+    println(io, tabspace, "Current Std. Deviation   = $(std(lacc))")
+    println(io, tabspace, "Current Var. of the Mean = $(var_of_mean(lacc))")
+    println(io, tabspace, "Current Std. Error       = $(std_error(lacc))")
 end
 
 Base.show(lacc::LevelAccumulator) = Base.show(stdout, lacc)

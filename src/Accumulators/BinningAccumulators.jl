@@ -32,6 +32,42 @@ mutable struct BinningAccumulator{T <: Number}
 end
 
 """
+    _binning_index_to_findex(level)
+
+Convert the `binning_index ∈ {0, 1, ... }` to a (Fortran) `findex ∈ {1, 2, ... }`.
+"""
+_binning_index_to_findex(level) = level + one(Int)
+
+"""
+    getindex(bacc::BinningAccumulator; level)
+
+Overload the `[]` notation by accessing the [`BinningAccumulator`](@ref)'s `LvlAccums`
+at a specific binning `level` keyword.
+
+# Example
+```jldoctest
+julia> bacc = BinningAccumulator();
+
+julia> bacc[level = 0]
+LevelAccumulator{Float64} with online fields:
+    level    = 0
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN
+
+```
+"""
+Base.getindex(bacc::BinningAccumulator; level) = bacc.LvlAccums[_binning_index_to_findex(level)]
+
+"""
     push!(bacc::BinningAccumulator, value::Number)
 
 Add a single `value` from the data stream into the online binning analysis.
@@ -131,8 +167,6 @@ While this is not a literal _reset_ per se, with a large enough [`BinningAccumul
 it will be certainly faster just to blow up the old one (in memory) and start over.
 """
 reset!(bacc::BinningAccumulator{T}) where {T} = bacc = BinningAccumulator{T}()
-
-_binning_index_to_findex(level) = level + one(Int)
 
 function _check_level(bacc::BinningAccumulator, level)
     if !(level isa Int)

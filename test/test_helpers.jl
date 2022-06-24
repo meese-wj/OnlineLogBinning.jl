@@ -16,3 +16,11 @@ end
 function _BinningAccumulator_equality( ba1, ba2 )
     all( _LevelAccumulator_equality.(ba1.LvlAccums, ba2.LvlAccums) )
 end
+
+function _test_level_statistics(bacc; level, known_mean, known_var, known_var_of_mean, known_std, known_std_err )
+    @test mean(bacc; level = level) ≈ known_mean
+    @test var(bacc; level = level) ≈ known_var
+    @test var_of_mean(bacc; level = level) ≈ known_var_of_mean
+    @test std(bacc; level = level) ≈ known_std
+    @test std_error(bacc; level = level) ≈ known_std_err
+end

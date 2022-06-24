@@ -3,7 +3,7 @@ module OnlineLogBinning
 include("Accumulators/BinningAccumulators.jl")
 export
 # Base overloads
-        push!, length, show, eltype,
+        push!, length, show, eltype, getindex,
 # Generic-accumulator functionality
         Tvalue, Svalue, _full, reset!,
         mean, var, var_of_mean, std, std_error,
@@ -35,7 +35,7 @@ Online measurement of the [`BinningAccumulator`] mean.
 """
 function Statistics.mean(bacc::BinningAccumulator; level = 0)
     _check_level(bacc, level)
-    return mean(bacc.LvlAccums[_binning_index_to_findex(level)])
+    return mean(bacc[level = level])
 end
 
 """
@@ -57,7 +57,7 @@ Online measurement of the [`BinningAccumulator`] variance.
 """
 function Statistics.var(bacc::BinningAccumulator; level = 0)
     _check_level(bacc, level)
-    return var(bacc.LvlAccums[_binning_index_to_findex(level)])
+    return var(bacc[level = level])
 end
 
 """
@@ -79,7 +79,7 @@ Online measurement of the [`BinningAccumulator`] variance of the mean.
 """
 function var_of_mean(bacc::BinningAccumulator; level = 0)
     _check_level(bacc, level)
-    return var_of_mean(bacc.LvlAccums[_binning_index_to_findex(level)])
+    return var_of_mean(bacc[level = level])
 end
 
 """
@@ -101,7 +101,7 @@ Online measurement of the [`BinningAccumulator`] standard deviation.
 """
 function Statistics.std(bacc::BinningAccumulator; level = 0)
     _check_level(bacc, level)
-    return std(bacc.LvlAccums[_binning_index_to_findex(level)])
+    return std(bacc[level = level])
 end
 
 """
@@ -123,7 +123,7 @@ Online measurement of the [`BinningAccumulator`] standard error.
 """
 function std_error(bacc::BinningAccumulator; level = 0)
     _check_level(bacc, level)
-    return std_error(bacc.LvlAccums[_binning_index_to_findex(level)])
+    return std_error(bacc[level = level])
 end
 
 end
