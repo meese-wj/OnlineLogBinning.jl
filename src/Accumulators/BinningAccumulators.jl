@@ -185,7 +185,9 @@ LevelAccumulator{Float64} with online fields:
     Current Std. Error       = NaN
 
 ```
-* Notice that the `Taccum` and `Saccum` remain zero while `num_bins == 0`. These are only accumulated for each input pair.
+!!! note
+    Notice that the `Taccum` and `Saccum` remain zero while `num_bins == 0`. 
+    These are only accumulated for each input pair. Or once `Paccum.fullpair == true`.
 """
 function Base.push!(bacc::BinningAccumulator, value::Number)
     value_2_push = convert(eltype(bacc), value)
