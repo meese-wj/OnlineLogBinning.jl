@@ -81,8 +81,6 @@ function Base.push!(bacc::BinningAccumulator, value::Number)
     while _full(bacc.LvlAccums[level])
         # Update Tvalue and Svalue from the original level
         # Then increment the number of bins by 2 (for the pair)
-        # pairT = update_Tvalue!( bacc.LvlAccums[level] )
-        # pairS = update_Svalue!( bacc.LvlAccums[level] )
         pairT = update_SandT!( bacc.LvlAccums[level] )
         update_num_bins!( bacc.LvlAccums[level] )
 
@@ -92,7 +90,6 @@ function Base.push!(bacc::BinningAccumulator, value::Number)
         # Create a new binning level if level == bin_depth(bacc)
         if level == length(bacc)
             push!(bacc.LvlAccums, LevelAccumulator{eltype(bacc)}(binning_level(level + 1)))
-            # set_level!(bacc.LvlAccums[level + 1], level + 1)
         end
         
         # Send 0.5 * Tvalue increment from the fullpair (so its mean) to the next binning level
@@ -141,10 +138,10 @@ Overload the `Base.show` function for _human_-readable displays.
 function Base.show(io::IO, bacc::BinningAccumulator)
     println(io, "$(typeof(bacc)) with $(bin_depth(bacc)) binning levels.")
     println(io, "$(binning_level(1))th Binning Level (unbinned data):")
-    println(io, "\t$(bacc.LvlAccums[1])")
+    println(io, "$(bacc.LvlAccums[1])")
     for lvl ∈ 2:1:length(bacc.LvlAccums)
         println(io, "$(binning_level(lvl))th Binning Level:")
-        println(io, "\t$(bacc.LvlAccums[lvl])")
+        println(io, "$(bacc.LvlAccums[lvl])")
     end
 end
 
