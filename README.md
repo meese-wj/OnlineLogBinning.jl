@@ -30,7 +30,7 @@ push!(bacc, 1)
 push!(bacc, [1, 2, 3, 4, 3, 2, 1])
 ```
 
-Finally, one can then calculate the following statistics from the `BinningAccumulator` at any binning `level = lvl`:
+One can then calculate the following statistics from the `BinningAccumulator` at any binning `level = lvl`:
 
 ```julia
 mean(bacc::BinningAccumulator; level = lvl)           # arithmetic mean
@@ -40,7 +40,39 @@ var_of_mean(bacc::BinningAccumulator; level = lvl)    # variance of the mean
 std_error(bacc::BinningAccumulator; level = lvl)      # standard error of the mean 
 ```
 
-The binning `level` is optional. By default, the binning `level` is set to `level = 0`. This level, accessed by `bacc.LvlAccums[begin]`, represents the unbinnned statistics from of the original data stream.
+The binning `level` is optional. By default, the binning `level` is set to `level = 0`. This level, accessed by `bacc.LvlAccums[begin]`, represents the unbinnned statistics from of the original data stream. The `LevelAccumulator`s from any binning `level` can also be extracted using the overloaded `[]` notation as
+
+```julia
+julia> bacc[level = 0]
+LevelAccumulator{Float64} with online fields:
+    level    = 0
+    num_bins = 6
+    Taccum   = 15.0
+    Saccum   = 5.5
+    Paccum   = PairAccumulator{Float64}(false, [0.0, 1.0])
+
+    Calculated Level Statistics:
+    Current Mean             = 2.5
+    Current Variance         = 1.1
+    Current Std. Deviation   = 1.0488088481701516
+    Current Var. of the Mean = 0.18333333333333335
+    Current Std. Error       = 0.42817441928883765
+
+julia> bacc[level = 1]
+LevelAccumulator{Float64} with online fields:
+    level    = 1
+    num_bins = 2
+    Taccum   = 5.0
+    Saccum   = 2.0
+    Paccum   = PairAccumulator{Float64}(false, [0.0, 2.5])
+
+    Calculated Level Statistics:
+    Current Mean             = 2.5
+    Current Variance         = 2.0
+    Current Std. Deviation   = 1.4142135623730951
+    Current Var. of the Mean = 1.0
+    Current Std. Error       = 1.0
+```
 
 ## How `OnlineLogBinning` works
 
