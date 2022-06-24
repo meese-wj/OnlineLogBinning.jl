@@ -180,6 +180,18 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
                 @test _LevelAccumulator_equality(bacc.LvlAccums[begin],
                                                  LevelAccumulator{eltype(bacc)}(0, 16, 0., 16., PairAccumulator{eltype(bacc)}(true, 0., 0.) ) )
             end
+            
+            @testset "level = 0" begin
+                _test_level_statistics(bacc; level = 0, 
+                                       known_mean = zero(eltype(bacc)),
+                                       known_var = 16/15,
+                                       known_var_of_mean = 1/15,
+                                       known_std = 1.0327955589886444,
+                                       known_std_err = 0.2581988897471611 )
+                
+                @test _LevelAccumulator_equality(bacc.LvlAccums[begin],
+                                                 LevelAccumulator{eltype(bacc)}(0, 16, 0., 16., PairAccumulator{eltype(bacc)}(true, 0., 0.) ) )
+            end
         end
         
     end
