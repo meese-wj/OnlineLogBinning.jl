@@ -170,28 +170,58 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
             push!(bacc, test_data)
 
             @testset "level = 0" begin
+                @test _LevelAccumulator_equality(bacc[level = 0],
+                                                 LevelAccumulator{eltype(bacc)}(0, 16, 0., 16., PairAccumulator{eltype(bacc)}(true, 0., 0.) ) )
+
                 _test_level_statistics(bacc; level = 0, 
                                        known_mean = zero(eltype(bacc)),
                                        known_var = 16/15,
                                        known_var_of_mean = 1/15,
                                        known_std = 1.0327955589886444,
                                        known_std_err = 0.2581988897471611 )
-                
-                @test _LevelAccumulator_equality(bacc.LvlAccums[begin],
-                                                 LevelAccumulator{eltype(bacc)}(0, 16, 0., 16., PairAccumulator{eltype(bacc)}(true, 0., 0.) ) )
             end
             
-            @testset "level = 0" begin
-                _test_level_statistics(bacc; level = 0, 
+            @testset "level = 1" begin
+                @test _LevelAccumulator_equality(bacc[level = 1],
+                                                 LevelAccumulator{eltype(bacc)}(1, 8, 0., 2., PairAccumulator{eltype(bacc)}(true, 0., 0.) ) )
+
+                _test_level_statistics(bacc; level = 1, 
                                        known_mean = zero(eltype(bacc)),
-                                       known_var = 16/15,
-                                       known_var_of_mean = 1/15,
-                                       known_std = 1.0327955589886444,
-                                       known_std_err = 0.2581988897471611 )
-                
-                @test _LevelAccumulator_equality(bacc.LvlAccums[begin],
-                                                 LevelAccumulator{eltype(bacc)}(0, 16, 0., 16., PairAccumulator{eltype(bacc)}(true, 0., 0.) ) )
+                                       known_var = 2/7,
+                                       known_var_of_mean = 2/56,
+                                       known_std = sqrt(2/7),
+                                       known_std_err = sqrt(2/56) )
             end
+            
+            @testset "level = 2" begin
+                @test _LevelAccumulator_equality(bacc[level = 2],
+                                                 LevelAccumulator{eltype(bacc)}(2, 4, 0., 0.5, PairAccumulator{eltype(bacc)}(true, 0., 0.) ) )
+
+                _test_level_statistics(bacc; level = 2, 
+                                       known_mean = zero(eltype(bacc)),
+                                       known_var = 0.5/3,
+                                       known_var_of_mean = 0.5/12,
+                                       known_std = sqrt(0.5/3),
+                                       known_std_err = sqrt(0.5/12) )
+            end
+            
+            @testset "level = 3" begin
+                @test _LevelAccumulator_equality(bacc[level = 3],
+                                                 LevelAccumulator{eltype(bacc)}(3, 2, 0., 0.125, PairAccumulator{eltype(bacc)}(true, 0., 0.) ) )
+
+                _test_level_statistics(bacc; level = 3, 
+                                       known_mean = zero(eltype(bacc)),
+                                       known_var = 0.125,
+                                       known_var_of_mean = 0.125/2,
+                                       known_std = sqrt(0.125),
+                                       known_std_err = sqrt(0.125/2) )
+            end
+            
+            @testset "level = 4" begin
+                @test _LevelAccumulator_equality(bacc[level = 4],
+                                                 LevelAccumulator{eltype(bacc)}(4, 0, 0., 0., PairAccumulator{eltype(bacc)}(false, 0., 0.) ) )
+            end
+
         end
         
     end
