@@ -13,6 +13,80 @@ Main data structure for the binning analysis. `T == Float64` by default in the e
 # Contents
 * `LvlAccums::Vector{LevelAccumulator{T}}`
     * A wrapper around the [`LevelAccumulator`](@ref)s from each binning level
+
+# Example 
+```jldoctest
+julia> # Create a BinningAccumulator with the default type T == Float64
+
+julia> bacc = BinningAccumulator()  
+BinningAccumulator{Float64} with 0 binning levels.
+0th Binning Level (unbinned data):
+LevelAccumulator{Float64} with online fields:
+    level    = 0
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN
+
+julia> # Add a data stream using the push! function
+
+julia> # (The data stream does not have to have a length == power of 2.)
+
+julia> push!(bacc, [1, 2, 3, 4])
+BinningAccumulator{Float64} with 2 binning levels.
+0th Binning Level (unbinned data):
+LevelAccumulator{Float64} with online fields:
+    level    = 0
+    num_bins = 4
+    Taccum   = 10.0
+    Saccum   = 5.0
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = 2.5
+    Current Variance         = 1.6666666666666667
+    Current Std. Deviation   = 1.2909944487358056
+    Current Var. of the Mean = 0.4166666666666667
+    Current Std. Error       = 0.6454972243679028
+
+1th Binning Level:
+LevelAccumulator{Float64} with online fields:
+    level    = 1
+    num_bins = 2
+    Taccum   = 5.0
+    Saccum   = 2.0
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = 2.5
+    Current Variance         = 2.0
+    Current Std. Deviation   = 1.4142135623730951
+    Current Var. of the Mean = 1.0
+    Current Std. Error       = 1.0
+
+2th Binning Level:
+LevelAccumulator{Float64} with online fields:
+    level    = 2
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(false, [0.0, 2.5])
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN
+
+```
 """
 mutable struct BinningAccumulator{T <: Number}
     LvlAccums::Vector{LevelAccumulator{T}}
@@ -72,6 +146,46 @@ Base.getindex(bacc::BinningAccumulator; level) = bacc.LvlAccums[_binning_index_t
 
 Add a single `value` from the data stream into the online binning analysis.
 The single value enters at the bin at the lowest level. 
+
+# Example
+
+```jldoctest
+julia> bacc = BinningAccumulator()
+BinningAccumulator{Float64} with 0 binning levels.
+0th Binning Level (unbinned data):
+LevelAccumulator{Float64} with online fields:
+    level    = 0
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN
+
+julia> push!(bacc, 42)
+BinningAccumulator{Float64} with 0 binning levels.
+0th Binning Level (unbinned data):
+LevelAccumulator{Float64} with online fields:
+    level    = 0
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(false, [0.0, 42.0])        
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN
+
+```
+* Notice that the `Taccum` and `Saccum` remain zero while `num_bins == 0`. These are only accumulated for each input pair.
 """
 function Base.push!(bacc::BinningAccumulator, value::Number)
     value_2_push = convert(eltype(bacc), value)
@@ -103,6 +217,59 @@ end
     push!(bacc::BinningAccumulator, itr)
 
 `push!` each value of the data stream `itr` through the `BinningAccumulator`.
+
+# Example 
+```jldoctest
+julia> bacc = BinningAccumulator()
+BinningAccumulator{Float64} with 0 binning levels.
+0th Binning Level (unbinned data):
+LevelAccumulator{Float64} with online fields:
+    level    = 0
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN
+
+julia> push!(bacc, [42, -26])
+BinningAccumulator{Float64} with 1 binning levels.
+0th Binning Level (unbinned data):
+LevelAccumulator{Float64} with online fields:
+    level    = 0
+    num_bins = 2
+    Taccum   = 16.0
+    Saccum   = 2312.0
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = 8.0
+    Current Variance         = 2312.0
+    Current Std. Deviation   = 48.08326112068523
+    Current Var. of the Mean = 1156.0
+    Current Std. Error       = 34.0
+
+1th Binning Level:
+LevelAccumulator{Float64} with online fields:
+    level    = 1
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(false, [0.0, 8.0])
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN
+
+```
 """
 function Base.push!(bacc::BinningAccumulator, itr)
     @inbounds for value ∈ itr
@@ -115,6 +282,16 @@ end
     length(bacc::BinningAccumulator)
 
 Return the number of [`LevelAccumulator`](@ref)s there are.
+
+# Example 
+```jldoctest
+julia> bacc = BinningAccumulator();
+
+julia> push!(bacc, [1, 2, 3, 4, 3, 2, 1]); # Data stream with 7 elements
+
+julia> length(bacc) # Only 2 binning levels (1 for unbinned data)
+3
+```
 """
 Base.length(bacc::BinningAccumulator) = length(bacc.LvlAccums)
 """
@@ -127,6 +304,16 @@ binning_level(index::Int) = index - one(index)
     bin_depth(bacc::BinningAccumulator)
 
 Number of binned levels present. [`length`](@ref) of the [`BinningAccumulator`] minus 1.
+
+# Example 
+```jldoctest
+julia> bacc = BinningAccumulator();
+
+julia> push!(bacc, [1, 2, 3, 4, 3, 2, 1]); # Data stream with 7 elements
+
+julia> bin_depth(bacc) # Only 2 binning levels (1 for unbinned data)
+2
+```
 """
 bin_depth(bacc::BinningAccumulator) = binning_level(length(bacc))
 
