@@ -223,6 +223,42 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
             end
 
         end
+
+        @testset "Sample length(data) != power of 2" begin
+            test_data = [1, 2, 3, 4, 3, 2, 1]
+            bacc = BinningAccumulator()
+            push!(bacc, test_data)
+
+            @testset "level = 0" begin
+                @test _LevelAccumulator_equality(bacc[level = 0],
+                                                 LevelAccumulator{eltype(bacc)}(0, 6, 15., 5.5, PairAccumulator{eltype(bacc)}(false, 0., 1.) ) )
+
+                _test_level_statistics(bacc; level = 0,
+                                       known_mean = 15/6,
+                                       known_var = 5.5/5,
+                                       known_var_of_mean = 5.5/30,
+                                       known_std = sqrt(5.5/5),
+                                       known_std_err = sqrt(5.5/30) )
+            end
+            
+            @testset "level = 1" begin
+                @test _LevelAccumulator_equality(bacc[level = 1],
+                                                 LevelAccumulator{eltype(bacc)}(1, 2, 5., 2., PairAccumulator{eltype(bacc)}(false, 0., 2.5) ) )
+
+                _test_level_statistics(bacc; level = 1,
+                                       known_mean = 5/2,
+                                       known_var = 2.,
+                                       known_var_of_mean = 1.,
+                                       known_std = sqrt(2),
+                                       known_std_err = 1. )
+            end
+            
+            @testset "level = 2" begin
+                @test _LevelAccumulator_equality(bacc[level = 2],
+                                                 LevelAccumulator{eltype(bacc)}(2, 0, 0, 0, PairAccumulator{eltype(bacc)}(false, 0., 2.5) ) )
+            end
+
+        end
         
     end
 
