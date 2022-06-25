@@ -1,9 +1,12 @@
 using OnlineLogBinning
 using Documenter
+using DocumenterCitations
 
 DocMeta.setdocmeta!(OnlineLogBinning, :DocTestSetup, :(using OnlineLogBinning); recursive=true)
 
-makedocs(;
+bib = CitationBibliography(joinpath(@__DIR__, "assets", "OLB_references.bib"), sorting = :nty)
+
+makedocs(bib;
     modules=[OnlineLogBinning],
     authors="W. Joe Meese <meese022@umn.edu> and contributors",
     repo="https://github.com/meese-wj/OnlineLogBinning.jl/blob/{commit}{path}#{line}",
@@ -18,6 +21,7 @@ makedocs(;
         "Example Usage" => "example.md",
         "Accumulator Hierarchy" => "accumulators.md",
         "Mathematical Details" => "math.md",
+        "References" => "references.md",
         "API Reference" => "api.md",
     ],
 )
