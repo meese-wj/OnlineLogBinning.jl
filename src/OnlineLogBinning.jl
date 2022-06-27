@@ -1,6 +1,8 @@
 module OnlineLogBinning
 
 include("Accumulators/BinningAccumulators.jl")
+include("BinningAnalysis.jl")
+
 export
 # Base overloads
         push!, length, show, eltype, getindex,
@@ -14,7 +16,10 @@ export
         LevelAccumulator, update_Tvalue!, 
         update_SandT!,
 # BinningAccumulator-specific functionality
-        BinningAccumulator, bin_depth, binning_level
+        BinningAccumulator, bin_depth, binning_level,
+# BinningAnalysis functionality
+        TRUSTING_CUTOFF, trustworthy_level, max_trustworthy_level, 
+        RxValue
 
 """
     mean( lacc::LevelAccumulator )
