@@ -1,4 +1,4 @@
-using Base
+import Base: push!, show
 using Statistics
 
 """
@@ -46,7 +46,7 @@ end
 
 _full(lacc::LevelAccumulator) = _full(lacc.Paccum)
 
-function Base.push!(lacc::LevelAccumulator, value::Number)
+function push!(lacc::LevelAccumulator, value::Number)
     push!(lacc.Paccum, value)
     increment(lacc.Paccum)
     return lacc
@@ -109,7 +109,7 @@ update_num_bins!(lacc::LevelAccumulator, incr = 2) = lacc.num_bins += incr
 
 Overload `Base.show` for _human_-readable displays.
 """
-function Base.show(io::IO, lacc::LevelAccumulator)
+function show(io::IO, lacc::LevelAccumulator)
     tabspace = "    "
     println(io, "$(typeof(lacc)) with online fields:")
     println(io, tabspace, "level    = $(lacc.level)")
@@ -126,4 +126,4 @@ function Base.show(io::IO, lacc::LevelAccumulator)
     println(io, tabspace, "Current Std. Error       = $(std_error(lacc))")
 end
 
-Base.show(lacc::LevelAccumulator) = Base.show(stdout, lacc)
+show(lacc::LevelAccumulator) = show(stdout, lacc)
