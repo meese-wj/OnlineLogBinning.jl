@@ -1,5 +1,5 @@
-using Base
-import Statistics
+import Base: push!, getindex, length, show, eltype
+import Statistics: mean, var, std
 
 include("AccumulatorHelpers.jl")
 include("PairAccumulators.jl")
@@ -139,7 +139,7 @@ LevelAccumulator{Float64} with online fields:
 
 ```
 """
-Base.getindex(bacc::BinningAccumulator; level) = bacc.LvlAccums[_binning_index_to_findex(level)]
+getindex(bacc::BinningAccumulator; level) = bacc.LvlAccums[_binning_index_to_findex(level)]
 
 """
     push!(bacc::BinningAccumulator, value::Number)
@@ -189,7 +189,7 @@ LevelAccumulator{Float64} with online fields:
     Notice that the `Taccum` and `Saccum` remain zero while `num_bins == 0`. 
     These are only accumulated for each input pair. Or once `Paccum.fullpair == true`.
 """
-function Base.push!(bacc::BinningAccumulator, value::Number)
+function push!(bacc::BinningAccumulator, value::Number)
     value_2_push = convert(eltype(bacc), value)
     level = one(Int)
     push!(bacc.LvlAccums[level], value_2_push)
@@ -273,7 +273,7 @@ LevelAccumulator{Float64} with online fields:
 
 ```
 """
-function Base.push!(bacc::BinningAccumulator, itr)
+function push!(bacc::BinningAccumulator, itr)
     @inbounds for value ∈ itr
         push!(bacc, value)
     end
@@ -295,7 +295,7 @@ julia> length(bacc) # Only 2 binning levels (1 for unbinned data)
 3
 ```
 """
-Base.length(bacc::BinningAccumulator) = length(bacc.LvlAccums)
+length(bacc::BinningAccumulator) = length(bacc.LvlAccums)
 """
     binning_level(index::Int)
 
@@ -324,7 +324,7 @@ bin_depth(bacc::BinningAccumulator) = binning_level(length(bacc))
 
 Overload the `Base.show` function for _human_-readable displays.
 """
-function Base.show(io::IO, bacc::BinningAccumulator)
+function show(io::IO, bacc::BinningAccumulator)
     println(io, "$(typeof(bacc)) with $(bin_depth(bacc)) binning levels.")
     println(io, "$(binning_level(1))th Binning Level (unbinned data):")
     println(io, "$(bacc.LvlAccums[1])")
@@ -334,14 +334,14 @@ function Base.show(io::IO, bacc::BinningAccumulator)
     end
 end
 
-Base.show(bacc::BinningAccumulator) = show(stdout, bacc)
+show(bacc::BinningAccumulator) = show(stdout, bacc)
 
 """
     eltype(::BinningAccumulator{T}) → T
 
 Returns the type parameter for the [`BinningAccumulator`](@ref).
 """
-Base.eltype(::BinningAccumulator{T}) where {T} = T
+eltype(::BinningAccumulator{T}) where {T} = T
 
 """
     reset!(bacc::BinningAccumulator{T})

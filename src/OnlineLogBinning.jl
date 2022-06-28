@@ -29,7 +29,7 @@ Online measurement of the [`LevelAccumulator`] mean.
 # Additional information
 * This quantity is considered online despite that it is __not__ regularly updated when data is `push!`ed from the stream.
 """
-Statistics.mean( lacc::LevelAccumulator ) = lacc.Taccum / lacc.num_bins
+mean( lacc::LevelAccumulator ) = lacc.Taccum / lacc.num_bins
 """
     mean( bacc::BinningAccumulator; [level = 0] )
 
@@ -38,7 +38,7 @@ Online measurement of the [`BinningAccumulator`] mean.
 # Additional information
 * This quantity is considered online despite that it is __not__ regularly updated when data is `push!`ed from the stream.
 """
-function Statistics.mean(bacc::BinningAccumulator; level = 0)
+function mean(bacc::BinningAccumulator; level = 0)
     _check_level(bacc, level)
     return mean(bacc[level = level])
 end
@@ -51,7 +51,7 @@ Online measurement of the [`LevelAccumulator`] variance.
 # Additional information
 * This quantity is considered online despite that it is __not__ regularly updated when data is `push!`ed from the stream.
 """
-Statistics.var( lacc::LevelAccumulator ) = lacc.Saccum / ( lacc.num_bins - one(lacc.num_bins) )
+var( lacc::LevelAccumulator ) = lacc.Saccum / ( lacc.num_bins - one(lacc.num_bins) )
 """
     var( bacc::LevelAccumulator; [level = 0] )
 
@@ -60,7 +60,7 @@ Online measurement of the [`BinningAccumulator`] variance.
 # Additional information
 * This quantity is considered online despite that it is __not__ regularly updated when data is `push!`ed from the stream.
 """
-function Statistics.var(bacc::BinningAccumulator; level = 0)
+function var(bacc::BinningAccumulator; level = 0)
     _check_level(bacc, level)
     return var(bacc[level = level])
 end
@@ -95,7 +95,7 @@ Online measurement of the [`LevelAccumulator`] standard deviation.
 # Additional information
 * This quantity is considered online despite that it is __not__ regularly updated when data is `push!`ed from the stream.
 """
-Statistics.std( lacc::LevelAccumulator ) = sqrt(var(lacc))
+std( lacc::LevelAccumulator ) = sqrt(var(lacc))
 """
     std( bacc::BinningAccumulator )
 
@@ -104,7 +104,7 @@ Online measurement of the [`BinningAccumulator`] standard deviation.
 # Additional information
 * This quantity is considered online despite that it is __not__ regularly updated when data is `push!`ed from the stream.
 """
-function Statistics.std(bacc::BinningAccumulator; level = 0)
+function std(bacc::BinningAccumulator; level = 0)
     _check_level(bacc, level)
     return std(bacc[level = level])
 end
