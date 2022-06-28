@@ -1,5 +1,3 @@
-import Base: push!, getindex, length, show, eltype
-import Statistics: mean, var, std
 
 include("AccumulatorHelpers.jl")
 include("PairAccumulators.jl")

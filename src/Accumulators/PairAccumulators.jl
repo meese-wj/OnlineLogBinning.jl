@@ -1,7 +1,4 @@
 
-import Base: push!
-import StaticArrays: MVector, @MVector
-
 """
     PairAccumulator{T <: Number}
 

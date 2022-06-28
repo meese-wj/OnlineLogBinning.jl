@@ -1,5 +1,4 @@
 
-import StaticArrays: @SVector
 """
     OLB_tested_numbers
 

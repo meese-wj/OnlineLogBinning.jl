@@ -1,5 +1,10 @@
 module OnlineLogBinning
 
+# Module imports
+import Base: push!, getindex, length, eltype, show
+import Statistics: mean, var, std
+import StaticArrays: @SVector, MVector, @MVector
+
 include("Accumulators/BinningAccumulators.jl")
 include("BinningAnalysis.jl")
 
