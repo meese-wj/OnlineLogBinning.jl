@@ -1,5 +1,5 @@
 import Base: push!, show
-using Statistics
+import Statistics: mean, var, std
 
 """
     LevelAccumulator{T <: Number}
