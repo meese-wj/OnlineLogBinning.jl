@@ -1,5 +1,5 @@
 
-using Base
+import Base: push!
 import StaticArrays: MVector, @MVector
 
 """
@@ -80,7 +80,7 @@ end
 Overload `Base.push!` for a [`PairAccumulator`](@ref). One can only 
 `push!` a single `value <: Number` at a time into this type of accumulator.
 """
-function Base.push!(pacc::PairAccumulator, value::Number)
+function push!(pacc::PairAccumulator, value::Number)
     pacc.values[_fullpair_index(pacc.fullpair)] = value
     # pacc.fullpair = !pacc.fullpair  # TODO: If emptied externally then this is problematic...
     return pacc
