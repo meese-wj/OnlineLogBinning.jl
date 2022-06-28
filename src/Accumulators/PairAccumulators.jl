@@ -1,6 +1,6 @@
 
 using Base
-using StaticArrays
+import StaticArrays: MVector, @MVector
 
 """
     PairAccumulator{T <: Number}
