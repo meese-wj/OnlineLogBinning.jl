@@ -11,6 +11,8 @@ Julia package to determine effective number of uncorrelated data points in a cor
 
 ## `Accumulator` type hierarchy
 
+![BinningAccumulatorDiagram](assets/BinningAccumulatorDiagram.png)
+
 We implement this with three nested `Accumulator` `struct`s: the outermost [`BinningAccumulator`](@ref), the middle-level [`LevelAccumulator`](@ref), and the innermost [`PairAccumulator`](@ref). The [`BinningAccumulator`](@ref) stores a `Vector` of [`LevelAccumulator`](@ref), each of which store their own [`PairAccumulator`](@ref).
 
 !!! note 

@@ -4,7 +4,7 @@ using DocumenterCitations
 
 DocMeta.setdocmeta!(OnlineLogBinning, :DocTestSetup, :(using OnlineLogBinning); recursive=true)
 
-bib = CitationBibliography(joinpath(@__DIR__, "assets", "OLB_references.bib"), sorting = :nty)
+bib = CitationBibliography(joinpath(@__DIR__, "src", "assets", "OLB_references.bib"), sorting = :nty)
 
 makedocs(bib;
     modules=[OnlineLogBinning],
