@@ -89,7 +89,7 @@ data stream of size ``N`` is given in terms of ``R_X`` by ``N / R_X``.
 !!! note
     See [BauerThesis](@cite) and [GubernatisKawashimaWerner](@cite) for details.
 """
-RxValue(bacc::BinningAccumulator, level) = var_of_mean(bacc; level = level) / var_of_mean(bacc; level = 0)
+RxValue(bacc::BinningAccumulator, level::Int) = var_of_mean(bacc; level = level) / var_of_mean(bacc; level = 0)
 """
     RxValue(bacc::BinningAccumulator, [trustworthy_only = true]; [trusting_cutoff])
 
@@ -114,13 +114,13 @@ argument `x`. The Sigmoid function ``S(x; A, \theta_1, \theta_2)`` is of the for
 S(x; A, \theta_1, \theta_2) = \frac{A}{1 + \exp\left( \theta_1 - \theta_2 x \right)}.
 ```
 """
-sigmoid(x, amp = 1, θ₁ = 0, θ₂ = 1) = amp / (1 + exp(θ₁ - θ₂ * x))
+sigmoid(x::Number, amp = 1, θ₁ = 0, θ₂ = 1) = amp / (1 + exp(θ₁ - θ₂ * x))
 """
     sigmoid(x, pvals) = sigmoid(x, pvals...)
 
 Vectorized [`sigmoid`](@ref) function.
 """
-@. sigmoid(x, pvals) = sigmoid(x, pvals...)
+sigmoid(x::AbstractVecOrMat, pvals) = sigmoid.(x, pvals...)
 
 """
     _plateau_found(fit, levels) → Bool
@@ -170,7 +170,7 @@ end
 
 Use [`LsqFit.jl`](https://julianlsolvers.github.io/LsqFit.jl/latest/) to fit a [`sigmoid`](@ref)
 to a [`BinningAccumulator`](@ref). Note, only statistically _trustworthy_ binning `level`s are used.
-This function `return`s a [`BinningAnalysis`](@ref) `struct`.
+This function `return`s a [`BinningAnalysisResult`](@ref) `struct`.
 
 # Additional information
 The default arguments passed take on the following values:
