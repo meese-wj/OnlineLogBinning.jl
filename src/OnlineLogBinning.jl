@@ -25,7 +25,9 @@ export
         BinningAccumulator, bin_depth, binning_level,
 # BinningAnalysis functionality
         TRUSTING_CUTOFF, trustworthy_level, max_trustworthy_level, 
-        RxValue
+        RxValue, sigmoid, _plateau_found, fit_RxValues, 
+        BinningAnalysisResult, autocorrelation_time,
+        effective_uncorrelated_values
 
 """
     mean( lacc::LevelAccumulator )
