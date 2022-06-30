@@ -84,7 +84,7 @@ Compute the ``R_X`` quantity from the binning analysis. This quantity
 starts at ``1`` for low binning `level`s, then gradually rises, until the 
 bins become statistically uncorrelated at which point ``R_X`` should saturate.
 Once saturated, the effective number of uncorrelated elements in a correlated 
-data stream of size ``N`` is given in terms of ``R_X`` by ``N / R_X``. 
+data stream of size ``M`` is given in terms of ``R_X`` by ``M / R_X``. 
 
 !!! note
     See [BauerThesis](@cite) and [GubernatisKawashimaWerner](@cite) for details.
@@ -181,14 +181,15 @@ function fit_RxValues(bacc::BinningAccumulator, p0 = [1, 0, 1]; analysis_type = 
     levels = trustworthy_level(bacc)
     rxvalues = RxValue(bacc)
     fit = fit_RxValues(levels, rxvalues, p0)
-    return BinningAnalysis{analysis_type}( 
-        _plateau_found(fit, trustworthy_level(bacc)),
-        ifelse( ana.plateau_found, convert( analysis_type,fit.param[1]), convert(analysis_type, -Inf ) )
+    plateau_found = _plateau_found(fit, trustworthy_level(bacc)),
+    return BinningAnalysis{analysis_type}(
+        plateau_found, 
+        ifelse( plateau_found, convert( analysis_type, fit.param[1]), convert(analysis_type, -Inf ) )
      )
 end
 
 """
-    BinningAnalysis{T <: AbstractFloat}
+    BinningAnalysisResult{T <: AbstractFloat}
 
 Small `struct` to determine if there is a [`_plateau_found`](@ref) from a [`BinningAccumulator`](@ref),
 and what its value is.
