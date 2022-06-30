@@ -265,11 +265,13 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
     # Test the BinningAnalysis
     @testset "BinningAnalysis of Telegraph Signals" begin
         
+        signal_dir = joinpath(@__DIR__, "..", "docs", "src", "assets")
+
         signal_plateau    = zeros(Float64, Int(2^18))
         signal_no_plateau = zeros(Float64, Int(2^10))
 
-        read!(joinpath(@__DIR__, "assets", "telegraph_plateau.bin"), signal_plateau)
-        read!(joinpath(@__DIR__, "assets", "telegraph_no_plateau.bin"), signal_no_plateau)
+        read!(joinpath(signal_dir, "telegraph_plateau.bin"), signal_plateau)
+        read!(joinpath(signal_dir, "telegraph_no_plateau.bin"), signal_no_plateau)
         
         @testset "Signal with Rx Plateau" begin
             bacc = BinningAccumulator()
