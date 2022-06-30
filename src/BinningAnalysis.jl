@@ -70,7 +70,7 @@ Return the (Fortran) indices `1, 2, 3, ...` corresponding to [`trustworthy_level
 function trustworthy_indices(bacc::BinningAccumulator; trusting_cutoff = TRUSTING_CUTOFF)
     ind = zeros(Int, 0)
     for lvl ∈ 0:bin_depth(bacc)
-        if trustworthy_level(level, bacc[level = 0].num_bins; trusting_cutoff = trusting_cutoff)
+        if trustworthy_level(lvl, bacc[level = 0].num_bins; trusting_cutoff = trusting_cutoff)
             Base.push!(ind, _binning_index_to_findex(lvl))
         end
     end
@@ -97,7 +97,7 @@ Calculate the [`RxValue`](@ref)s from the statistically trustworthy binning `lev
 or from all of them if `trustworthy_only == false`. 
 """
 function RxValue(bacc::BinningAccumulator, trustworthy_only = true; trusting_cutoff = TRUSTING_CUTOFF)
-    Rxs = RxValue.(bacc, 0:bin_depth(bacc))
+    Rxs = [ RxValue(bacc, lvl) for lvl ∈ 0:bin_depth(bacc) ]
     if trustworthy_only
         Rxs = Rxs[ trustworthy_indices(bacc; trusting_cutoff = trusting_cutoff) ]
     end
@@ -177,14 +177,14 @@ The default arguments passed take on the following values:
 * Initial guess for [`sigmoid`](@ref) parameters: `p0 = [1, 0, 1]`.
 """
 function fit_RxValues(bacc::BinningAccumulator, p0 = [1, 0, 1]; analysis_type = Float64)
-    p0 = convert.(eltype(rxvalues), p0)
+    p0 = convert.(eltype(bacc), p0)
     levels = trustworthy_level(bacc)
     rxvalues = RxValue(bacc)
     fit = fit_RxValues(levels, rxvalues, p0)
-    plateau_found = _plateau_found(fit, trustworthy_level(bacc)),
-    return BinningAnalysis{analysis_type}(
+    plateau_found = _plateau_found(fit, trustworthy_level(bacc))
+    return BinningAnalysisResult{analysis_type}(
         plateau_found, 
-        ifelse( plateau_found, convert( analysis_type, fit.param[1]), convert(analysis_type, -Inf ) )
+        ifelse( plateau_found, convert( analysis_type, fit.param[1]), convert(analysis_type, bacc[level = 0].num_bins ) )
      )
 end
 
@@ -205,10 +205,12 @@ end
 Calculation of the autocorrelation time ``\tau_X = \frac{1}{2}\left( R_X - 1 \right)``.
 """
 autocorrelation_time(RxVal) = 0.5 * (RxVal - 1)
+autocorrelation_time(result::BinningAnalysisResult) = autocorrelation_time(result.RxAmplitude)
 
 @doc raw"""
     effective_uncorrelated_values(mvals, RxVal)
 
 Calculation of the effective number of uncorrelated values in a correlated datastream: ``m_{\rm eff} = m / R_X``.
 """
-effective_uncorrelated_values(mvals, RxVal) = mvals / RxVal
+effective_uncorrelated_values(mvals, RxVal) = floor(Int, mvals / RxVal)
+effective_uncorrelated_values(mvals, result::BinningAnalysisResult) = effective_uncorrelated_values(mvals, result.RxAmplitude)

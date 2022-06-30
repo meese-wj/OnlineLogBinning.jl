@@ -262,4 +262,35 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
         
     end
 
+    # Test the BinningAnalysis
+    @testset "BinningAnalysis of Telegraph Signals" begin
+        
+        signal_plateau    = zeros(Float64, Int(2^18))
+        signal_no_plateau = zeros(Float64, Int(2^10))
+
+        read!(joinpath(@__DIR__, "assets", "telegraph_plateau.bin"), signal_plateau)
+        read!(joinpath(@__DIR__, "assets", "telegraph_no_plateau.bin"), signal_no_plateau)
+        
+        @testset "Signal with Rx Plateau" begin
+            bacc = BinningAccumulator()
+            push!(bacc, signal_plateau)
+            result = fit_RxValues(bacc)
+            @test result.plateau_found
+            @test result.RxAmplitude ≈ 14.611315366634937
+            @test autocorrelation_time(result) ≈ 6.8056576833174685
+            @test effective_uncorrelated_values(length(signal_plateau), result) == 17941
+        end
+        
+        @testset "Signal without Rx Plateau" begin
+            bacc = BinningAccumulator()
+            push!(bacc, signal_no_plateau)
+            result = fit_RxValues(bacc)
+            @test !result.plateau_found
+            @test result.RxAmplitude == length(signal_no_plateau)
+            @test autocorrelation_time(result) ≈ 511.5
+            @test effective_uncorrelated_values(length(signal_no_plateau), result) == 1
+        end
+
+    end
+
 end
