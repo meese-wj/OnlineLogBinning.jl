@@ -185,7 +185,7 @@ The simplest one to use is [`fit_RxValues`](@ref) that takes in a single require
 ```jldoctest BinningAnalysisExample
 julia> signal = zeros(Float64, Int(2^18));
 
-julia> read!( joinpath("src", "assets", "telegraph_plateau.bin"), signal);
+julia> read!( joinpath(pwd(), "src", "assets", "telegraph_plateau.bin"), signal);
 
 julia> bacc = BinningAccumulator();
 
