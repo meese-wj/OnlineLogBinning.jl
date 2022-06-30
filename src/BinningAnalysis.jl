@@ -199,6 +199,12 @@ struct BinningAnalysisResult{T <: AbstractFloat}
     RxAmplitude::T
 end
 
+function show(io::IO, result::BinningAnalysisResult)
+    println(io, "Binning Analysis Result:")
+    println(io, "    Plateau Present:   $(result.plateau_found)")
+    println(io, "    Fitted Rx Plateau: $(result.RxAmplitude)")
+end
+
 @doc raw"""
     autocorrelation_time(RxVal)
 
