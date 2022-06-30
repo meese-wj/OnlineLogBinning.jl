@@ -138,7 +138,7 @@ This includes finding reasonable values for the [`sigmoid`](@ref) parameters.
     1. The `θ₂` parameter is positive.
     1. The inflection point given by `θ₁ / θ₂ < maximum(levels)`.
 
-    If any of these conditions are violated, then we do not trust that the `[RxValue`](@ref)s have
+    If any of these conditions are violated, then we do not trust that the [`RxValue`](@ref)s have
     actually converged to a single value, meaning that the datastream is not sufficiently large enough
     to separate correlated data from one another.
 """
