@@ -4,6 +4,7 @@ module OnlineLogBinning
 import Base: push!, getindex, length, eltype, show
 import Statistics: mean, var, std
 import StaticArrays: @SVector, MVector, @MVector
+import LsqFit: curve_fit
 
 include("Accumulators/BinningAccumulators.jl")
 include("BinningAnalysis.jl")
