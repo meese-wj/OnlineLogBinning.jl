@@ -18,7 +18,7 @@ makedocs(bib;
     ),
     pages=[
         "Home" => "index.md",
-        "Why use a Binning Analysis" => "why_binning.md",
+        "Why use a Binning Analysis?" => "why_binning.md",
         "Example Usage" => "example.md",
         "Accumulator Hierarchy" => "accumulators.md",
         "Mathematical Details" => "math.md",

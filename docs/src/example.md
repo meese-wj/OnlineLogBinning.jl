@@ -176,7 +176,7 @@ LevelAccumulator{Float64} with online fields:
     Current Std. Error       = 0.5543389456520863
 ```
 
-## Perform a binning analysis
+## Perform the Binning Analysis
 
 Once a sufficient amount of data has been binned, one can employ the `BinningAnalysis` routines found in [`BinningAnalysis.jl`](https://github.com/meese-wj/OnlineLogBinning.jl/blob/bbad03e276d6cd27ab3ff173d492c4c551819113/src/BinningAnalysis.jl). To show how this works, we make use of a pre-prepared _random telegraph signal_ generated with the [`TelegraphNoise.jl`](https://github.com/meese-wj/TelegraphNoise.jl) package. The signal is stored as a binary file in [`docs/src/assets`](https://github.com/meese-wj/OnlineLogBinning.jl/tree/bbad03e276d6cd27ab3ff173d492c4c551819113/docs/src/assets).
 
