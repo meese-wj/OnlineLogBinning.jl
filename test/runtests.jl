@@ -1,12 +1,9 @@
 using OnlineLogBinning
-import OnlineLogBinning: OLB_tested_numbers
 using Test
 using Documenter
 using StaticArrays
 
 include("test_helpers.jl")
-
-# test_types = [Float64]
 
 # Tested number types for OnlineLogBinning.jl
 const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
