@@ -19,11 +19,12 @@ makedocs(bib;
     pages=[
         "Home" => "index.md",
         "Why use a Binning Analysis?" => "why_binning.md",
-        "Example Usage" => "example.md",
         "Accumulator Hierarchy" => "accumulators.md",
+        "Example Usage" => "example.md",
         "Mathematical Details" => "math.md",
-        "References" => "references.md",
+        "Related Packages" => "related_packages.md",
         "API Reference" => "api.md",
+        "References" => "references.md",
     ],
 )
 

@@ -1,4 +1,14 @@
+```@meta
+DocTestSetup = quote using OnlineLogBinning end
+```
+
 # OnlineLogBinning's `Accumulator` `structs`
+
+## `Accumulator` type hierarchy
+
+![BinningAccumulatorDiagram](assets/BinningAccumulatorDiagram.png)
+
+We implement this with three nested `Accumulator` `struct`s: the outermost [`BinningAccumulator`](@ref), the middle-level [`LevelAccumulator`](@ref), and the innermost [`PairAccumulator`](@ref). The [`BinningAccumulator`](@ref) stores a `Vector` of [`LevelAccumulator`](@ref), each of which store their own [`PairAccumulator`](@ref).
 
 ## The [`BinningAccumulator`](@ref)
 
@@ -13,3 +23,7 @@ This data structure keeps track of the _online_ [`mean`](@ref) and [`var`](@ref)
 ## The [`PairAccumulator`](@ref)
 
 This is the outward-facing data structure to a given data stream. Once a _pair_ from the data stream has been read, then the [`mean`](@ref) and [`var`](@ref)iance accumulators are updated for a given level, and then the [`mean`](@ref) is propagated to the next binning level, where the process is repeated. This implements the logarithmic binning analysis.
+
+```@meta
+DocTestSetup = nothing
+```

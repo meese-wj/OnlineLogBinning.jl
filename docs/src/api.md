@@ -2,7 +2,7 @@
 CurrentModule = OnlineLogBinning
 ```
 
-# OnlineLogBinning
+# OnlineLogBinning API Reference
 
 Documentation for [OnlineLogBinning](https://github.com/meese-wj/OnlineLogBinning.jl).
 
