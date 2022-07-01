@@ -122,6 +122,38 @@ Vectorized [`sigmoid`](@ref) function.
 """
 sigmoid(x::AbstractVecOrMat, pvals) = sigmoid.(x, pvals...)
 
+@doc raw"""
+    sigmoid_jacobian(x, pvals)
+
+Calculate the "Jacobian" of first derivatives for a [`sigmoid`](@ref) to speed the
+[`LsqFit`](https://julianlsolvers.github.io/LsqFit.jl/latest/) fitting. The derivatives
+are given by 
+
+```math
+\begin{aligned}
+\frac{\partial S}{\partial A} &= \frac{1}{1 + \exp\left( \theta_1 - \theta_2 x \right)},
+\\
+&
+\\
+\frac{\partial S}{\partial \theta_1} &= -\frac{A \, \exp\left( \theta_1 - \theta_2 x \right) }{\left[ 1 + \exp\left( \theta_1 - \theta_2 x \right) \right^2},
+\\
+&
+\\
+\frac{\partial S}{\partial \theta_2} &= \frac{A \, x \, \exp\left( \theta_1 - \theta_2 x \right) }{\left[ 1 + \exp\left( \theta_1 - \theta_2 x \right) \right^2}.
+\end{aligned}
+```
+"""
+function sigmoid_jacobian(x::AbstractVecOrMat, pvals)
+    jac = Array{eltype(pvals)}( undef, length(x), length(pvals) )
+    # d(sigmoid) / dA
+    @.        jac[:, 1] = $one($eltype(jac)) / ( $one($eltype(jac)) + exp( pvals[2] - pvals[3] * x ) )
+    # d(sigmoid) / dθ₁
+    @. @views jac[:, 2] = -pvals[1] * exp( pvals[2] - pvals[3] * x ) * jac[:, 1]^2
+    # d(sigmoid) / dθ₂
+    @. @views jac[:, 3] = x * pvals[1] * exp( pvals[2] - pvals[3] * x ) * jac[:, 1]^2
+    return jac
+end
+
 """
     _plateau_found(fit, levels) → Bool
 
@@ -162,7 +194,8 @@ The default arguments passed take on the following values:
 """
 function fit_RxValues(levels, rxvalues, p0 = [1, 0, 1])
     p0 = convert.(eltype(rxvalues), p0)
-    return curve_fit(sigmoid, levels, rxvalues, p0)
+    # return curve_fit(sigmoid, levels, rxvalues, p0)
+    return curve_fit(sigmoid, sigmoid_jacobian, levels, rxvalues, p0)
 end
 
 """

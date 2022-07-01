@@ -1,6 +1,7 @@
 using OnlineLogBinning
 import OnlineLogBinning: OLB_tested_numbers
 using Test
+using Documenter
 using StaticArrays
 
 include("test_helpers.jl")
@@ -278,8 +279,8 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
             push!(bacc, signal_plateau)
             result = fit_RxValues(bacc)
             @test result.plateau_found
-            @test result.RxAmplitude ≈ 14.611315366634937
-            @test autocorrelation_time(result) ≈ 6.8056576833174685
+            @test result.RxAmplitude ≈ 14.611315366653367
+            @test autocorrelation_time(result) ≈ 6.805657683326683
             @test effective_uncorrelated_values(length(signal_plateau), result) == 17941
         end
         
@@ -293,6 +294,11 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
             @test effective_uncorrelated_values(length(signal_no_plateau), result) == 1
         end
 
+    end
+
+    @testset "Doctests" begin
+        DocMeta.setdocmeta!(OnlineLogBinning, :DocTestSetup, :(using OnlineLogBinning); recursive=true)
+        doctest(OnlineLogBinning)
     end
 
 end
