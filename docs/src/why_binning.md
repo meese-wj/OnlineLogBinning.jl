@@ -44,10 +44,11 @@ where `var` is the normal variance and ``m^{(\ell)}`` is the _bin size_, or the 
 
 The final result of the binning analysis, for sufficiently long data streams, will be to see a [`sigmoid`](@ref)-like curve:
 
-```@eval
+```@example
 using OnlineLogBinning, Plots, LaTeXStrings
 pyplot()
 
+# Read in pre-simulated TelegraphNoise.jl data with a plateau
 signal = zeros(Float64, Int(2^18))
 read!( joinpath("assets", "telegraph_plateau.bin"), signal)
 bacc = BinningAccumulator()
@@ -70,20 +71,15 @@ plot!( plt, all_levels, sigmoid(all_levels, fit.param);
 
 vline!( plt, [max_trustworthy_level(bacc[level = 0].num_bins)];
         ls = :dash, color = "gray", label = "Maximum Trustworthy Level")
-
-savefig(joinpath("assets", "plateau_plot.png"))
-
-GC.gc()
 ```
-
-![PlateauPlot](assets/plateau_plot.png)
 
 For insufficiently long data streams, we do not expect a plateau, as shown in the following case:
 
-```@eval
+```@example
 using OnlineLogBinning, Plots, LaTeXStrings
 pyplot()
 
+# Read in pre-simulated TelegraphNoise.jl data without a plateau
 signal = zeros(Float64, Int(2^10))
 read!( joinpath("assets", "telegraph_no_plateau.bin"), signal)
 bacc = BinningAccumulator()
@@ -106,13 +102,7 @@ plot!( plt, all_levels, sigmoid(all_levels, fit.param);
 
 vline!( plt, [max_trustworthy_level(bacc[level = 0].num_bins)];
         ls = :dash, color = "gray", label = "Maximum Trustworthy Level")
-
-savefig(joinpath("assets", "no_plateau_plot.png"))
-
-GC.gc()
 ```
-
-![NoPlateauPlot](assets/no_plateau_plot.png)
 
 Indeed, we have actually chosen the [`sigmoid`](@ref), as its inflection point is easily calculable. If the _Maximum Trustworthy Level_ is less than the fitted inflection point, then our binning analysis says no plateau was found, and by default it returns the maximal value of ``R_X``.
 
