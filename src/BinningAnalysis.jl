@@ -215,21 +215,39 @@ function fit_RxValues(bacc::BinningAccumulator, p0 = [1, 0, 1]; analysis_type = 
     rxvalues = RxValue(bacc)
     fit = fit_RxValues(levels, rxvalues, p0)
     plateau_found = _plateau_found(fit, trustworthy_level(bacc))
+    rxvalue = ifelse( plateau_found, convert( analysis_type, fit.param[1]), convert(analysis_type, bacc[level = 0].num_bins ) )
     return BinningAnalysisResult{analysis_type}(
         plateau_found, 
-        ifelse( plateau_found, convert( analysis_type, fit.param[1]), convert(analysis_type, bacc[level = 0].num_bins ) )
+        rxvalue,
+        mean(bacc; level = 0),
+        sqrt( var_of_mean(bacc; level = 0) * rxvalue )
      )
 end
 
-"""
+@doc raw"""
     BinningAnalysisResult{T <: AbstractFloat}
 
 Small `struct` to determine if there is a [`_plateau_found`](@ref) from a [`BinningAccumulator`](@ref),
 and what its value is.
+
+# Contents
+* `plateau_found::Bool`: whether the [`fit_RxValues`](@ref) found a plateau from the binned data.
+* `RxAmplitude::T`: the value for the plateau as calculated by [`fit_RxValues`](@ref).
+    * If `plateau_found == false`, then `RxAmplitude = length(X)` for a datastream `X`, so as to maximize the error estimation.
+* `binning_mean::T`: the value of the mean as calculated by 
+```math
+\mathtt{mean}(X) = T^{(0)} / m^{(0)}.
+```
+* `binning_error::T`: the value of the error as calculated by 
+```
+\mathtt{error}(X) = \sqrt{ \frac{R_X}{m^{(0)}}\, \frac{ S^{(0)} }{ m^{(0)} - 1 } }.``
+```
 """
 struct BinningAnalysisResult{T <: AbstractFloat}
     plateau_found::Bool
     RxAmplitude::T
+    binning_mean::T
+    binning_error::T    
 end
 
 function show(io::IO, result::BinningAnalysisResult)
