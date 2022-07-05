@@ -1,3 +1,6 @@
+ENV["GKS_WSTYPE"]=100
+ENV["PLOTS_TEST"] = "true"
+
 using OnlineLogBinning
 using Documenter
 using DocumenterCitations

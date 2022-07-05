@@ -47,6 +47,7 @@ The final result of the binning analysis, for sufficiently long data streams, wi
 ```@eval
 using OnlineLogBinning, Plots, LaTeXStrings
 pyplot()
+
 signal = zeros(Float64, Int(2^18))
 read!( joinpath("assets", "telegraph_plateau.bin"), signal)
 bacc = BinningAccumulator()
