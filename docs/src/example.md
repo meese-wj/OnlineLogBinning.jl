@@ -193,8 +193,12 @@ julia> push!(bacc, signal);
 
 julia> result = fit_RxValues(bacc)
 Binning Analysis Result:
-    Plateau Present:   true
-    Fitted Rx Plateau: 14.611315366653367
+    Plateau Present:             true
+    Fitted Rx Plateau:           14.611315366653367
+    Autocorrelation time τₓ:     6.805657683326683
+    Effective Datastream Length: 17941
+    Binning Analysis Mean:       0.00440216064453125
+    Binning Analysis Error:      0.007465747493169594
 ```
 
 The `Plateau Present` flag indicates whether a [`sigmoid`](@ref) fit to the [`RxValue`](@ref)s is reasonable so as to take its plateau seriously. (See [`_plateau_found`](@ref) for details.) The value of the fitted plateau is also returned. If `Plateau Present == false`, then the plateau is set to be the size of the data stream. This is because the _effective number of uncorrelated_ values in the data stream of size ``M`` is given by ``M_{\rm eff} = M / R_X``.
@@ -205,7 +209,7 @@ Other quantities can be extracted from the [`BinningAnalysisResult`](@ref), for 
 julia> autocorrelation_time(result)
 6.805657683326683
 
-julia> effective_uncorrelated_values(length(signal), result)
+julia> effective_uncorrelated_values(result)
 17941
 ```
 

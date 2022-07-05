@@ -216,11 +216,13 @@ function fit_RxValues(bacc::BinningAccumulator, p0 = [1, 0, 1]; analysis_type = 
     fit = fit_RxValues(levels, rxvalues, p0)
     plateau_found = _plateau_found(fit, trustworthy_level(bacc))
     rxvalue = ifelse( plateau_found, convert( analysis_type, fit.param[1]), convert(analysis_type, bacc[level = 0].num_bins ) )
+    meff = effective_uncorrelated_values(bacc[level = 0].num_bins, rxvalue)
     return BinningAnalysisResult{analysis_type}(
         plateau_found, 
         rxvalue,
+        meff,
         mean(bacc; level = 0),
-        sqrt( var_of_mean(bacc; level = 0) * rxvalue )
+        sqrt( var(bacc; level = 0) / meff )
      )
 end
 
@@ -234,26 +236,39 @@ and what its value is.
 * `plateau_found::Bool`: whether the [`fit_RxValues`](@ref) found a plateau from the binned data.
 * `RxAmplitude::T`: the value for the plateau as calculated by [`fit_RxValues`](@ref).
     * If `plateau_found == false`, then `RxAmplitude = length(X)` for a datastream `X`, so as to maximize the error estimation.
+* `effective_length::Int`: the effective number of uncorrelated data points in the datastream `X` as calculated by 
+```math
+\frac{\mathtt{length}(X)}{R_X}.
+```
 * `binning_mean::T`: the value of the mean as calculated by 
 ```math
-\mathtt{mean}(X) = T^{(0)} / m^{(0)}.
+\mathtt{mean}(X) = \frac{ T^{(0)} }{ m^{(0)} }.
 ```
 * `binning_error::T`: the value of the error as calculated by 
-```
-\mathtt{error}(X) = \sqrt{ \frac{R_X}{m^{(0)}}\, \frac{ S^{(0)} }{ m^{(0)} - 1 } }.``
+```math
+\begin{aligned}
+\mathtt{error}(X) &= \sqrt{ \frac{ S^{(0)} }{ m_{\rm eff} \left( m^{(0)} - 1 \right) } }
+\\
+&= \sqrt{ \left[ \mathtt{floor}\left( \frac{m^{(0)}}{R_X} \right) \right]^{-1} \, \frac{ S^{(0)} }{ m^{(0)} - 1 } }.
+\end{aligned}
 ```
 """
 struct BinningAnalysisResult{T <: AbstractFloat}
     plateau_found::Bool
     RxAmplitude::T
+    effective_length::Int
     binning_mean::T
     binning_error::T    
 end
 
 function show(io::IO, result::BinningAnalysisResult)
     println(io, "Binning Analysis Result:")
-    println(io, "    Plateau Present:   $(result.plateau_found)")
-    println(io, "    Fitted Rx Plateau: $(result.RxAmplitude)")
+    println(io, "    Plateau Present:             $(result.plateau_found)")
+    println(io, "    Fitted Rx Plateau:           $(result.RxAmplitude)")
+    println(io, "    Autocorrelation time τₓ:     $( autocorrelation_time( result ) )")
+    println(io, "    Effective Datastream Length: $(result.effective_length)")
+    println(io, "    Binning Analysis Mean:       $(result.binning_mean)")
+    println(io, "    Binning Analysis Error:      $(result.binning_error)")
 end
 
 @doc raw"""
@@ -267,7 +282,10 @@ autocorrelation_time(result::BinningAnalysisResult) = autocorrelation_time(resul
 @doc raw"""
     effective_uncorrelated_values(mvals, RxVal)
 
-Calculation of the effective number of uncorrelated values in a correlated datastream: ``m_{\rm eff} = m / R_X``.
+Calculation of the effective number of uncorrelated values in a correlated datastream: 
+```math
+m_{\rm eff} =  \mathtt{floor} \left( \frac{ m^{(0)} }{R_X} \right).
+```
 """
-effective_uncorrelated_values(mvals, RxVal) = floor(Int, mvals / RxVal)
-effective_uncorrelated_values(mvals, result::BinningAnalysisResult) = effective_uncorrelated_values(mvals, result.RxAmplitude)
+effective_uncorrelated_values(mvals, RxVal::Real) = floor(Int, mvals / RxVal)
+effective_uncorrelated_values(result::BinningAnalysisResult) = result.effective_length
