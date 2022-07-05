@@ -31,6 +31,4 @@ makedocs(bib;
 deploydocs(;
     repo="github.com/meese-wj/OnlineLogBinning.jl",
     devbranch="main",
-    devurl = "dev",
-    versions = ["stable" => "v^", "v#.#"],
 )
