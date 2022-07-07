@@ -215,19 +215,20 @@ function fit_RxValues(bacc::BinningAccumulator, p0 = [1, 0, 1]; analysis_type = 
     levels = trustworthy_level(bacc)
     rxvalues = RxValue(bacc)
     fit = fit_RxValues(levels, rxvalues, p0)
-    plateau_found = _plateau_found(fit, trustworthy_level(bacc))
-    # if plateau_found == false, set rxvalue to be the size of the data stream
-    rxvalue = ifelse( plateau_found, convert( analysis_type, fit.param[1]), convert(analysis_type, bacc[level = 0].num_bins ) )
-    # if rxvalue < 1, then set it equal to 1. Statistics can't get better artificially!
-    rxvalue = ifelse( rxvalue < one(rxvalue), one(rxvalue), rxvalue)
-    meff = effective_uncorrelated_values(bacc[level = 0].num_bins, rxvalue)
-    return BinningAnalysisResult{analysis_type}(
-        plateau_found, 
-        rxvalue,
-        meff,
-        mean(bacc; level = 0),
-        sqrt( var(bacc; level = 0) / meff )
-     )
+    return BinningAnalysisResult{analysis_type}(bacc, fit)
+    # plateau_found = _plateau_found(fit, trustworthy_level(bacc))
+    # # if plateau_found == false, set rxvalue to be the size of the data stream
+    # rxvalue = ifelse( plateau_found, convert( analysis_type, fit.param[1]), convert(analysis_type, bacc[level = 0].num_bins ) )
+    # # if rxvalue < 1, then set it equal to 1. Statistics can't get better artificially!
+    # rxvalue = ifelse( rxvalue < one(rxvalue), one(rxvalue), rxvalue)
+    # meff = effective_uncorrelated_values(bacc[level = 0].num_bins, rxvalue)
+    # return BinningAnalysisResult{analysis_type}(
+    #     plateau_found, 
+    #     rxvalue,
+    #     meff,
+    #     mean(bacc; level = 0),
+    #     sqrt( var(bacc; level = 0) / meff )
+    #  )
 end
 
 @doc raw"""
@@ -262,7 +263,21 @@ struct BinningAnalysisResult{T <: AbstractFloat}
     RxAmplitude::T
     effective_length::Int
     binning_mean::T
-    binning_error::T    
+    binning_error::T
+    
+    function BinningAnalysisResult( bacc::BinningAccumulator, fit ) where {T}
+        plateau_found = _plateau_found(fit, trustworthy_level(bacc))
+        # if plateau_found == false, set rxvalue to be the size of the data stream
+        rxvalue = ifelse( plateau_found, convert( analysis_type, fit.param[1]), convert(analysis_type, bacc[level = 0].num_bins ) )
+        # if rxvalue < 1, then set it equal to 1. Statistics can't get better artificially!
+        rxvalue = ifelse( rxvalue < one(rxvalue), one(rxvalue), rxvalue)
+        meff = effective_uncorrelated_values(bacc[level = 0].num_bins, rxvalue)
+        return new{T}(plateau_found, 
+                      convert(T, rxvalue), 
+                      meff, 
+                      convert(T, mean(bacc; level = 0)), 
+                      convert(T, sqrt( var(bacc; level = 0) / meff )))
+    end
 end
 
 function show(io::IO, result::BinningAnalysisResult)
