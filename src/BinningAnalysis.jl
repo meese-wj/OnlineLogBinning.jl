@@ -215,7 +215,10 @@ function fit_RxValues(bacc::BinningAccumulator, p0 = [1, 0, 1]; analysis_type = 
     rxvalues = RxValue(bacc)
     fit = fit_RxValues(levels, rxvalues, p0)
     plateau_found = _plateau_found(fit, trustworthy_level(bacc))
+    # if plateau_found == false, set rxvalue to be the size of the data stream
     rxvalue = ifelse( plateau_found, convert( analysis_type, fit.param[1]), convert(analysis_type, bacc[level = 0].num_bins ) )
+    # if rxvalue < 1, then set it equal to 1. Statistics can't get better artificially!
+    rxvalue = ifelse( rxvalue < one(rxvalue), one(rxvalue), rxvalue)
     meff = effective_uncorrelated_values(bacc[level = 0].num_bins, rxvalue)
     return BinningAnalysisResult{analysis_type}(
         plateau_found, 
