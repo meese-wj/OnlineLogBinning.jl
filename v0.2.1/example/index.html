@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Example Usage · OnlineLogBinning.jl</title><script data-outdated-warner src="../assets/warner.js"></script><link rel="canonical" href="https://meese-wj.github.io/OnlineLogBinning.jl/example/"/><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.044/juliamono.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">OnlineLogBinning.jl</a></span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../why_binning/">Why use a Binning Analysis?</a></li><li><a class="tocitem" href="../accumulators/">Accumulator Hierarchy</a></li><li class="is-active"><a class="tocitem" href>Example Usage</a><ul class="internal"><li><a class="tocitem" href="#Initialization"><span>Initialization</span></a></li><li><a class="tocitem" href="#Accumulate-data"><span>Accumulate data</span></a></li><li><a class="tocitem" href="#Available-online-statistics"><span>Available online statistics</span></a></li><li><a class="tocitem" href="#Perform-the-Binning-Analysis"><span>Perform the Binning Analysis</span></a></li></ul></li><li><a class="tocitem" href="../math/">Mathematical Details</a></li><li><a class="tocitem" href="../related_packages/">Related Packages</a></li><li><a class="tocitem" href="../api/">API Reference</a></li><li><a class="tocitem" href="../references/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Example Usage</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Example Usage</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/meese-wj/OnlineLogBinning.jl/blob/main/docs/src/example.md#" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="How-to-use-OnlineLogBinning"><a class="docs-heading-anchor" href="#How-to-use-OnlineLogBinning">How to use <code>OnlineLogBinning</code></a><a id="How-to-use-OnlineLogBinning-1"></a><a class="docs-heading-anchor-permalink" href="#How-to-use-OnlineLogBinning" title="Permalink"></a></h1><p>First, construct an empty [<code>BinningAccumulator</code>] with of <code>T &lt;: Number</code> parametric type. Let&#39;s take the default <code>T = Float64</code> as an example.</p><h2 id="Initialization"><a class="docs-heading-anchor" href="#Initialization">Initialization</a><a id="Initialization-1"></a><a class="docs-heading-anchor-permalink" href="#Initialization" title="Permalink"></a></h2><p>To start, initialize a <a href="../api/#OnlineLogBinning.BinningAccumulator"><code>BinningAccumulator</code></a><code>{T}</code>:</p><pre><code class="language-julia-repl hljs">julia&gt; bacc = BinningAccumulator()
+BinningAccumulator{Float64} with 0 binning levels.
+0th Binning Level (unbinned data):
+LevelAccumulator{Float64} with online fields:
+    level    = 0
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN</code></pre><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>We currently only support <code>Float</code> types, i.e. <code>T &lt;: AbstractFloat</code> or <code>T</code> is a <code>Complex{Float#}</code>. The tested types are listed in <a href="../api/#OnlineLogBinning.OLB_tested_numbers"><code>OLB_tested_numbers</code></a>.</p></div></div><p>Then, <code>push!</code> either a single value or a data stream (sequence of values of <code>itr</code> type) to the <code>BinningAccumulator</code>. The <em>online</em> analysis will be taken care of automatically.</p><h2 id="Accumulate-data"><a class="docs-heading-anchor" href="#Accumulate-data">Accumulate data</a><a id="Accumulate-data-1"></a><a class="docs-heading-anchor-permalink" href="#Accumulate-data" title="Permalink"></a></h2><p>The easiest way to accumulate data from a data stream is by <a href="../api/#Base.push!-Tuple{BinningAccumulator, Any}"><code>push!</code></a>ing a single value into the <a href="../api/#OnlineLogBinning.BinningAccumulator"><code>BinningAccumulator</code></a>.</p><pre><code class="language-julia-repl hljs">julia&gt; push!(bacc, 1)
+BinningAccumulator{Float64} with 0 binning levels.
+0th Binning Level (unbinned data):
+LevelAccumulator{Float64} with online fields:
+    level    = 0
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(false, [0.0, 1.0])
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN
+</code></pre><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>Values of incorrect type are converted to the correct type internally.</p></div></div><p>Additionally, one can <a href="../api/#Base.push!-Tuple{BinningAccumulator, Any}"><code>push!</code></a> a data stream into the <a href="../api/#OnlineLogBinning.BinningAccumulator"><code>BinningAccumulator</code></a>:</p><pre><code class="language-julia-repl hljs">julia&gt; push!(bacc, [1, 2, 3, 4, 3, 2, 1])
+BinningAccumulator{Float64} with 3 binning levels.
+0th Binning Level (unbinned data):
+LevelAccumulator{Float64} with online fields:
+    level    = 0
+    num_bins = 8
+    Taccum   = 17.0
+    Saccum   = 8.875
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = 2.125
+    Current Variance         = 1.2678571428571428
+    Current Std. Deviation   = 1.1259916264596033
+    Current Var. of the Mean = 0.15848214285714285
+    Current Std. Error       = 0.3980981573144277
+
+1th Binning Level:
+LevelAccumulator{Float64} with online fields:
+    level    = 1
+    num_bins = 4
+    Taccum   = 8.5
+    Saccum   = 3.6875
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = 2.125
+    Current Variance         = 1.2291666666666667
+    Current Std. Deviation   = 1.1086778913041726
+    Current Var. of the Mean = 0.3072916666666667
+    Current Std. Error       = 0.5543389456520863
+
+2th Binning Level:
+LevelAccumulator{Float64} with online fields:
+    level    = 2
+    num_bins = 2
+    Taccum   = 4.25
+    Saccum   = 0.28125
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = 2.125
+    Current Variance         = 0.28125
+    Current Std. Deviation   = 0.5303300858899106
+    Current Var. of the Mean = 0.140625
+    Current Std. Error       = 0.375
+
+3th Binning Level:
+LevelAccumulator{Float64} with online fields:
+    level    = 3
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(false, [0.0, 2.125])
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN</code></pre><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>The highest binning level will typically yield useless <code>NaN</code> statistics, but that just reflects the fact that the <code>num_bins</code>, <code>Taccum</code>, and <code>Saccum</code> accumulators are only updated once the <code>level</code>&#39;s <a href="../api/#OnlineLogBinning.PairAccumulator"><code>PairAccumulator</code></a> is full.</p></div></div><h2 id="Available-online-statistics"><a class="docs-heading-anchor" href="#Available-online-statistics">Available online statistics</a><a id="Available-online-statistics-1"></a><a class="docs-heading-anchor-permalink" href="#Available-online-statistics" title="Permalink"></a></h2><p>One can then calculate the following statistics from the <code>BinningAccumulator</code> at any binning <code>level = lvl</code>:</p><pre><code class="language-julia hljs">mean(bacc::BinningAccumulator; level = lvl)           # arithmetic mean
+var(bacc::BinningAccumulator; level = lvl)            # sample variance 
+std(bacc::BinningAccumulator; level = lvl)            # sample standard deviation 
+var_of_mean(bacc::BinningAccumulator; level = lvl)    # variance of the mean 
+std_error(bacc::BinningAccumulator; level = lvl)      # standard error of the mean </code></pre><p>The binning <code>level</code> is optional. By default, the binning <code>level</code> is set to <code>level = 0</code>. This level, accessed by <code>bacc[level = 0]</code>, represents the unbinnned statistics from of the original data stream. The <code>LevelAccumulator</code>s from any binning <code>level</code> can also be extracted using the overloaded <code>[]</code> notation as</p><pre><code class="language-julia-repl hljs">julia&gt; bacc[level = 0]
+LevelAccumulator{Float64} with online fields:
+    level    = 0
+    num_bins = 8
+    Taccum   = 17.0
+    Saccum   = 8.875
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = 2.125
+    Current Variance         = 1.2678571428571428
+    Current Std. Deviation   = 1.1259916264596033
+    Current Var. of the Mean = 0.15848214285714285
+    Current Std. Error       = 0.3980981573144277
+
+julia&gt; bacc[level = 1]
+LevelAccumulator{Float64} with online fields:
+    level    = 1
+    num_bins = 4
+    Taccum   = 8.5
+    Saccum   = 3.6875
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = 2.125
+    Current Variance         = 1.2291666666666667
+    Current Std. Deviation   = 1.1086778913041726
+    Current Var. of the Mean = 0.3072916666666667
+    Current Std. Error       = 0.5543389456520863</code></pre><h2 id="Perform-the-Binning-Analysis"><a class="docs-heading-anchor" href="#Perform-the-Binning-Analysis">Perform the Binning Analysis</a><a id="Perform-the-Binning-Analysis-1"></a><a class="docs-heading-anchor-permalink" href="#Perform-the-Binning-Analysis" title="Permalink"></a></h2><p>Once a sufficient amount of data has been binned, one can employ the <code>BinningAnalysis</code> routines found in <a href="https://github.com/meese-wj/OnlineLogBinning.jl/blob/bbad03e276d6cd27ab3ff173d492c4c551819113/src/BinningAnalysis.jl"><code>BinningAnalysis.jl</code></a>. To show how this works, we make use of a pre-prepared <em>random telegraph signal</em> generated with the <a href="https://github.com/meese-wj/TelegraphNoise.jl"><code>TelegraphNoise.jl</code></a> package. The signal is stored as a binary file in <a href="https://github.com/meese-wj/OnlineLogBinning.jl/tree/bbad03e276d6cd27ab3ff173d492c4c551819113/docs/src/assets"><code>docs/src/assets</code></a>.</p><p>The simplest one to use is <a href="../api/#OnlineLogBinning.fit_RxValues"><code>fit_RxValues</code></a> that takes in a single required <a href="../api/#OnlineLogBinning.BinningAccumulator"><code>BinningAccumulator</code></a> as an argument.</p><pre><code class="language-julia-repl hljs">julia&gt; signal = zeros(Float64, Int(2^18));
+
+julia&gt; read!( joinpath(&quot;build&quot;, &quot;assets&quot;, &quot;telegraph_plateau.bin&quot;), signal);
+
+julia&gt; bacc = BinningAccumulator();
+
+julia&gt; push!(bacc, signal);
+
+julia&gt; result = fit_RxValues(bacc)
+Binning Analysis Result:
+    Plateau Present:             true
+    Fitted Rx Plateau:           14.611315366653367
+    Autocorrelation time τₓ:     6.805657683326683
+    Effective Datastream Length: 17941
+    Binning Analysis Mean:       0.00440216064453125
+    Binning Analysis Error:      0.007465747493169594</code></pre><p>The <code>Plateau Present</code> flag indicates whether a <a href="../api/#OnlineLogBinning.sigmoid"><code>sigmoid</code></a> fit to the <a href="../api/#OnlineLogBinning.RxValue"><code>RxValue</code></a>s is reasonable so as to take its plateau seriously. (See <a href="../api/#OnlineLogBinning._plateau_found-Tuple{Any, Any}"><code>_plateau_found</code></a> for details.) The value of the fitted plateau is also returned. If <code>Plateau Present == false</code>, then the plateau is set to be the size of the data stream. This is because the <em>effective number of uncorrelated</em> values in the data stream of size <span>$M$</span> is given by <span>$M_{\rm eff} = M / R_X$</span>.</p><p>Other quantities can be extracted from the <a href="../api/#OnlineLogBinning.BinningAnalysisResult"><code>BinningAnalysisResult</code></a>, for example, the <a href="../api/#OnlineLogBinning.autocorrelation_time-Tuple{Any}"><code>autocorrelation_time</code></a> and the <a href="../api/#OnlineLogBinning.effective_uncorrelated_values-Tuple{Any, Real}"><code>effective_uncorrelated_values</code></a> in the data stream.</p><pre><code class="language-julia-repl hljs">julia&gt; autocorrelation_time(result)
+6.805657683326683
+
+julia&gt; effective_uncorrelated_values(result)
+17941</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../accumulators/">« Accumulator Hierarchy</a><a class="docs-footer-nextpage" href="../math/">Mathematical Details »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.19 on <span class="colophon-date" title="Thursday 7 July 2022 03:31">Thursday 7 July 2022</span>. Using Julia version 1.7.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
