@@ -208,6 +208,7 @@ This function `return`s a [`BinningAnalysisResult`](@ref) `struct`.
 # Additional information
 The default arguments passed take on the following values:
 * Initial guess for [`sigmoid`](@ref) parameters: `p0 = [1, 0, 1]`.
+* See [`BinningAnalysisResult`](@ref) for a description of how each `fieldname` is computed.
 """
 function fit_RxValues(bacc::BinningAccumulator, p0 = [1, 0, 1]; analysis_type = Float64)
     p0 = convert.(eltype(bacc), p0)
@@ -241,7 +242,7 @@ and what its value is.
     * If `plateau_found == false`, then `RxAmplitude = length(X)` for a datastream `X`, so as to maximize the error estimation.
 * `effective_length::Int`: the effective number of uncorrelated data points in the datastream `X` as calculated by 
 ```math
-\frac{\mathtt{length}(X)}{R_X}.
+m_{\rm eff} = \mathtt{floor} \left( \frac{\mathtt{length}(X)}{R_X} \right).
 ```
 * `binning_mean::T`: the value of the mean as calculated by 
 ```math
