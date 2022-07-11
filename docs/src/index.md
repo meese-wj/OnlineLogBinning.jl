@@ -13,7 +13,7 @@ Julia package to determine effective number of uncorrelated data points in a cor
 To use this package, one adds it in any usual _Julian_ way, for example, by simply typing
 
 ```
-pkg> add("OnlineLogBinning")
+pkg> add OnlineLogBinning
 ```
 
 into the `REPL` to download it from the General Registries.
