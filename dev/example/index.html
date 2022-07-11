@@ -14,7 +14,66 @@ LevelAccumulator{Float64} with online fields:
     Current Variance         = -0.0
     Current Std. Deviation   = -0.0
     Current Var. of the Mean = NaN
-    Current Std. Error       = NaN</code></pre><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>We currently only support <code>Float</code> types, i.e. <code>T &lt;: AbstractFloat</code> or <code>T</code> is a <code>Complex{Float#}</code>. The tested types are listed in <a href="../api/#OnlineLogBinning.OLB_tested_numbers"><code>OLB_tested_numbers</code></a>.</p></div></div><p>Then, <code>push!</code> either a single value or a data stream (sequence of values of <code>itr</code> type) to the <code>BinningAccumulator</code>. The <em>online</em> analysis will be taken care of automatically.</p><h2 id="Accumulate-data"><a class="docs-heading-anchor" href="#Accumulate-data">Accumulate data</a><a id="Accumulate-data-1"></a><a class="docs-heading-anchor-permalink" href="#Accumulate-data" title="Permalink"></a></h2><p>The easiest way to accumulate data from a data stream is by <a href="../api/#Base.push!-Tuple{BinningAccumulator, Any}"><code>push!</code></a>ing a single value into the <a href="../api/#OnlineLogBinning.BinningAccumulator"><code>BinningAccumulator</code></a>.</p><pre><code class="language-julia-repl hljs">julia&gt; push!(bacc, 1)
+    Current Std. Error       = NaN</code></pre><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>We currently only support <code>Float</code> types, i.e. <code>T &lt;: AbstractFloat</code> or <code>T</code> is a <code>Complex{Float#}</code>. The tested types are listed in <a href="../api/#OnlineLogBinning.OLB_tested_numbers"><code>OLB_tested_numbers</code></a>.</p></div></div><p>Alternatively, if one has an anticipated data stream size in mind, one may <em>pre-allocate</em> a completely empty <a href="../api/#OnlineLogBinning.BinningAccumulator"><code>BinningAccumulator</code></a> as</p><pre><code class="nohighlight hljs ansi" style="display:block;"></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; stream_length = 12</code><code class="nohighlight hljs ansi" style="display:block;">12</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; bacc_prealloc = BinningAccumulator(stream_length)   # using the default `Float64` type</code><code class="nohighlight hljs ansi" style="display:block;">BinningAccumulator{Float64} with 3 binning levels.
+0th Binning Level (unbinned data):
+LevelAccumulator{Float64} with online fields:
+    level    = 0
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN
+
+1th Binning Level:
+LevelAccumulator{Float64} with online fields:
+    level    = 1
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN
+
+2th Binning Level:
+LevelAccumulator{Float64} with online fields:
+    level    = 2
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN
+
+3th Binning Level:
+LevelAccumulator{Float64} with online fields:
+    level    = 3
+    num_bins = 0
+    Taccum   = 0.0
+    Saccum   = 0.0
+    Paccum   = PairAccumulator{Float64}(true, [0.0, 0.0])
+
+    Calculated Level Statistics:
+    Current Mean             = NaN
+    Current Variance         = -0.0
+    Current Std. Deviation   = -0.0
+    Current Var. of the Mean = NaN
+    Current Std. Error       = NaN</code></pre><div class="admonition is-compat"><header class="admonition-header">Compat</header><div class="admonition-body"><p>The pre-allocated functionality requires at least version 0.2.2.</p></div></div><p>Once initialized, then one <code>push!</code>es either a single value or a data stream (sequence of values of <code>itr</code> type) to the <code>BinningAccumulator</code>. The <em>online</em> analysis will be taken care of automatically.</p><h2 id="Accumulate-data"><a class="docs-heading-anchor" href="#Accumulate-data">Accumulate data</a><a id="Accumulate-data-1"></a><a class="docs-heading-anchor-permalink" href="#Accumulate-data" title="Permalink"></a></h2><p>The easiest way to accumulate data from a data stream is by <a href="../api/#Base.push!-Tuple{BinningAccumulator, Any}"><code>push!</code></a>ing a single value into the <a href="../api/#OnlineLogBinning.BinningAccumulator"><code>BinningAccumulator</code></a>.</p><pre><code class="language-julia-repl hljs">julia&gt; push!(bacc, 1)
 BinningAccumulator{Float64} with 0 binning levels.
 0th Binning Level (unbinned data):
 LevelAccumulator{Float64} with online fields:
@@ -141,4 +200,4 @@ Binning Analysis Result:
 6.805657683326683
 
 julia&gt; effective_uncorrelated_values(result)
-17941</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../accumulators/">« Accumulator Hierarchy</a><a class="docs-footer-nextpage" href="../math/">Mathematical Details »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.19 on <span class="colophon-date" title="Monday 11 July 2022 18:17">Monday 11 July 2022</span>. Using Julia version 1.7.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+17941</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../accumulators/">« Accumulator Hierarchy</a><a class="docs-footer-nextpage" href="../math/">Mathematical Details »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.19 on <span class="colophon-date" title="Monday 11 July 2022 22:21">Monday 11 July 2022</span>. Using Julia version 1.7.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
