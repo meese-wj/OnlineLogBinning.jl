@@ -49,6 +49,60 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
             end
         end
 
+        @testset "Pre-Allocated BinningAccumulator" begin
+            
+            @testset "Power of 2" begin
+                for type ∈ OLB_tested_numbers
+                    eval(quote
+                        @testset "Po2: $($(type))" begin
+                            streamsize = 16
+                            bacc = BinningAccumulator{$type}(streamsize)
+                            @test bin_depth(bacc) == 4
+                            @test length(bacc) == 5
+                            
+                            lvl = 0
+                            for lacc ∈ bacc.LvlAccums
+                                lacc2 = LevelAccumulator{$type}(lvl, zero(Int), zero($type), zero($type), PairAccumulator{$type}())
+                                @test _LevelAccumulator_equality(lacc, lacc2)
+                                lvl += one(Int)
+                            end
+                            
+                            # Now push! a datastream through and see if the size changes
+                            push!(bacc, [idx for idx ∈ 1:streamsize])
+                            @test bin_depth(bacc) == 4
+                            @test length(bacc) == 5
+                        end
+                    end)
+                end
+            end
+            
+            @testset "Non power of 2" begin
+                for type ∈ OLB_tested_numbers
+                    eval(quote
+                        @testset "nPo2: $($(type))" begin
+                            streamsize = 42
+                            bacc = BinningAccumulator{$type}(streamsize)
+                            @test bin_depth(bacc) == 5
+                            @test length(bacc) == 6
+                            
+                            lvl = 0
+                            for lacc ∈ bacc.LvlAccums
+                                lacc2 = LevelAccumulator{$type}(lvl, zero(Int), zero($type), zero($type), PairAccumulator{$type}())
+                                @test _LevelAccumulator_equality(lacc, lacc2)
+                                lvl += one(Int)
+                            end
+
+                            # Now push! a datastream through and see if the size changes
+                            push!(bacc, [idx for idx ∈ 1:streamsize])
+                            @test bin_depth(bacc) == 5
+                            @test length(bacc) == 6
+                        end
+                    end)
+                end
+            end
+
+        end
+
     end
 
     # These tests eliminated BigInts, BigFloats, Rationals, Ints, and UInts

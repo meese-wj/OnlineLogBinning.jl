@@ -3,14 +3,21 @@ include("AccumulatorHelpers.jl")
 include("PairAccumulators.jl")
 include("LevelAccumulators.jl")
 
-"""
-    BinningAccumulator{T}() where {T <: Number}
+""" 
+    BinningAccumulator{T}() where {T <: Number} (default T = Float64)
+    BinningAccumulator{T}(::Vector{LevelAccumulator{T}})
+    BinningAccumulator{T}(::Int) where {T <: Number} (default T = Float64)
 
 Main data structure for the binning analysis. `T == Float64` by default in the empty constructor.
+There are three constructors, an empty one, one that copy-constructs with a `Vector` of [`LevelAccumulator`](@ref)s,
+and one that pre-allocates that `Vector` based on an anticipated datastream size.
 
 # Contents
 * `LvlAccums::Vector{LevelAccumulator{T}}`
     * A wrapper around the [`LevelAccumulator`](@ref)s from each binning level
+
+!!! compat
+    The pre-allocated constructor requires at least version 0.2.2.
 
 # Example 
 ```jldoctest
@@ -101,6 +108,21 @@ mutable struct BinningAccumulator{T <: Number}
         _check_type(T, OLB_tested_numbers; function_name = :BinningAccumulator, print_str = "in the (::Vector{LevelAccumulator}) constructor", )
         new( LvlAccums )
     end
+
+    # Pre-allocate the BinningAccumulator (requires v0.2.2+)
+    function BinningAccumulator{T}( prealloc_size::Int ) where {T}
+        _check_type(T, OLB_tested_numbers; function_name = :BinningAccumulator, print_str = "in the pre-allocated constructor", )
+        if prealloc_size <= zero(Int)
+            throw(ArgumentError("The pre-allocated size ($prealloc_size) must be a positive integer."))
+        end
+        bacc = BinningAccumulator{T}()
+        nlevels = floor(Int, one(Int) + log2(prealloc_size))
+        for lvl ∈ 1:(nlevels - 1) # There is already a level = 0!
+            push!( bacc.LvlAccums, LevelAccumulator{T}( binning_level(lvl + one(Int)) ) )
+        end
+        return BinningAccumulator{T}( bacc.LvlAccums )
+    end
+    BinningAccumulator(prealloc_size::Int) = BinningAccumulator{Float64}(prealloc_size)
 end
 
 """

@@ -9,6 +9,7 @@ First, construct an empty [`BinningAccumulator`] with of `T <: Number` parametri
 ## Initialization
 
 To start, initialize a [`BinningAccumulator`](@ref)`{T}`:
+
 ```jldoctest example
 julia> bacc = BinningAccumulator()
 BinningAccumulator{Float64} with 0 binning levels.
@@ -31,7 +32,18 @@ LevelAccumulator{Float64} with online fields:
 !!! note
     We currently only support `Float` types, i.e. `T <: AbstractFloat` or `T` is a `Complex{Float#}`. The tested types are listed in [`OLB_tested_numbers`](@ref).
 
-Then, `push!` either a single value or a data stream (sequence of values of `itr` type) to the `BinningAccumulator`. The _online_ analysis will be taken care of automatically.
+Alternatively, if one has an anticipated data stream size in mind, one may _pre-allocate_ a completely empty [`BinningAccumulator`](@ref) as
+
+```@repl
+using OnlineLogBinning # hide
+stream_length = 12
+bacc_prealloc = BinningAccumulator(stream_length)   # using the default `Float64` type
+```
+
+!!! compat
+    The pre-allocated functionality requires at least version 0.2.2.
+
+Once initialized, then one `push!`es either a single value or a data stream (sequence of values of `itr` type) to the `BinningAccumulator`. The _online_ analysis will be taken care of automatically.
 
 ## Accumulate data
 

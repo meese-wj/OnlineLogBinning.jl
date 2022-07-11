@@ -10,6 +10,14 @@ DocTestSetup = quote using OnlineLogBinning end
 
 Julia package to determine effective number of uncorrelated data points in a correlated data stream via an `O(log N)` online binning algorithm.
 
+To use this package, one adds it in any usual _Julian_ way, for example, by simply typing
+
+```
+pkg> add("OnlineLogBinning")
+```
+
+into the `REPL` to download it from the General Registries.
+
 ```@contents
 Pages = ["why_binning.md", "accumulators.md", "example.md", "math.md", "related_packages.md", "api.md"]
 Depth = 5
