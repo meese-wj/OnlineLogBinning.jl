@@ -132,7 +132,7 @@ than what was available before.
 """
 function levels_RxValues( bacc::BinningAccumulator, trustworthy_only = true; trusting_cutoff = TRUSTING_CUTOFF )
     if trustworthy_only
-        return trustworthy_indices(bacc; trusting_cutoff = trusting_cutoff), RxValue(bacc; trusting_cutoff = trusting_cutoff)
+        return trustworthy_level(bacc; trusting_cutoff = trusting_cutoff), RxValue(bacc, true; trusting_cutoff = trusting_cutoff)
     end
     levels = [lvl for lvl ∈ 0:bin_depth(bacc)]
     return levels[1:(end - 1)], RxValue(bacc, false)[1:(end - 1)]
@@ -169,11 +169,11 @@ are given by
 \\
 &
 \\
-\frac{\partial S}{\partial \theta_1} &= -\frac{A \, \exp\left( \theta_1 - \theta_2 x \right) }{\left[ 1 + \exp\left( \theta_1 - \theta_2 x \right) \right^2},
+\frac{\partial S}{\partial \theta_1} &= -\frac{A \, \exp\left( \theta_1 - \theta_2 x \right) }{\left[ 1 + \exp\left( \theta_1 - \theta_2 x \right) \right]^2},
 \\
 &
 \\
-\frac{\partial S}{\partial \theta_2} &= \frac{A \, x \, \exp\left( \theta_1 - \theta_2 x \right) }{\left[ 1 + \exp\left( \theta_1 - \theta_2 x \right) \right^2}.
+\frac{\partial S}{\partial \theta_2} &= \frac{A \, x \, \exp\left( \theta_1 - \theta_2 x \right) }{\left[ 1 + \exp\left( \theta_1 - \theta_2 x \right) \right]^2}.
 \end{aligned}
 ```
 """
@@ -215,8 +215,8 @@ function _plateau_found( bacc::BinningAccumulator, fit )
     elseif eltype(fit.param) === Float32
         min_var = MINIMUM_VAR_32
     end
-    level_vars = [ var(bacc; level = lvl) for lvl ∈ 1:bin_depth(bacc) ]
-    plateau_found = all( level_vars[1:(end - 1)] .> min_var )
+    level_vars = [ var(bacc; level = lvl) for lvl ∈ 0:(bin_depth(bacc)-1) ]
+    plateau_found = all( level_vars .> min_var )
     
     params = fit.param
     plateau_found *= params[1] > zero(params[1])
@@ -298,7 +298,7 @@ struct BinningAnalysisResult{T <: AbstractFloat}
         # if plateau_found == false, set rxvalue to be the size of the data stream
         rxvalue = ifelse( plateau_found, convert( analysis_t, fit.param[1]), convert(analysis_t, bacc[level = 0].num_bins ) )
         # if rxvalue < 1, then set it equal to 1. Statistics can't get better artificially!
-        rxvalue = ifelse( rxvalue < one(rxvalue) || fit.param[3] < zero(fit.param[3]) , one(rxvalue), rxvalue)
+        rxvalue = ifelse( rxvalue < one(rxvalue) || fit.param[3] < zero(fit.param[3]), one(rxvalue), rxvalue)
         meff = effective_uncorrelated_values(bacc[level = 0].num_bins, rxvalue)
         return new{analysis_t}(plateau_found, 
                                rxvalue, 
