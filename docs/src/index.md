@@ -2,7 +2,7 @@
 DocTestSetup = quote using OnlineLogBinning end
 ```
 
-# [OnlineLogBinning](https://github.com/meese-wj/OnlineLogBinning.jl)
+# OnlineLogBinning [![Github Link](assets/GitHub-Mark-Light-32px.png)](https://github.com/meese-wj/OnlineLogBinning.jl)
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://meese-wj.github.io/OnlineLogBinning.jl/stable)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://meese-wj.github.io/OnlineLogBinning.jl/dev)
