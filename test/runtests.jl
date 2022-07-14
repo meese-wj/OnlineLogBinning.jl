@@ -319,11 +319,15 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
         
         signal_dir = joinpath(@__DIR__, "..", "docs", "src", "assets")
 
-        signal_plateau    = zeros(Float64, Int(2^18))
-        signal_no_plateau = zeros(Float64, Int(2^10))
+        signal_plateau         = zeros(Float64, Int(2^18))
+        signal_uncorrelated    = zeros(Float64, Int(2^14))
+        signal_no_plateau      = zeros(Float64, Int(2^10))
+        signal_correlated      = zeros(Float64, Int(2^12))
 
         read!(joinpath(signal_dir, "telegraph_plateau.bin"), signal_plateau)
+        read!(joinpath(signal_dir, "telegraph_uncorrelated.bin"), signal_uncorrelated)
         read!(joinpath(signal_dir, "telegraph_no_plateau.bin"), signal_no_plateau)
+        read!(joinpath(signal_dir, "telegraph_totally_correlated.bin"), signal_correlated)
         
         @testset "Signal with Rx Plateau" begin
             bacc = BinningAccumulator()
@@ -342,6 +346,23 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
             end
         end
         
+        @testset "Uncorrelated Signal zero Rx Plateau" begin
+            bacc = BinningAccumulator()
+            push!(bacc, signal_uncorrelated)
+            result = fit_RxValues(bacc)
+            @test result.plateau_found
+            @test result.RxAmplitude ≈ 14.611315366653367
+            @test autocorrelation_time(result) ≈ 6.805657683326683
+            @test effective_uncorrelated_values(result) == 17941
+            @test result.binning_mean ≈ 0.00440216064453125
+            @test result.binning_error ≈ 0.007465747493169594
+            
+            @testset "Binning vs Signal Statistics" begin 
+                @test result.binning_mean ≈ mean(signal_uncorrelated)
+                @test result.binning_error ≈ sqrt( var(signal_uncorrelated) / result.effective_length )
+            end
+        end
+        
         @testset "Signal without Rx Plateau" begin
             bacc = BinningAccumulator()
             push!(bacc, signal_no_plateau)
@@ -356,6 +377,23 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
             @testset "Binning vs Signal Statistics" begin 
                 @test result.binning_mean ≈ mean(signal_no_plateau)
                 @test result.binning_error ≈ sqrt( var(signal_no_plateau) / result.effective_length )
+            end
+        end
+        
+        @testset "Toally-Correlated Signal without Rx Plateau" begin
+            bacc = BinningAccumulator()
+            push!(bacc, signal_correlated)
+            result = fit_RxValues(bacc)
+            @test !result.plateau_found
+            @test result.RxAmplitude == length(signal_correlated)
+            @test autocorrelation_time(result) ≈ 511.5
+            @test effective_uncorrelated_values(result) == 1
+            @test result.binning_mean ≈ -0.111328125
+            @test result.binning_error ≈ 0.9942693047615454
+
+            @testset "Binning vs Signal Statistics" begin 
+                @test result.binning_mean ≈ mean(signal_correlated)
+                @test result.binning_error ≈ sqrt( var(signal_correlated) / result.effective_length )
             end
         end
 
