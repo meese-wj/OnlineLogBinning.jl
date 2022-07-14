@@ -198,7 +198,6 @@ function _plateau_found( bacc::BinningAccumulator, fit )
     
     params = fit.param
     plateau_found *= params[1] > zero(params[1])
-    plateau_found *= params[3] > zero(params[3])
     plateau_found *= max_trustworthy_level(bacc[level = 0].num_bins) > (params[2] / params[3])
     return plateau_found
 end
