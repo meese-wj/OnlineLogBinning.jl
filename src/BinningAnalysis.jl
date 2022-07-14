@@ -15,16 +15,16 @@ fluctuations.
 const TRUSTING_CUTOFF = 128
 
 """
-    const MINIMUM_RX_16 = eps(Float16) 
-    const MINIMUM_RX_32 = eps(Float32) 
     const MINIMUM_RX_64 = eps(Float64)
+    const MINIMUM_RX_32 = eps(Float32) 
+    const MINIMUM_RX_16 = eps(Float16) 
 
 Minimum allowable variance values based on the least-squares fit type. Any data stream variances smaller
 than these are suspiciously small, and one should _not_ trust an automated binning analysis in these instances.
 """
-const MINIMUM_VAR_16 = eps(Float16) 
-const MINIMUM_VAR_32 = eps(Float32) 
 const MINIMUM_VAR_64 = eps(Float64) 
+const MINIMUM_VAR_32 = eps(Float32) 
+const MINIMUM_VAR_16 = eps(Float16) 
 
 @doc raw"""
     max_trustworthy_level(nelements; [trusting_cutoff])
