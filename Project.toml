@@ -1,7 +1,7 @@
 name = "OnlineLogBinning"
 uuid = "6694b27a-7f2b-41da-9dea-d3f4793b6534"
 authors = ["W. Joe Meese <meese022@umn.edu> and contributors"]
-version = "0.2.2"
+version = "0.3.0"
 
 [deps]
 LsqFit = "2fda8390-95c7-5789-9bda-21331edee243"
