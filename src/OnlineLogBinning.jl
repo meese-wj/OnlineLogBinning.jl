@@ -25,7 +25,7 @@ export
         BinningAccumulator, bin_depth, binning_level,
 # BinningAnalysis functionality
         TRUSTING_CUTOFF, trustworthy_level, max_trustworthy_level, 
-        RxValue, sigmoid, _plateau_found, fit_RxValues, 
+        RxValue, sigmoid, _plateau_found, levels_RxValues, fit_RxValues, 
         BinningAnalysisResult, autocorrelation_time,
         effective_uncorrelated_values
 

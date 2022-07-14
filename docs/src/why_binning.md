@@ -57,8 +57,8 @@ sigmoid_inflection(fit) = fit.param[2] / fit.param[3]
 # inflection point.
 function plot_binning_analysis(bacc)
     # Plot the RxValues irrespective of the trusting cutoff
-    all_levels = [ lvl for lvl ∈ 0:(bin_depth(bacc) - 1) ]
-    plt = plot( all_levels, RxValue(bacc, false)[1:(end - 1)]; 
+    all_levels, all_rxvals = levels_RxValues(bacc, false)
+    plt = plot( all_levels, all_rxvals; 
                 label = "Binning Analysis",
                 xlabel = L"Bin Level $\ell$",
                 ylabel = L"$R_X(\ell)$",
@@ -66,8 +66,7 @@ function plot_binning_analysis(bacc)
                 legend = :topleft )
 
     # Fit only the trustworthy levels
-    levels = trustworthy_level(bacc)
-    rxvals = RxValue(bacc)
+    levels, rxvals = levels_RxValues(bacc)
     fit = fit_RxValues(levels, rxvals)
 
     # Plot the sigmoid fit

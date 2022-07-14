@@ -116,6 +116,28 @@ function RxValue(bacc::BinningAccumulator, trustworthy_only = true; trusting_cut
     return Rxs
 end
 
+"""
+    levels_RxValues(bacc::BinningAccumulator, [trustworthy_only = true]; [trusting_cutoff = TRUSTING_CUTOFF])
+
+Return a `Tuple` of identically-sized `Vector`s. The first element of the `Tuple` are the binning `level`s 
+and the second are the corresonding [`RxValue`](@ref)s. If `trustworthy_only == true`, then only the 
+trustworthy levels and values are returned. If `trustworthy_only == false`, then all levels and values are
+returned (except for the last level which is typically not full).
+
+This function is meant to make visualization more convenient and does not offer any different functionality
+than what was available before.
+
+!!! compat
+    Requires `OnlineLogBinning.jl v0.3.0` or higher.
+"""
+function levels_RxValues( bacc::BinningAccumulator, trustworthy_only = true; trusting_cutoff = TRUSTING_CUTOFF )
+    if trustworthy_only
+        return trustworthy_indices(bacc; trusting_cutoff = trusting_cutoff), RxValue(bacc; trusting_cutoff = trusting_cutoff)
+    end
+    levels = [lvl for lvl ∈ 0:bin_depth(bacc)]
+    return levels[1:(end - 1)], RxValue(bacc, false)[1:(end - 1)]
+end
+
 @doc raw"""
     sigmoid(x, [amp = 1], [θ₁ = 0], [θ₂ = 1])
 
@@ -232,8 +254,7 @@ The default arguments passed take on the following values:
 """
 function fit_RxValues(bacc::BinningAccumulator, p0 = [1, 0, 1]; analysis_type = Float64)
     p0 = convert.(eltype(bacc), p0)
-    levels = trustworthy_level(bacc)
-    rxvalues = RxValue(bacc)
+    levels, rxvalues = levels_RxValues(bacc)
     fit = fit_RxValues(levels, rxvalues, p0)
     return BinningAnalysisResult{analysis_type}(bacc, fit)
 end
