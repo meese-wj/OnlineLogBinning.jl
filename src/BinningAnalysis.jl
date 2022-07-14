@@ -14,6 +14,18 @@ fluctuations.
 """
 const TRUSTING_CUTOFF = 128
 
+"""
+    const MINIMUM_RX_16 = eps(Float16) 
+    const MINIMUM_RX_32 = eps(Float32) 
+    const MINIMUM_RX_64 = eps(Float64)
+
+Minimum allowable variance values based on the least-squares fit type. Any data stream variances smaller
+than these are suspiciously small, and one should _not_ trust an automated binning analysis in these instances.
+"""
+const MINIMUM_VAR_16 = eps(Float16) 
+const MINIMUM_VAR_32 = eps(Float32) 
+const MINIMUM_VAR_64 = eps(Float64) 
+
 @doc raw"""
     max_trustworthy_level(nelements; [trusting_cutoff])
 
@@ -155,7 +167,7 @@ function sigmoid_jacobian(x::AbstractVecOrMat, pvals)
 end
 
 """
-    _plateau_found(fit, levels) → Bool
+    _plateau_found(bacc, fit) → Bool
 
 Test whether a plateau has been found from the `fit` using the [`LsqFit.jl`](https://julianlsolvers.github.io/LsqFit.jl/latest/) package.
 This includes finding reasonable values for the [`sigmoid`](@ref) parameters.
@@ -166,19 +178,28 @@ This includes finding reasonable values for the [`sigmoid`](@ref) parameters.
     A plateau in the [`RxValue`](@ref)s is defined to be present if the following three conditions
     on the [`sigmoid`](@ref) `fit` are all true:
     
+    1. None of the computed `level` [`var`](@ref)iances are too small. 
     1. The `amp`litude is positive.
-    1. The `θ₂` parameter is positive.
-    1. The inflection point given by `θ₁ / θ₂ < maximum(levels)`.
+    1. The inflection point given by `θ₁ / θ₂ < max_trustworthy_level(levels)`.
 
     If any of these conditions are violated, then we do not trust that the [`RxValue`](@ref)s have
     actually converged to a single value, meaning that the datastream is not sufficiently large enough
     to separate correlated data from one another.
 """
-function _plateau_found( fit, levels )
+function _plateau_found( bacc::BinningAccumulator, fit )
+    min_var = MINIMUM_VAR_64
+    if eltype(fit.param) === Float16
+        min_var = MINIMUM_VAR_16
+    elseif eltype(fit.param) === Float32
+        min_var = MINIMUM_VAR_32
+    end
+    level_vars = [ var(bacc; level = lvl) for lvl ∈ 1:bin_depth(bacc) ]
+    plateau_found = all( level_vars[1:(end - 1)] .> min_var )
+    
     params = fit.param
-    plateau_found = params[1] > zero(params[1])
+    plateau_found *= params[1] > zero(params[1])
     plateau_found *= params[3] > zero(params[3])
-    plateau_found *= maximum(levels) > (params[2] / params[3])
+    plateau_found *= max_trustworthy_level(bacc[level = 0].num_bins) > (params[2] / params[3])
     return plateau_found
 end
 
@@ -253,7 +274,7 @@ struct BinningAnalysisResult{T <: AbstractFloat}
     binning_error::T
     
     function BinningAnalysisResult{analysis_t}( bacc::BinningAccumulator, fit ) where {analysis_t}
-        plateau_found = _plateau_found(fit, trustworthy_level(bacc))
+        plateau_found = _plateau_found(bacc, fit)
         # if plateau_found == false, set rxvalue to be the size of the data stream
         rxvalue = ifelse( plateau_found, convert( analysis_t, fit.param[1]), convert(analysis_t, bacc[level = 0].num_bins ) )
         # if rxvalue < 1, then set it equal to 1. Statistics can't get better artificially!
