@@ -351,11 +351,11 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
             push!(bacc, signal_uncorrelated)
             result = fit_RxValues(bacc)
             @test result.plateau_found
-            @test result.RxAmplitude ≈ 14.611315366653367
-            @test autocorrelation_time(result) ≈ 6.805657683326683
-            @test effective_uncorrelated_values(result) == 17941
-            @test result.binning_mean ≈ 0.00440216064453125
-            @test result.binning_error ≈ 0.007465747493169594
+            @test result.RxAmplitude ≈ 1.0
+            @test autocorrelation_time(result) ≈ 0.0
+            @test effective_uncorrelated_values(result) == length(signal_uncorrelated)
+            @test result.binning_mean ≈ 0.0003662109375
+            @test result.binning_error ≈ 0.007812737905608628
             
             @testset "Binning vs Signal Statistics" begin 
                 @test result.binning_mean ≈ mean(signal_uncorrelated)
@@ -386,14 +386,14 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
             result = fit_RxValues(bacc)
             @test !result.plateau_found
             @test result.RxAmplitude == length(signal_correlated)
-            @test autocorrelation_time(result) ≈ 511.5
+            @test autocorrelation_time(result) ≈ 2047.5
             @test effective_uncorrelated_values(result) == 1
-            @test result.binning_mean ≈ -0.111328125
-            @test result.binning_error ≈ 0.9942693047615454
+            @test result.binning_mean ≈ 100.
+            @test isapprox(result.binning_error, 0.0, atol = 1e-14)
 
             @testset "Binning vs Signal Statistics" begin 
                 @test result.binning_mean ≈ mean(signal_correlated)
-                @test result.binning_error ≈ sqrt( var(signal_correlated) / result.effective_length )
+                @test isapprox( result.binning_error, sqrt( var(signal_correlated) / result.effective_length ), atol = 1e-14)
             end
         end
 

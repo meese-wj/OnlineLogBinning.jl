@@ -206,8 +206,8 @@ julia> push!(bacc, signal);
 julia> result = fit_RxValues(bacc)
 Binning Analysis Result:
     Plateau Present:             true
-    Fitted Rx Plateau:           14.611315366653367
-    Autocorrelation time τₓ:     6.805657683326683
+    Fitted Rx Plateau:           14.611315393705658
+    Autocorrelation time τₓ:     6.805657696852829
     Effective Datastream Length: 17941
     Binning Analysis Mean:       0.00440216064453125
     Binning Analysis Error:      0.007465747493169594
@@ -219,7 +219,7 @@ Other quantities can be extracted from the [`BinningAnalysisResult`](@ref), for 
 
 ```jldoctest BinningAnalysisExample
 julia> autocorrelation_time(result)
-6.805657683326683
+6.805657696852829
 
 julia> effective_uncorrelated_values(result)
 17941
