@@ -114,11 +114,30 @@ This first case shows the textbook ([GubernatisKawashimaWerner](@cite)) example 
 
 # Read in pre-simulated TelegraphNoise.jl data with a plateau
 signal = zeros(Float64, Int(2^18))
-read!( joinpath("assets", "telegraph_plateau.bin"), signal)
+read!( joinpath("assets", "telegraph_plateau.bin"), signal )
 bacc = BinningAccumulator()
 push!(bacc, signal)
 
 plot_binning_analysis(bacc)
+```
+
+```@meta
+DocTestSetup = quote
+    using OnlineLogBinning
+    signal = zeros(Float64, Int(2^18))
+    read!( joinpath("build", "assets", "telegraph_plateau.bin"), signal )
+    bacc = BinningAccumulator()
+    push!(bacc, signal)
+end
+```
+
+```jldoctest
+result = fit_RxValues(bacc)
+result.plateau_found
+
+# output
+
+true
 ```
 
 Importantly, note that the fitted inflection point is greater than zero, but less than the maximum trustworthy level. The variations in the calculated ``R_X`` values for ``\ell`` greater than the maximum trustworthy level are due to strong fluctuations because of small number statistics.
@@ -131,11 +150,34 @@ The dwell time for this signal was chosen to be ``T_D = 1/2``, meaning ``\tau_X 
 
 # Read in pre-simulated TelegraphNoise.jl data with a plateau
 signal = zeros(Float64, Int(2^14))
-read!( joinpath("assets", "telegraph_uncorrelated.bin"), signal)
+read!( joinpath("assets", "telegraph_uncorrelated.bin"), signal )
 bacc = BinningAccumulator()
 push!(bacc, signal)
 
 plot_binning_analysis(bacc)
+```
+
+```@meta
+DocTestSetup = quote
+    using OnlineLogBinning
+    signal = zeros(Float64, Int(2^14))
+    read!( joinpath("build", "assets", "telegraph_uncorrelated.bin"), signal )
+    bacc = BinningAccumulator()
+    push!(bacc, signal)
+end
+```
+
+```jldoctest
+result = fit_RxValues(bacc)
+result.plateau_found
+
+# output
+
+true
+```
+
+```@meta
+DocTestSetup = nothing
 ```
 
 Notice that the ``R_X`` values decay for increasing ``\ell``. This is because the binning analysis cannot detect any smaller blocks of uncorrelated data since the original data stream is indeed correlated.
@@ -148,11 +190,34 @@ For insufficiently long data streams, we do not expect a plateau, as shown in th
 
 # Read in pre-simulated TelegraphNoise.jl data without a plateau
 signal = zeros(Float64, Int(2^10))
-read!( joinpath("assets", "telegraph_no_plateau.bin"), signal)
+read!( joinpath("assets", "telegraph_no_plateau.bin"), signal )
 bacc = BinningAccumulator()
 push!(bacc, signal)
 
 plot_binning_analysis(bacc)
+```
+
+```@meta
+DocTestSetup = quote
+    using OnlineLogBinning
+    signal = zeros(Float64, Int(2^10))
+    read!( joinpath("build", "assets", "telegraph_no_plateau.bin"), signal )
+    bacc = BinningAccumulator()
+    push!(bacc, signal)
+end
+```
+
+```jldoctest
+result = fit_RxValues(bacc)
+result.plateau_found
+
+# output
+
+false
+```
+
+```@meta
+DocTestSetup = nothing
 ```
 
 Here, the dwell time was chosen to be ``T_D = 256``, meaning ``\tau_X = 128``, and the signal generated was ``2^{10} = 1024`` in length. Notice, that the binning analysis began to pick up on a set of uncorrelated blocks, but there was not enough simulated data to reveal them before the maximum trustworthy level was reached. In a case like this, one would simply need to run their simulation about _64_ times longer reveal a fitted plateau.
@@ -165,11 +230,34 @@ In this final example, we demonstrate what happens for a data stream that has "f
 
 # Read in pre-simulated TelegraphNoise.jl data with a plateau
 signal = zeros(Float64, Int(2^12))
-read!( joinpath("assets", "telegraph_totally_correlated.bin"), signal)
+read!( joinpath("assets", "telegraph_totally_correlated.bin"), signal )
 bacc = BinningAccumulator()
 push!(bacc, signal)
 
 plot_binning_analysis(bacc)
+```
+
+```@meta
+DocTestSetup = quote
+    using OnlineLogBinning
+    signal = zeros(Float64, Int(2^12))
+    read!( joinpath("build", "assets", "telegraph_totally_correlated.bin"), signal )
+    bacc = BinningAccumulator()
+    push!(bacc, signal)
+end
+```
+
+```jldoctest
+result = fit_RxValues(bacc)
+result.plateau_found
+
+# output
+
+false
+```
+
+```@meta
+DocTestSetup = nothing
 ```
 
 In this case, eventually the binning analysis returns ``R_X = 0``, since the blocks start comparing literally identical elements. Notice that this case would return a `plateau_found` if it were not for the check if any of the ``R_X`` values were too small. (In principle this case also would result from a data stream with a defined periodicity, despite having correlations, but this is unavoidable.)
