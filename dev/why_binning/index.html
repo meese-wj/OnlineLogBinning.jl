@@ -129,10 +129,10 @@ The following packages will be downloaded:
     mysql-libs-8.0.30          |       h28c427c_0         1.9 MB  conda-forge
     nspr-4.32                  |       h9c3ff4c_1         233 KB  conda-forge
     nss-3.78                   |       h2350873_0         2.1 MB  conda-forge
-    openjpeg-2.4.0             |       hb52868f_1         444 KB  conda-forge
+    openjpeg-2.5.0             |       h7d73246_1         533 KB  conda-forge
     packaging-21.3             |     pyhd8ed1ab_0          36 KB  conda-forge
     pcre-8.45                  |       h9c3ff4c_0         253 KB  conda-forge
-    pillow-9.2.0               |   py39hae2aec6_1        45.0 MB  conda-forge
+    pillow-9.2.0               |   py39hd5dbb17_2        44.9 MB  conda-forge
     ply-3.11                   |             py_1          44 KB  conda-forge
     portaudio-19.6.0           |       h57a0ea0_5         131 KB  conda-forge
     pthread-stubs-0.4          |    h36c2ea0_1001           5 KB  conda-forge
@@ -155,7 +155,7 @@ The following packages will be downloaded:
     xorg-libxdmcp-1.1.3        |       h7f98852_0          19 KB  conda-forge
     zstd-1.5.2                 |       h8a70e8d_4         448 KB  conda-forge
     ------------------------------------------------------------
-                                           Total:       259.6 MB
+                                           Total:       259.5 MB
 
 The following NEW packages will be INSTALLED:
 
@@ -225,10 +225,10 @@ The following NEW packages will be INSTALLED:
   mysql-libs         conda-forge/linux-64::mysql-libs-8.0.30-h28c427c_0
   nspr               conda-forge/linux-64::nspr-4.32-h9c3ff4c_1
   nss                conda-forge/linux-64::nss-3.78-h2350873_0
-  openjpeg           conda-forge/linux-64::openjpeg-2.4.0-hb52868f_1
+  openjpeg           conda-forge/linux-64::openjpeg-2.5.0-h7d73246_1
   packaging          conda-forge/noarch::packaging-21.3-pyhd8ed1ab_0
   pcre               conda-forge/linux-64::pcre-8.45-h9c3ff4c_0
-  pillow             conda-forge/linux-64::pillow-9.2.0-py39hae2aec6_1
+  pillow             conda-forge/linux-64::pillow-9.2.0-py39hd5dbb17_2
   ply                conda-forge/noarch::ply-3.11-py_1
   portaudio          conda-forge/linux-64::portaudio-19.6.0-h57a0ea0_5
   pthread-stubs      conda-forge/linux-64::pthread-stubs-0.4-h36c2ea0_1001
@@ -298,4 +298,4 @@ result.plateau_found
 
 # output
 
-false</code></pre><p>In this case, eventually the binning analysis returns <span>$R_X = 0$</span>, since the blocks start comparing literally identical elements. Notice that this case would return a <code>plateau_found</code> if it were not for the check if any of the <span>$R_X$</span> values were too small. (In principle this case also would result from a data stream with a defined periodicity, despite having correlations, but this is unavoidable.)</p><div class="admonition is-success"><header class="admonition-header">Tip</header><div class="admonition-body"><p>This is the most dangerous case to automate because the <a href="../api/#Statistics.var-Tuple{BinningAccumulator}"><code>var</code></a>iance of such a data stream is naturally very small relative to the <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>. As is the case with all Monte Carlo simulations, or statistical data streams, one should be <em>very</em> wary when the error is a mathematical zero, or vanishingly small compared to the calculated <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../accumulators/">Accumulator Hierarchy »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.19 on <span class="colophon-date" title="Saturday 13 August 2022 06:20">Saturday 13 August 2022</span>. Using Julia version 1.7.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+false</code></pre><p>In this case, eventually the binning analysis returns <span>$R_X = 0$</span>, since the blocks start comparing literally identical elements. Notice that this case would return a <code>plateau_found</code> if it were not for the check if any of the <span>$R_X$</span> values were too small. (In principle this case also would result from a data stream with a defined periodicity, despite having correlations, but this is unavoidable.)</p><div class="admonition is-success"><header class="admonition-header">Tip</header><div class="admonition-body"><p>This is the most dangerous case to automate because the <a href="../api/#Statistics.var-Tuple{BinningAccumulator}"><code>var</code></a>iance of such a data stream is naturally very small relative to the <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>. As is the case with all Monte Carlo simulations, or statistical data streams, one should be <em>very</em> wary when the error is a mathematical zero, or vanishingly small compared to the calculated <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../accumulators/">Accumulator Hierarchy »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.19 on <span class="colophon-date" title="Saturday 13 August 2022 12:23">Saturday 13 August 2022</span>. Using Julia version 1.7.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
