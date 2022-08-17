@@ -5,6 +5,7 @@ import Base: push!, getindex, length, eltype, show
 import Statistics: mean, var, std
 import StaticArrays: @SVector, MVector, @MVector
 import LsqFit: curve_fit
+import Measurements: measurement
 
 include("Accumulators/BinningAccumulators.jl")
 include("BinningAnalysis.jl")
@@ -27,7 +28,9 @@ export
         TRUSTING_CUTOFF, trustworthy_level, max_trustworthy_level, 
         RxValue, sigmoid, _plateau_found, levels_RxValues, fit_RxValues, 
         BinningAnalysisResult, autocorrelation_time,
-        effective_uncorrelated_values
+        effective_uncorrelated_values,
+# Measurements.jl overloads
+        measurement
 
 """
     mean( lacc::LevelAccumulator )

@@ -344,6 +344,12 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
                 @test result.binning_mean ≈ mean(signal_plateau)
                 @test result.binning_error ≈ sqrt( var(signal_plateau) / result.effective_length )
             end
+
+            @testset "Binning Measurements" begin
+                meas = measurement(result)
+                @test meas.val == result.binning_mean
+                @test meas.err == result.binning_error
+            end
         end
         
         @testset "Uncorrelated Signal zero Rx Plateau" begin
@@ -360,6 +366,12 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
             @testset "Binning vs Signal Statistics" begin 
                 @test result.binning_mean ≈ mean(signal_uncorrelated)
                 @test result.binning_error ≈ sqrt( var(signal_uncorrelated) / result.effective_length )
+            end
+
+            @testset "Binning Measurements" begin
+                meas = measurement(result)
+                @test meas.val == result.binning_mean
+                @test meas.err == result.binning_error
             end
         end
         
@@ -378,6 +390,12 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
                 @test result.binning_mean ≈ mean(signal_no_plateau)
                 @test result.binning_error ≈ sqrt( var(signal_no_plateau) / result.effective_length )
             end
+
+            @testset "Binning Measurements" begin
+                meas = measurement(result)
+                @test meas.val == result.binning_mean
+                @test meas.err == result.binning_error
+            end
         end
         
         @testset "Toally-Correlated Signal without Rx Plateau" begin
@@ -394,6 +412,12 @@ const all_possible_types = @SVector [ Int8, Int16, Int32, Int64, Int128,
             @testset "Binning vs Signal Statistics" begin 
                 @test result.binning_mean ≈ mean(signal_correlated)
                 @test isapprox( result.binning_error, sqrt( var(signal_correlated) / result.effective_length ), atol = 1e-14)
+            end
+
+            @testset "Binning Measurements" begin
+                meas = measurement(result)
+                @test meas.val == result.binning_mean
+                @test meas.err == result.binning_error
             end
         end
 

@@ -550,6 +550,12 @@ version = "1.0.3"
 deps = ["Artifacts", "Libdl"]
 uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
 
+[[deps.Measurements]]
+deps = ["Calculus", "LinearAlgebra", "Printf", "RecipesBase", "Requires"]
+git-tree-sha1 = "dd8b9e6d7be9731fdaecc813acc5c3083496a251"
+uuid = "eff96d63-e80a-5855-80a2-b1b0885c5ab7"
+version = "2.7.2"
+
 [[deps.Measures]]
 git-tree-sha1 = "e498ddeee6f9fdb4551ce855a46f54dbd900245f"
 uuid = "442fdcdd-2543-5da2-b0f3-8c86c306513e"
@@ -588,10 +594,10 @@ uuid = "e7412a2a-1a6e-54c0-be00-318e2571c051"
 version = "1.3.5+1"
 
 [[deps.OnlineLogBinning]]
-deps = ["LsqFit", "StaticArrays", "Statistics"]
+deps = ["LsqFit", "Measurements", "StaticArrays", "Statistics"]
 path = ".."
 uuid = "6694b27a-7f2b-41da-9dea-d3f4793b6534"
-version = "0.2.1"
+version = "0.4.0"
 
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]

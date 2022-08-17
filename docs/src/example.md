@@ -225,6 +225,15 @@ julia> effective_uncorrelated_values(result)
 17941
 ```
 
+Additionally, as of `v0.4`, one can also export a [`BinningAnalysisResult`](@ref) as a `Measurement` from [`Measurements.jl`](https://github.com/JuliaPhysics/Measurements.jl):
+
+```jldoctest BinningAnalysisExample
+julia> measurement(result)
+0.0044 ± 0.0075
+```
+
+and then one can fully take advantage of propagated errors thanks to that wonderful package!
+
 ```@meta
 DocTestSetup = nothing
 ```

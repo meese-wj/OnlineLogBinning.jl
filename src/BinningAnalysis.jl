@@ -336,3 +336,14 @@ m_{\rm eff} =  \mathtt{floor} \left( \frac{ m^{(0)} }{R_X} \right).
 """
 effective_uncorrelated_values(mvals, RxVal::Real) = floor(Int, mvals / RxVal)
 effective_uncorrelated_values(result::BinningAnalysisResult) = result.effective_length
+
+"""
+    measurement(::BinningAnalysisResult)
+
+Convert a [`BinningAnalysisResult`](@ref) into a 
+[`Measurements.jl`](https://github.com/JuliaPhysics/Measurements.jl) `measurement`.
+
+!!! compat
+    This functionality requires at least `v0.4`.
+"""
+measurement(result::BinningAnalysisResult) = measurement(result.binning_mean, result.binning_error)
