@@ -46,9 +46,6 @@ function plot_binning_analysis(bacc)
 end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">[ Info: Installing matplotlib via the Conda matplotlib package...
 [ Info: Running `conda install -q -y matplotlib` in root environment
 Collecting package metadata (current_repodata.json): ...working... done
-Solving environment: ...working... failed with initial frozen solve. Retrying with flexible solve.
-Solving environment: ...working... failed with repodata from current_repodata.json, will retry with next repodata source.
-Collecting package metadata (repodata.json): ...working... done
 Solving environment: ...working... done
 
 ## Package Plan ##
@@ -63,13 +60,16 @@ The following packages will be downloaded:
 
     package                    |            build
     ---------------------------|-----------------
-    alsa-lib-1.2.3.2           |       h166bdaf_0         554 KB  conda-forge
+    alsa-lib-1.2.8             |       h166bdaf_0         578 KB  conda-forge
+    attr-2.5.1                 |       h166bdaf_1          69 KB  conda-forge
     brotli-1.0.9               |       h166bdaf_8          18 KB  conda-forge
     brotli-bin-1.0.9           |       h166bdaf_8          20 KB  conda-forge
     contourpy-1.0.5            |  py310hbf28c38_1         234 KB  conda-forge
+    cryptography-38.0.2        |  py310h597c629_2         1.6 MB  conda-forge
     cycler-0.11.0              |     pyhd8ed1ab_0          10 KB  conda-forge
     dbus-1.13.6                |       h5008d03_3         604 KB  conda-forge
     expat-2.5.0                |       h27087fc_0         189 KB  conda-forge
+    fftw-3.3.10                |nompi_hf0379b8_105         2.2 MB  conda-forge
     font-ttf-dejavu-sans-mono-2.37|       hab24e00_0         388 KB  conda-forge
     font-ttf-inconsolata-3.000 |       h77eed37_0          94 KB  conda-forge
     font-ttf-source-code-pro-2.038|       h77eed37_0         684 KB  conda-forge
@@ -82,75 +82,95 @@ The following packages will be downloaded:
     gettext-0.21.1             |       h27087fc_0         4.1 MB  conda-forge
     glib-2.74.1                |       h6239696_0         475 KB  conda-forge
     glib-tools-2.74.1          |       h6239696_0         107 KB  conda-forge
-    gst-plugins-base-1.20.2    |       hcf0ee16_0         2.8 MB  conda-forge
-    gstreamer-1.20.3           |       hd4edc92_2         2.0 MB  conda-forge
-    icu-69.1                   |       h9c3ff4c_0        13.2 MB  conda-forge
+    gst-plugins-base-1.21.1    |       h3e40eee_1         2.9 MB  conda-forge
+    gstreamer-1.21.1           |       hd4edc92_1         2.0 MB  conda-forge
+    icu-70.1                   |       h27087fc_0        13.5 MB  conda-forge
+    jack-1.9.21                |       he978b8e_1         530 KB  conda-forge
     jpeg-9e                    |       h166bdaf_2         269 KB  conda-forge
     keyutils-1.6.1             |       h166bdaf_0         115 KB  conda-forge
     kiwisolver-1.4.4           |  py310hbf28c38_1          76 KB  conda-forge
-    krb5-1.19.3                |       h08a2579_0         1.4 MB  conda-forge
+    krb5-1.19.3                |       h3790be6_0         1.4 MB  conda-forge
+    lame-3.100                 |    h166bdaf_1003         496 KB  conda-forge
     lcms2-2.13.1               |       h6ed2654_0         254 KB  conda-forge
     lerc-4.0.0                 |       h27087fc_0         275 KB  conda-forge
     libbrotlicommon-1.0.9      |       h166bdaf_8          66 KB  conda-forge
     libbrotlidec-1.0.9         |       h166bdaf_8          33 KB  conda-forge
     libbrotlienc-1.0.9         |       h166bdaf_8         288 KB  conda-forge
-    libclang-13.0.1            |default_hc23dcda_0        11.1 MB  conda-forge
+    libcap-2.66                |       ha37c62d_0          97 KB  conda-forge
+    libclang-15.0.3            |default_h2e3cab8_0         127 KB  conda-forge
+    libclang13-15.0.3          |default_h3a83d3e_0        11.0 MB  conda-forge
+    libcups-2.3.3              |       h3e49a29_2         4.5 MB  conda-forge
+    libdb-6.2.32               |       h9c3ff4c_0        23.3 MB  conda-forge
     libdeflate-1.14            |       h166bdaf_0          81 KB  conda-forge
     libedit-3.1.20191231       |       he28a2e2_2         121 KB  conda-forge
-    libevent-2.1.10            |       h28343ad_4         1.1 MB  conda-forge
+    libevent-2.1.10            |       h9b69904_4         1.1 MB  conda-forge
+    libflac-1.4.2              |       h27087fc_0         411 KB  conda-forge
     libglib-2.74.1             |       h7a41b64_0         3.1 MB  conda-forge
     libiconv-1.17              |       h166bdaf_0         1.4 MB  conda-forge
-    libllvm13-13.0.1           |       hf817b99_2        33.6 MB  conda-forge
+    libllvm15-15.0.3           |       h63197d8_1        37.4 MB  conda-forge
     libogg-1.3.4               |       h7f98852_1         206 KB  conda-forge
     libopus-1.3.1              |       h7f98852_1         255 KB  conda-forge
     libpng-1.6.38              |       h753d276_0         371 KB  conda-forge
-    libpq-14.5                 |       he2d8382_1         3.0 MB  conda-forge
+    libpq-14.5                 |       hd77ab85_1         3.0 MB  conda-forge
+    libsndfile-1.1.0           |       h27087fc_0         370 KB  conda-forge
     libtiff-4.4.0              |       h55922b4_4         651 KB  conda-forge
+    libtool-2.4.6              |    h9c3ff4c_1008         511 KB  conda-forge
+    libudev1-251               |       h166bdaf_0         112 KB  conda-forge
     libvorbis-1.3.7            |       h9c3ff4c_0         280 KB  conda-forge
     libwebp-base-1.2.4         |       h166bdaf_0         404 KB  conda-forge
     libxcb-1.13                |    h7f98852_1004         391 KB  conda-forge
     libxkbcommon-1.0.3         |       he3ba5ed_0         581 KB  conda-forge
-    libxml2-2.9.12             |       h885dcf4_1         760 KB  conda-forge
+    libxml2-2.10.3             |       h7463322_0         754 KB  conda-forge
     matplotlib-3.6.1           |  py310hff52083_1           7 KB  conda-forge
     matplotlib-base-3.6.1      |  py310h8d5ebf3_1         7.5 MB  conda-forge
+    mpg123-1.30.2              |       h27087fc_1         512 KB  conda-forge
     munkres-1.1.4              |     pyh9f0ad1d_0          12 KB  conda-forge
-    mysql-common-8.0.31        |       h26416b9_0         1.9 MB  conda-forge
-    mysql-libs-8.0.31          |       hbc51c84_0         1.9 MB  conda-forge
+    mysql-common-8.0.31        |       haf5c9bc_0         1.9 MB  conda-forge
+    mysql-libs-8.0.31          |       h28c427c_0         1.9 MB  conda-forge
     nspr-4.32                  |       h9c3ff4c_1         233 KB  conda-forge
     nss-3.78                   |       h2350873_0         2.1 MB  conda-forge
     openjpeg-2.5.0             |       h7d73246_1         533 KB  conda-forge
+    openssl-1.1.1q             |       h166bdaf_1         2.1 MB  conda-forge
     packaging-21.3             |     pyhd8ed1ab_0          36 KB  conda-forge
     pcre2-10.37                |       hc3806b6_1         1.1 MB  conda-forge
     pillow-9.2.0               |  py310h454ad03_3        45.3 MB  conda-forge
+    ply-3.11                   |             py_1          44 KB  conda-forge
     pthread-stubs-0.4          |    h36c2ea0_1001           5 KB  conda-forge
+    pulseaudio-14.0            |      h0d2025b_11         1.7 MB  conda-forge
     pyparsing-3.0.9            |     pyhd8ed1ab_0          79 KB  conda-forge
-    pyqt-5.12.3                |  py310hff52083_8          22 KB  conda-forge
-    pyqt-impl-5.12.3           |  py310h1f8e252_8         5.9 MB  conda-forge
-    pyqt5-sip-4.19.18          |  py310h122e73d_8         312 KB  conda-forge
-    pyqtchart-5.12             |  py310hfcd6d55_8         254 KB  conda-forge
-    pyqtwebengine-5.12.1       |  py310hfcd6d55_8         175 KB  conda-forge
+    pyqt-5.15.7                |  py310h29803b5_2         6.2 MB  conda-forge
+    pyqt5-sip-12.11.0          |  py310hd8f1fbe_2          86 KB  conda-forge
+    python-3.10.6              |h582c2e5_0_cpython        29.0 MB  conda-forge
     python-dateutil-2.8.2      |     pyhd8ed1ab_0         240 KB  conda-forge
-    qt-5.12.9                  |       h1304e3e_6        98.6 MB  conda-forge
+    qt-main-5.15.6             |       hd477bba_1        61.6 MB  conda-forge
+    sip-6.7.3                  |  py310hd8f1fbe_0         537 KB  conda-forge
     six-1.16.0                 |     pyh6c4a22f_0          14 KB  conda-forge
     sqlite-3.39.4              |       h4ff8645_0         789 KB  conda-forge
+    toml-0.10.2                |     pyhd8ed1ab_0          18 KB  conda-forge
     tornado-6.2                |  py310h5764c6d_1         662 KB  conda-forge
     unicodedata2-14.0.0        |  py310h5764c6d_2         500 KB  conda-forge
+    xcb-util-0.4.0             |       h166bdaf_0          20 KB  conda-forge
+    xcb-util-image-0.4.0       |       h166bdaf_0          24 KB  conda-forge
+    xcb-util-keysyms-0.4.0     |       h166bdaf_0          12 KB  conda-forge
+    xcb-util-renderutil-0.3.9  |       h166bdaf_0          15 KB  conda-forge
+    xcb-util-wm-0.4.1          |       h166bdaf_0          55 KB  conda-forge
     xorg-libxau-1.0.9          |       h7f98852_0          13 KB  conda-forge
     xorg-libxdmcp-1.1.3        |       h7f98852_0          19 KB  conda-forge
-    zlib-1.2.13                |       h166bdaf_4          92 KB  conda-forge
     zstd-1.5.2                 |       h6239696_4         448 KB  conda-forge
     ------------------------------------------------------------
-                                           Total:       259.2 MB
+                                           Total:       294.0 MB
 
 The following NEW packages will be INSTALLED:
 
-  alsa-lib           conda-forge/linux-64::alsa-lib-1.2.3.2-h166bdaf_0 None
+  alsa-lib           conda-forge/linux-64::alsa-lib-1.2.8-h166bdaf_0 None
+  attr               conda-forge/linux-64::attr-2.5.1-h166bdaf_1 None
   brotli             conda-forge/linux-64::brotli-1.0.9-h166bdaf_8 None
   brotli-bin         conda-forge/linux-64::brotli-bin-1.0.9-h166bdaf_8 None
   contourpy          conda-forge/linux-64::contourpy-1.0.5-py310hbf28c38_1 None
   cycler             conda-forge/noarch::cycler-0.11.0-pyhd8ed1ab_0 None
   dbus               conda-forge/linux-64::dbus-1.13.6-h5008d03_3 None
   expat              conda-forge/linux-64::expat-2.5.0-h27087fc_0 None
+  fftw               conda-forge/linux-64::fftw-3.3.10-nompi_hf0379b8_105 None
   font-ttf-dejavu-s~ conda-forge/noarch::font-ttf-dejavu-sans-mono-2.37-hab24e00_0 None
   font-ttf-inconsol~ conda-forge/noarch::font-ttf-inconsolata-3.000-h77eed37_0 None
   font-ttf-source-c~ conda-forge/noarch::font-ttf-source-code-pro-2.038-h77eed37_0 None
@@ -163,63 +183,88 @@ The following NEW packages will be INSTALLED:
   gettext            conda-forge/linux-64::gettext-0.21.1-h27087fc_0 None
   glib               conda-forge/linux-64::glib-2.74.1-h6239696_0 None
   glib-tools         conda-forge/linux-64::glib-tools-2.74.1-h6239696_0 None
-  gst-plugins-base   conda-forge/linux-64::gst-plugins-base-1.20.2-hcf0ee16_0 None
-  gstreamer          conda-forge/linux-64::gstreamer-1.20.3-hd4edc92_2 None
-  icu                conda-forge/linux-64::icu-69.1-h9c3ff4c_0 None
+  gst-plugins-base   conda-forge/linux-64::gst-plugins-base-1.21.1-h3e40eee_1 None
+  gstreamer          conda-forge/linux-64::gstreamer-1.21.1-hd4edc92_1 None
+  icu                conda-forge/linux-64::icu-70.1-h27087fc_0 None
+  jack               conda-forge/linux-64::jack-1.9.21-he978b8e_1 None
   jpeg               conda-forge/linux-64::jpeg-9e-h166bdaf_2 None
   keyutils           conda-forge/linux-64::keyutils-1.6.1-h166bdaf_0 None
   kiwisolver         conda-forge/linux-64::kiwisolver-1.4.4-py310hbf28c38_1 None
-  krb5               conda-forge/linux-64::krb5-1.19.3-h08a2579_0 None
+  krb5               conda-forge/linux-64::krb5-1.19.3-h3790be6_0 None
+  lame               conda-forge/linux-64::lame-3.100-h166bdaf_1003 None
   lcms2              conda-forge/linux-64::lcms2-2.13.1-h6ed2654_0 None
   lerc               conda-forge/linux-64::lerc-4.0.0-h27087fc_0 None
   libbrotlicommon    conda-forge/linux-64::libbrotlicommon-1.0.9-h166bdaf_8 None
   libbrotlidec       conda-forge/linux-64::libbrotlidec-1.0.9-h166bdaf_8 None
   libbrotlienc       conda-forge/linux-64::libbrotlienc-1.0.9-h166bdaf_8 None
-  libclang           conda-forge/linux-64::libclang-13.0.1-default_hc23dcda_0 None
+  libcap             conda-forge/linux-64::libcap-2.66-ha37c62d_0 None
+  libclang           conda-forge/linux-64::libclang-15.0.3-default_h2e3cab8_0 None
+  libclang13         conda-forge/linux-64::libclang13-15.0.3-default_h3a83d3e_0 None
+  libcups            conda-forge/linux-64::libcups-2.3.3-h3e49a29_2 None
+  libdb              conda-forge/linux-64::libdb-6.2.32-h9c3ff4c_0 None
   libdeflate         conda-forge/linux-64::libdeflate-1.14-h166bdaf_0 None
   libedit            conda-forge/linux-64::libedit-3.1.20191231-he28a2e2_2 None
-  libevent           conda-forge/linux-64::libevent-2.1.10-h28343ad_4 None
+  libevent           conda-forge/linux-64::libevent-2.1.10-h9b69904_4 None
+  libflac            conda-forge/linux-64::libflac-1.4.2-h27087fc_0 None
   libglib            conda-forge/linux-64::libglib-2.74.1-h7a41b64_0 None
   libiconv           conda-forge/linux-64::libiconv-1.17-h166bdaf_0 None
-  libllvm13          conda-forge/linux-64::libllvm13-13.0.1-hf817b99_2 None
+  libllvm15          conda-forge/linux-64::libllvm15-15.0.3-h63197d8_1 None
   libogg             conda-forge/linux-64::libogg-1.3.4-h7f98852_1 None
   libopus            conda-forge/linux-64::libopus-1.3.1-h7f98852_1 None
   libpng             conda-forge/linux-64::libpng-1.6.38-h753d276_0 None
-  libpq              conda-forge/linux-64::libpq-14.5-he2d8382_1 None
+  libpq              conda-forge/linux-64::libpq-14.5-hd77ab85_1 None
+  libsndfile         conda-forge/linux-64::libsndfile-1.1.0-h27087fc_0 None
   libtiff            conda-forge/linux-64::libtiff-4.4.0-h55922b4_4 None
+  libtool            conda-forge/linux-64::libtool-2.4.6-h9c3ff4c_1008 None
+  libudev1           conda-forge/linux-64::libudev1-251-h166bdaf_0 None
   libvorbis          conda-forge/linux-64::libvorbis-1.3.7-h9c3ff4c_0 None
   libwebp-base       conda-forge/linux-64::libwebp-base-1.2.4-h166bdaf_0 None
   libxcb             conda-forge/linux-64::libxcb-1.13-h7f98852_1004 None
   libxkbcommon       conda-forge/linux-64::libxkbcommon-1.0.3-he3ba5ed_0 None
-  libxml2            conda-forge/linux-64::libxml2-2.9.12-h885dcf4_1 None
+  libxml2            conda-forge/linux-64::libxml2-2.10.3-h7463322_0 None
   matplotlib         conda-forge/linux-64::matplotlib-3.6.1-py310hff52083_1 None
   matplotlib-base    conda-forge/linux-64::matplotlib-base-3.6.1-py310h8d5ebf3_1 None
+  mpg123             conda-forge/linux-64::mpg123-1.30.2-h27087fc_1 None
   munkres            conda-forge/noarch::munkres-1.1.4-pyh9f0ad1d_0 None
-  mysql-common       conda-forge/linux-64::mysql-common-8.0.31-h26416b9_0 None
-  mysql-libs         conda-forge/linux-64::mysql-libs-8.0.31-hbc51c84_0 None
+  mysql-common       conda-forge/linux-64::mysql-common-8.0.31-haf5c9bc_0 None
+  mysql-libs         conda-forge/linux-64::mysql-libs-8.0.31-h28c427c_0 None
   nspr               conda-forge/linux-64::nspr-4.32-h9c3ff4c_1 None
   nss                conda-forge/linux-64::nss-3.78-h2350873_0 None
   openjpeg           conda-forge/linux-64::openjpeg-2.5.0-h7d73246_1 None
   packaging          conda-forge/noarch::packaging-21.3-pyhd8ed1ab_0 None
   pcre2              conda-forge/linux-64::pcre2-10.37-hc3806b6_1 None
   pillow             conda-forge/linux-64::pillow-9.2.0-py310h454ad03_3 None
+  ply                conda-forge/noarch::ply-3.11-py_1 None
   pthread-stubs      conda-forge/linux-64::pthread-stubs-0.4-h36c2ea0_1001 None
+  pulseaudio         conda-forge/linux-64::pulseaudio-14.0-h0d2025b_11 None
   pyparsing          conda-forge/noarch::pyparsing-3.0.9-pyhd8ed1ab_0 None
-  pyqt               conda-forge/linux-64::pyqt-5.12.3-py310hff52083_8 None
-  pyqt-impl          conda-forge/linux-64::pyqt-impl-5.12.3-py310h1f8e252_8 None
-  pyqt5-sip          conda-forge/linux-64::pyqt5-sip-4.19.18-py310h122e73d_8 None
-  pyqtchart          conda-forge/linux-64::pyqtchart-5.12-py310hfcd6d55_8 None
-  pyqtwebengine      conda-forge/linux-64::pyqtwebengine-5.12.1-py310hfcd6d55_8 None
+  pyqt               conda-forge/linux-64::pyqt-5.15.7-py310h29803b5_2 None
+  pyqt5-sip          conda-forge/linux-64::pyqt5-sip-12.11.0-py310hd8f1fbe_2 None
   python-dateutil    conda-forge/noarch::python-dateutil-2.8.2-pyhd8ed1ab_0 None
-  qt                 conda-forge/linux-64::qt-5.12.9-h1304e3e_6 None
+  qt-main            conda-forge/linux-64::qt-main-5.15.6-hd477bba_1 None
+  sip                conda-forge/linux-64::sip-6.7.3-py310hd8f1fbe_0 None
   six                conda-forge/noarch::six-1.16.0-pyh6c4a22f_0 None
   sqlite             conda-forge/linux-64::sqlite-3.39.4-h4ff8645_0 None
+  toml               conda-forge/noarch::toml-0.10.2-pyhd8ed1ab_0 None
   tornado            conda-forge/linux-64::tornado-6.2-py310h5764c6d_1 None
   unicodedata2       conda-forge/linux-64::unicodedata2-14.0.0-py310h5764c6d_2 None
+  xcb-util           conda-forge/linux-64::xcb-util-0.4.0-h166bdaf_0 None
+  xcb-util-image     conda-forge/linux-64::xcb-util-image-0.4.0-h166bdaf_0 None
+  xcb-util-keysyms   conda-forge/linux-64::xcb-util-keysyms-0.4.0-h166bdaf_0 None
+  xcb-util-renderut~ conda-forge/linux-64::xcb-util-renderutil-0.3.9-h166bdaf_0 None
+  xcb-util-wm        conda-forge/linux-64::xcb-util-wm-0.4.1-h166bdaf_0 None
   xorg-libxau        conda-forge/linux-64::xorg-libxau-1.0.9-h7f98852_0 None
   xorg-libxdmcp      conda-forge/linux-64::xorg-libxdmcp-1.1.3-h7f98852_0 None
-  zlib               conda-forge/linux-64::zlib-1.2.13-h166bdaf_4 None
   zstd               conda-forge/linux-64::zstd-1.5.2-h6239696_4 None
+
+The following packages will be UPDATED:
+
+  cryptography                       38.0.2-py310h600f1e7_1 --&gt; 38.0.2-py310h597c629_2 None
+
+The following packages will be DOWNGRADED:
+
+  openssl                                  3.0.5-h166bdaf_2 --&gt; 1.1.1q-h166bdaf_1 None
+  python                          3.10.6-ha86cf86_0_cpython --&gt; 3.10.6-h582c2e5_0_cpython None
 
 
 Preparing transaction: ...working... done
@@ -269,4 +314,4 @@ result.plateau_found
 
 # output
 
-false</code></pre><p>In this case, eventually the binning analysis returns <span>$R_X = 0$</span>, since the blocks start comparing literally identical elements. Notice that this case would return a <code>plateau_found</code> if it were not for the check if any of the <span>$R_X$</span> values were too small. (In principle this case also would result from a data stream with a defined periodicity, despite having correlations, but this is unavoidable.)</p><div class="admonition is-success"><header class="admonition-header">Tip</header><div class="admonition-body"><p>This is the most dangerous case to automate because the <a href="../api/#Statistics.var-Tuple{BinningAccumulator}"><code>var</code></a>iance of such a data stream is naturally very small relative to the <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>. As is the case with all Monte Carlo simulations, or statistical data streams, one should be <em>very</em> wary when the error is a mathematical zero, or vanishingly small compared to the calculated <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../accumulators/">Accumulator Hierarchy »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.19 on <span class="colophon-date" title="Monday 31 October 2022 12:31">Monday 31 October 2022</span>. Using Julia version 1.8.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+false</code></pre><p>In this case, eventually the binning analysis returns <span>$R_X = 0$</span>, since the blocks start comparing literally identical elements. Notice that this case would return a <code>plateau_found</code> if it were not for the check if any of the <span>$R_X$</span> values were too small. (In principle this case also would result from a data stream with a defined periodicity, despite having correlations, but this is unavoidable.)</p><div class="admonition is-success"><header class="admonition-header">Tip</header><div class="admonition-body"><p>This is the most dangerous case to automate because the <a href="../api/#Statistics.var-Tuple{BinningAccumulator}"><code>var</code></a>iance of such a data stream is naturally very small relative to the <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>. As is the case with all Monte Carlo simulations, or statistical data streams, one should be <em>very</em> wary when the error is a mathematical zero, or vanishingly small compared to the calculated <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../accumulators/">Accumulator Hierarchy »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.19 on <span class="colophon-date" title="Monday 31 October 2022 18:23">Monday 31 October 2022</span>. Using Julia version 1.8.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
