@@ -64,7 +64,6 @@ The following packages will be downloaded:
     attr-2.5.1                 |       h166bdaf_1          69 KB  conda-forge
     brotli-1.0.9               |       h166bdaf_8          18 KB  conda-forge
     brotli-bin-1.0.9           |       h166bdaf_8          20 KB  conda-forge
-    conda-package-handling-1.9.0|  py310h5764c6d_1        1016 KB  conda-forge
     contourpy-1.0.6            |  py310hbf28c38_0         234 KB  conda-forge
     cryptography-38.0.2        |  py310h597c629_2         1.6 MB  conda-forge
     cycler-0.11.0              |     pyhd8ed1ab_0          10 KB  conda-forge
@@ -138,14 +137,12 @@ The following packages will be downloaded:
     ply-3.11                   |             py_1          44 KB  conda-forge
     pthread-stubs-0.4          |    h36c2ea0_1001           5 KB  conda-forge
     pulseaudio-14.0            |      h0d2025b_11         1.7 MB  conda-forge
-    pycosat-0.6.4              |  py310h5764c6d_1         108 KB  conda-forge
     pyparsing-3.0.9            |     pyhd8ed1ab_0          79 KB  conda-forge
     pyqt-5.15.7                |  py310h29803b5_2         6.2 MB  conda-forge
     pyqt5-sip-12.11.0          |  py310hd8f1fbe_2          86 KB  conda-forge
     python-3.10.6              |h582c2e5_0_cpython        29.0 MB  conda-forge
     python-dateutil-2.8.2      |     pyhd8ed1ab_0         240 KB  conda-forge
     qt-main-5.15.6             |       hd477bba_1        61.6 MB  conda-forge
-    ruamel_yaml-0.15.80        |py310h5764c6d_1008         253 KB  conda-forge
     sip-6.7.3                  |  py310hd8f1fbe_0         537 KB  conda-forge
     six-1.16.0                 |     pyh6c4a22f_0          14 KB  conda-forge
     sqlite-3.39.4              |       h4ff8645_0         789 KB  conda-forge
@@ -161,7 +158,7 @@ The following packages will be downloaded:
     xorg-libxdmcp-1.1.3        |       h7f98852_0          19 KB  conda-forge
     zstd-1.5.2                 |       h6239696_4         448 KB  conda-forge
     ------------------------------------------------------------
-                                           Total:       295.4 MB
+                                           Total:       294.0 MB
 
 The following NEW packages will be INSTALLED:
 
@@ -260,15 +257,9 @@ The following NEW packages will be INSTALLED:
   xorg-libxdmcp      conda-forge/linux-64::xorg-libxdmcp-1.1.3-h7f98852_0 None
   zstd               conda-forge/linux-64::zstd-1.5.2-h6239696_4 None
 
-The following packages will be UPDATED:
-
-  conda-package-han~                  1.9.0-py310h5764c6d_0 --&gt; 1.9.0-py310h5764c6d_1 None
-  cryptography                       38.0.2-py310h600f1e7_1 --&gt; 38.0.2-py310h597c629_2 None
-  pycosat                             0.6.4-py310h5764c6d_0 --&gt; 0.6.4-py310h5764c6d_1 None
-  ruamel_yaml                    0.15.80-py310h5764c6d_1007 --&gt; 0.15.80-py310h5764c6d_1008 None
-
 The following packages will be DOWNGRADED:
 
+  cryptography                       38.0.2-py310h600f1e7_2 --&gt; 38.0.2-py310h597c629_2 None
   openssl                                  3.0.5-h166bdaf_2 --&gt; 1.1.1q-h166bdaf_1 None
   python                          3.10.6-ha86cf86_0_cpython --&gt; 3.10.6-h582c2e5_0_cpython None
 
@@ -320,4 +311,4 @@ result.plateau_found
 
 # output
 
-false</code></pre><p>In this case, eventually the binning analysis returns <span>$R_X = 0$</span>, since the blocks start comparing literally identical elements. Notice that this case would return a <code>plateau_found</code> if it were not for the check if any of the <span>$R_X$</span> values were too small. (In principle this case also would result from a data stream with a defined periodicity, despite having correlations, but this is unavoidable.)</p><div class="admonition is-success"><header class="admonition-header">Tip</header><div class="admonition-body"><p>This is the most dangerous case to automate because the <a href="../api/#Statistics.var-Tuple{BinningAccumulator}"><code>var</code></a>iance of such a data stream is naturally very small relative to the <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>. As is the case with all Monte Carlo simulations, or statistical data streams, one should be <em>very</em> wary when the error is a mathematical zero, or vanishingly small compared to the calculated <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../accumulators/">Accumulator Hierarchy »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.19 on <span class="colophon-date" title="Tuesday 1 November 2022 01:09">Tuesday 1 November 2022</span>. Using Julia version 1.8.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+false</code></pre><p>In this case, eventually the binning analysis returns <span>$R_X = 0$</span>, since the blocks start comparing literally identical elements. Notice that this case would return a <code>plateau_found</code> if it were not for the check if any of the <span>$R_X$</span> values were too small. (In principle this case also would result from a data stream with a defined periodicity, despite having correlations, but this is unavoidable.)</p><div class="admonition is-success"><header class="admonition-header">Tip</header><div class="admonition-body"><p>This is the most dangerous case to automate because the <a href="../api/#Statistics.var-Tuple{BinningAccumulator}"><code>var</code></a>iance of such a data stream is naturally very small relative to the <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>. As is the case with all Monte Carlo simulations, or statistical data streams, one should be <em>very</em> wary when the error is a mathematical zero, or vanishingly small compared to the calculated <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../accumulators/">Accumulator Hierarchy »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.19 on <span class="colophon-date" title="Tuesday 1 November 2022 06:25">Tuesday 1 November 2022</span>. Using Julia version 1.8.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
