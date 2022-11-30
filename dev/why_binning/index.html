@@ -110,7 +110,7 @@ The following packages will be downloaded:
     libglib-2.74.1             |       h606061b_1         3.1 MB  conda-forge
     libgpg-error-1.45          |       hc0c96e0_0         286 KB  conda-forge
     libiconv-1.17              |       h166bdaf_0         1.4 MB  conda-forge
-    libllvm15-15.0.5           |       h63197d8_0        37.4 MB  conda-forge
+    libllvm15-15.0.6           |       h63197d8_0        30.5 MB  conda-forge
     libogg-1.3.4               |       h7f98852_1         206 KB  conda-forge
     libopus-1.3.1              |       h7f98852_1         255 KB  conda-forge
     libpng-1.6.39              |       h753d276_0         276 KB  conda-forge
@@ -133,7 +133,7 @@ The following packages will be downloaded:
     mysql-common-8.0.31        |       haf5c9bc_0         1.9 MB  conda-forge
     mysql-libs-8.0.31          |       h28c427c_0         1.9 MB  conda-forge
     nspr-4.35                  |       h27087fc_0         222 KB  conda-forge
-    nss-3.78                   |       h2350873_0         2.1 MB  conda-forge
+    nss-3.82                   |       he02c5a1_0         1.9 MB  conda-forge
     openjpeg-2.5.0             |       h7d73246_1         533 KB  conda-forge
     openssl-1.1.1s             |       h166bdaf_0         2.1 MB  conda-forge
     packaging-21.3             |     pyhd8ed1ab_0          36 KB  conda-forge
@@ -150,7 +150,6 @@ The following packages will be downloaded:
     qt-main-5.15.6             |       h7acdfc8_2        46.1 MB  conda-forge
     sip-6.7.5                  |  py310hd8f1fbe_0         467 KB  conda-forge
     six-1.16.0                 |     pyh6c4a22f_0          14 KB  conda-forge
-    sqlite-3.40.0              |       h4ff8645_0         801 KB  conda-forge
     toml-0.10.2                |     pyhd8ed1ab_0          18 KB  conda-forge
     tornado-6.2                |  py310h5764c6d_1         662 KB  conda-forge
     unicodedata2-15.0.0        |  py310h5764c6d_0         500 KB  conda-forge
@@ -163,7 +162,7 @@ The following packages will be downloaded:
     xorg-libxdmcp-1.1.3        |       h7f98852_0          19 KB  conda-forge
     zstd-1.5.2                 |       h6239696_4         448 KB  conda-forge
     ------------------------------------------------------------
-                                           Total:       273.6 MB
+                                           Total:       265.7 MB
 
 The following NEW packages will be INSTALLED:
 
@@ -216,7 +215,7 @@ The following NEW packages will be INSTALLED:
   libglib            conda-forge/linux-64::libglib-2.74.1-h606061b_1 None
   libgpg-error       conda-forge/linux-64::libgpg-error-1.45-hc0c96e0_0 None
   libiconv           conda-forge/linux-64::libiconv-1.17-h166bdaf_0 None
-  libllvm15          conda-forge/linux-64::libllvm15-15.0.5-h63197d8_0 None
+  libllvm15          conda-forge/linux-64::libllvm15-15.0.6-h63197d8_0 None
   libogg             conda-forge/linux-64::libogg-1.3.4-h7f98852_1 None
   libopus            conda-forge/linux-64::libopus-1.3.1-h7f98852_1 None
   libpng             conda-forge/linux-64::libpng-1.6.39-h753d276_0 None
@@ -239,7 +238,7 @@ The following NEW packages will be INSTALLED:
   mysql-common       conda-forge/linux-64::mysql-common-8.0.31-haf5c9bc_0 None
   mysql-libs         conda-forge/linux-64::mysql-libs-8.0.31-h28c427c_0 None
   nspr               conda-forge/linux-64::nspr-4.35-h27087fc_0 None
-  nss                conda-forge/linux-64::nss-3.78-h2350873_0 None
+  nss                conda-forge/linux-64::nss-3.82-he02c5a1_0 None
   openjpeg           conda-forge/linux-64::openjpeg-2.5.0-h7d73246_1 None
   packaging          conda-forge/noarch::packaging-21.3-pyhd8ed1ab_0 None
   pcre2              conda-forge/linux-64::pcre2-10.40-hc3806b6_0 None
@@ -254,7 +253,6 @@ The following NEW packages will be INSTALLED:
   qt-main            conda-forge/linux-64::qt-main-5.15.6-h7acdfc8_2 None
   sip                conda-forge/linux-64::sip-6.7.5-py310hd8f1fbe_0 None
   six                conda-forge/noarch::six-1.16.0-pyh6c4a22f_0 None
-  sqlite             conda-forge/linux-64::sqlite-3.40.0-h4ff8645_0 None
   toml               conda-forge/noarch::toml-0.10.2-pyhd8ed1ab_0 None
   tornado            conda-forge/linux-64::tornado-6.2-py310h5764c6d_1 None
   unicodedata2       conda-forge/linux-64::unicodedata2-15.0.0-py310h5764c6d_0 None
@@ -324,4 +322,4 @@ result.plateau_found
 
 # output
 
-false</code></pre><p>In this case, eventually the binning analysis returns <span>$R_X = 0$</span>, since the blocks start comparing literally identical elements. Notice that this case would return a <code>plateau_found</code> if it were not for the check if any of the <span>$R_X$</span> values were too small. (In principle this case also would result from a data stream with a defined periodicity, despite having correlations, but this is unavoidable.)</p><div class="admonition is-success"><header class="admonition-header">Tip</header><div class="admonition-body"><p>This is the most dangerous case to automate because the <a href="../api/#Statistics.var-Tuple{BinningAccumulator}"><code>var</code></a>iance of such a data stream is naturally very small relative to the <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>. As is the case with all Monte Carlo simulations, or statistical data streams, one should be <em>very</em> wary when the error is a mathematical zero, or vanishingly small compared to the calculated <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../accumulators/">Accumulator Hierarchy »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.19 on <span class="colophon-date" title="Wednesday 30 November 2022 06:17">Wednesday 30 November 2022</span>. Using Julia version 1.8.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+false</code></pre><p>In this case, eventually the binning analysis returns <span>$R_X = 0$</span>, since the blocks start comparing literally identical elements. Notice that this case would return a <code>plateau_found</code> if it were not for the check if any of the <span>$R_X$</span> values were too small. (In principle this case also would result from a data stream with a defined periodicity, despite having correlations, but this is unavoidable.)</p><div class="admonition is-success"><header class="admonition-header">Tip</header><div class="admonition-body"><p>This is the most dangerous case to automate because the <a href="../api/#Statistics.var-Tuple{BinningAccumulator}"><code>var</code></a>iance of such a data stream is naturally very small relative to the <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>. As is the case with all Monte Carlo simulations, or statistical data streams, one should be <em>very</em> wary when the error is a mathematical zero, or vanishingly small compared to the calculated <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../accumulators/">Accumulator Hierarchy »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.19 on <span class="colophon-date" title="Wednesday 30 November 2022 12:23">Wednesday 30 November 2022</span>. Using Julia version 1.8.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
