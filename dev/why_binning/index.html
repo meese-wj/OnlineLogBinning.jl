@@ -46,9 +46,6 @@ function plot_binning_analysis(bacc)
 end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">[ Info: Installing matplotlib via the Conda matplotlib package...
 [ Info: Running `conda install -q -y matplotlib` in root environment
 Collecting package metadata (current_repodata.json): ...working... done
-Solving environment: ...working... failed with initial frozen solve. Retrying with flexible solve.
-Solving environment: ...working... failed with repodata from current_repodata.json, will retry with next repodata source.
-Collecting package metadata (repodata.json): ...working... done
 Solving environment: ...working... done
 
 ## Package Plan ##
@@ -101,7 +98,7 @@ The following packages will be downloaded:
     libbrotlicommon-1.0.9      |       h166bdaf_8          66 KB  conda-forge
     libbrotlidec-1.0.9         |       h166bdaf_8          33 KB  conda-forge
     libbrotlienc-1.0.9         |       h166bdaf_8         288 KB  conda-forge
-    libcap-2.66                |       ha37c62d_0          97 KB  conda-forge
+    libcap-2.67                |       he9d0100_0          97 KB  conda-forge
     libclang-15.0.7            |default_had23c3d_1         130 KB  conda-forge
     libclang13-15.0.7          |default_h3e3d535_1         9.1 MB  conda-forge
     libcups-2.3.3              |       h36d4200_3         4.3 MB  conda-forge
@@ -121,10 +118,10 @@ The following packages will be downloaded:
     libpng-1.6.39              |       h753d276_0         276 KB  conda-forge
     libpq-15.2                 |       hb675445_0         2.3 MB  conda-forge
     libsndfile-1.2.0           |       hb75c966_0         342 KB  conda-forge
-    libsystemd0-252            |       h2a991cd_0         384 KB  conda-forge
+    libsystemd0-253            |       h8c4010b_1         372 KB  conda-forge
     libtiff-4.5.0              |       hddfeb54_5         397 KB  conda-forge
     libtool-2.4.7              |       h27087fc_0         402 KB  conda-forge
-    libudev1-253               |       h0b41bf4_0         116 KB  conda-forge
+    libudev1-253               |       h0b41bf4_1         116 KB  conda-forge
     libvorbis-1.3.7            |       h9c3ff4c_0         280 KB  conda-forge
     libwebp-base-1.3.0         |       h0b41bf4_0         348 KB  conda-forge
     libxcb-1.13                |    h7f98852_1004         391 KB  conda-forge
@@ -146,7 +143,9 @@ The following packages will be downloaded:
     pixman-0.40.0              |       h36c2ea0_0         627 KB  conda-forge
     ply-3.11                   |             py_1          44 KB  conda-forge
     pthread-stubs-0.4          |    h36c2ea0_1001           5 KB  conda-forge
-    pulseaudio-16.1            |       ha8d29e2_1         1.5 MB  conda-forge
+    pulseaudio-16.1            |       hcb278e6_3          16 KB  conda-forge
+    pulseaudio-client-16.1     |       h5195f5e_3         735 KB  conda-forge
+    pulseaudio-daemon-16.1     |       ha8d29e2_3         829 KB  conda-forge
     pyparsing-3.0.9            |     pyhd8ed1ab_0          79 KB  conda-forge
     pyqt-5.15.7                |  py310hab646b1_3         5.0 MB  conda-forge
     pyqt5-sip-12.11.0          |  py310heca2aa9_3          83 KB  conda-forge
@@ -219,7 +218,7 @@ The following NEW packages will be INSTALLED:
   libbrotlicommon    conda-forge/linux-64::libbrotlicommon-1.0.9-h166bdaf_8
   libbrotlidec       conda-forge/linux-64::libbrotlidec-1.0.9-h166bdaf_8
   libbrotlienc       conda-forge/linux-64::libbrotlienc-1.0.9-h166bdaf_8
-  libcap             conda-forge/linux-64::libcap-2.66-ha37c62d_0
+  libcap             conda-forge/linux-64::libcap-2.67-he9d0100_0
   libclang           conda-forge/linux-64::libclang-15.0.7-default_had23c3d_1
   libclang13         conda-forge/linux-64::libclang13-15.0.7-default_h3e3d535_1
   libcups            conda-forge/linux-64::libcups-2.3.3-h36d4200_3
@@ -239,10 +238,10 @@ The following NEW packages will be INSTALLED:
   libpng             conda-forge/linux-64::libpng-1.6.39-h753d276_0
   libpq              conda-forge/linux-64::libpq-15.2-hb675445_0
   libsndfile         conda-forge/linux-64::libsndfile-1.2.0-hb75c966_0
-  libsystemd0        conda-forge/linux-64::libsystemd0-252-h2a991cd_0
+  libsystemd0        conda-forge/linux-64::libsystemd0-253-h8c4010b_1
   libtiff            conda-forge/linux-64::libtiff-4.5.0-hddfeb54_5
   libtool            conda-forge/linux-64::libtool-2.4.7-h27087fc_0
-  libudev1           conda-forge/linux-64::libudev1-253-h0b41bf4_0
+  libudev1           conda-forge/linux-64::libudev1-253-h0b41bf4_1
   libvorbis          conda-forge/linux-64::libvorbis-1.3.7-h9c3ff4c_0
   libwebp-base       conda-forge/linux-64::libwebp-base-1.3.0-h0b41bf4_0
   libxcb             conda-forge/linux-64::libxcb-1.13-h7f98852_1004
@@ -264,7 +263,9 @@ The following NEW packages will be INSTALLED:
   pixman             conda-forge/linux-64::pixman-0.40.0-h36c2ea0_0
   ply                conda-forge/noarch::ply-3.11-py_1
   pthread-stubs      conda-forge/linux-64::pthread-stubs-0.4-h36c2ea0_1001
-  pulseaudio         conda-forge/linux-64::pulseaudio-16.1-ha8d29e2_1
+  pulseaudio         conda-forge/linux-64::pulseaudio-16.1-hcb278e6_3
+  pulseaudio-client  conda-forge/linux-64::pulseaudio-client-16.1-h5195f5e_3
+  pulseaudio-daemon  conda-forge/linux-64::pulseaudio-daemon-16.1-ha8d29e2_3
   pyparsing          conda-forge/noarch::pyparsing-3.0.9-pyhd8ed1ab_0
   pyqt               conda-forge/linux-64::pyqt-5.15.7-py310hab646b1_3
   pyqt5-sip          conda-forge/linux-64::pyqt5-sip-12.11.0-py310heca2aa9_3
@@ -342,4 +343,4 @@ result.plateau_found
 
 # output
 
-false</code></pre><p>In this case, eventually the binning analysis returns <span>$R_X = 0$</span>, since the blocks start comparing literally identical elements. Notice that this case would return a <code>plateau_found</code> if it were not for the check if any of the <span>$R_X$</span> values were too small. (In principle this case also would result from a data stream with a defined periodicity, despite having correlations, but this is unavoidable.)</p><div class="admonition is-success"><header class="admonition-header">Tip</header><div class="admonition-body"><p>This is the most dangerous case to automate because the <a href="../api/#Statistics.var-Tuple{BinningAccumulator}"><code>var</code></a>iance of such a data stream is naturally very small relative to the <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>. As is the case with all Monte Carlo simulations, or statistical data streams, one should be <em>very</em> wary when the error is a mathematical zero, or vanishingly small compared to the calculated <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../accumulators/">Accumulator Hierarchy »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.19 on <span class="colophon-date" title="Wednesday 22 March 2023 12:20">Wednesday 22 March 2023</span>. Using Julia version 1.8.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+false</code></pre><p>In this case, eventually the binning analysis returns <span>$R_X = 0$</span>, since the blocks start comparing literally identical elements. Notice that this case would return a <code>plateau_found</code> if it were not for the check if any of the <span>$R_X$</span> values were too small. (In principle this case also would result from a data stream with a defined periodicity, despite having correlations, but this is unavoidable.)</p><div class="admonition is-success"><header class="admonition-header">Tip</header><div class="admonition-body"><p>This is the most dangerous case to automate because the <a href="../api/#Statistics.var-Tuple{BinningAccumulator}"><code>var</code></a>iance of such a data stream is naturally very small relative to the <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>. As is the case with all Monte Carlo simulations, or statistical data streams, one should be <em>very</em> wary when the error is a mathematical zero, or vanishingly small compared to the calculated <a href="../api/#Statistics.mean-Tuple{BinningAccumulator}"><code>mean</code></a>.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../accumulators/">Accumulator Hierarchy »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.19 on <span class="colophon-date" title="Wednesday 22 March 2023 18:14">Wednesday 22 March 2023</span>. Using Julia version 1.8.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
